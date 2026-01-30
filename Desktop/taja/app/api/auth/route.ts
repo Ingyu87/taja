@@ -14,7 +14,11 @@ const isValidStudentId = (username: string) => {
 export async function POST(request: Request) {
     try {
         const body = await request.json();
-        const { type, username, password } = body;
+        let { type, username, password } = body;
+
+        // 공백 제거 및 소문자 변환 (ID의 경우)
+        if (username) username = username.toString().trim().toLowerCase();
+        if (password) password = password.toString().trim();
 
         // 로그인 처리
         if (type === 'login') {
