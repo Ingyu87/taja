@@ -3,17 +3,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { registerStudent } from '@/lib/auth';
+import { registerStudent, AVATARS } from '@/lib/auth';
 import { useToast } from '@/contexts/ToastContext';
-
-const AVATARS = [
-    { id: 'bear', emoji: '🐻', name: '곰돌이' },
-    { id: 'cat', emoji: '🐱', name: '고양이' },
-    { id: 'dog', emoji: '🐶', name: '강아지' },
-    { id: 'rabbit', emoji: '🐰', name: '토끼' },
-    { id: 'fox', emoji: '🦊', name: '여우' },
-    { id: 'panda', emoji: '🐼', name: '판다' },
-];
 
 export default function SignupPage() {
     const router = useRouter();
@@ -41,7 +32,7 @@ export default function SignupPage() {
         setLoading(true);
 
         try {
-            const result = registerStudent(formData.username, formData.password, formData.avatar);
+            const result = await registerStudent(formData.username, formData.password, formData.avatar);
 
             if (result.success) {
                 showToast('회원가입 성공! 로그인해주세요.', 'success');

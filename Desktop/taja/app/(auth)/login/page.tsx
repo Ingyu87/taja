@@ -25,10 +25,10 @@ export default function LoginPage() {
 
             if (userType === 'teacher') {
                 // 교사: 관리자 번호만 검증
-                result = validateLogin('teacher', password);
+                result = await validateLogin('teacher', password);
             } else {
                 // 학생: 아이디와 비밀번호 검증
-                result = validateLogin(email, password);
+                result = await validateLogin(email, password);
             }
 
             if (result.success && result.user) {

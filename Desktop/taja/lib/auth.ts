@@ -1,4 +1,4 @@
-// 간단한 인증 로직
+// 간단한 인증 로직 (서버 API 호출)
 export interface User {
     id: string;
     username: string;
@@ -6,94 +6,73 @@ export interface User {
     role: 'student' | 'teacher';
 }
 
-const STUDENT_PASSWORD = '1234';
-const TEACHER_PASSWORD = '2026';
-
-// 학생 계정: a1 ~ a30
-const STUDENT_IDS = Array.from({ length: 30 }, (_, i) => `a${i + 1}`);
-
 // 아바타 목록
-const AVATARS = [
-    { id: 'bear', emoji: '🐻' },
-    { id: 'cat', emoji: '🐱' },
-    { id: 'dog', emoji: '🐶' },
-    { id: 'rabbit', emoji: '🐰' },
-    { id: 'fox', emoji: '🦊' },
-    { id: 'panda', emoji: '🐼' },
+export const AVATARS = [
+    { id: 'bear', emoji: '🐻', name: '곰돌이' },
+    { id: 'cat', emoji: '🐱', name: '고양이' },
+    { id: 'dog', emoji: '🐶', name: '강아지' },
+    { id: 'rabbit', emoji: '🐰', name: '토끼' },
+    { id: 'fox', emoji: '🦊', name: '여우' },
+    { id: 'panda', emoji: '🐼', name: '판다' },
 ];
 
 /**
- * 로그인 검증
+ * 로그인 검증 (서버 API 호출)
  */
-export const validateLogin = (username: string, password: string): { success: boolean; user?: User; error?: string } => {
-    // 교사 로그인 (비밀번호가 2026이면 교사)
-    if (password === TEACHER_PASSWORD) {
-        return {
-            success: true,
-            user: {
-                id: `teacher_${username}`,
-                username: username || '교사',
-                avatar: '👨‍🏫',
-                role: 'teacher',
-            },
-        };
-    }
+export const validateLogin = async (username: string, password: string): Promise<{ success: boolean; user?: User; error?: string }> => {
+    try {
+        const res = await fetch('/api/auth', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ type: 'login', username, password }),
+        });
 
-    // 학생 로그인 (a1~a30, 비밀번호 1234)
-    if (password === STUDENT_PASSWORD) {
-        if (STUDENT_IDS.includes(username)) {
-            // 로컬 스토리지에서 아바타 가져오기 (없으면 랜덤)
-            const savedAvatar = getStudentAvatar(username);
-            return {
-                success: true,
-                user: {
-                    id: username,
-                    username,
-                    avatar: savedAvatar,
-                    role: 'student',
-                },
-            };
+        const data = await res.json();
+
+        if (data.success && data.user) {
+            // 학생일 경우 로컬 스토리지에 저장된 아바타 불러오기
+            if (data.user.role === 'student') {
+                const savedAvatar = getStudentAvatar(data.user.username);
+                data.user.avatar = savedAvatar;
+            }
+            return { success: true, user: data.user };
         } else {
-            return {
-                success: false,
-                error: '학생 계정은 a1부터 a30까지만 사용 가능합니다.',
-            };
+            return { success: false, error: data.error || '로그인에 실패했습니다.' };
         }
+    } catch (error) {
+        return { success: false, error: '서버 통신 중 오류가 발생했습니다.' };
     }
-
-    return {
-        success: false,
-        error: '아이디 또는 비밀번호가 올바르지 않습니다.',
-    };
 };
 
 /**
- * 회원가입 (학생만 가능, 아바타 선택)
+ * 회원가입 (서버 API 호출 및 로컬에 아바타 저장)
  */
-export const registerStudent = (username: string, password: string, avatarId: string): { success: boolean; error?: string } => {
-    // 비밀번호 확인
-    if (password !== STUDENT_PASSWORD) {
-        return {
-            success: false,
-            error: '학생 비밀번호는 1234입니다.',
-        };
-    }
+export const registerStudent = async (username: string, password: string, avatarId: string): Promise<{ success: boolean; error?: string }> => {
+    try {
+        // 1. 서버에 비밀번호 및 ID 검증 요청
+        const res = await fetch('/api/auth', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ type: 'register', username, password }),
+        });
 
-    // 학생 ID 확인
-    if (!STUDENT_IDS.includes(username)) {
-        return {
-            success: false,
-            error: '학생 계정은 a1부터 a30까지만 사용 가능합니다.',
-        };
-    }
+        const data = await res.json();
 
-    // 아바타 저장
-    const avatar = AVATARS.find(a => a.id === avatarId);
-    if (avatar) {
-        saveStudentAvatar(username, avatar.emoji);
-    }
+        if (!data.success) {
+            return { success: false, error: data.error };
+        }
 
-    return { success: true };
+        // 2. 검증 성공 시 로컬에 아바타 저장
+        const avatar = AVATARS.find(a => a.id === avatarId);
+        if (avatar) {
+            saveStudentAvatar(username, avatar.emoji);
+        }
+
+        return { success: true };
+
+    } catch (error) {
+        return { success: false, error: '서버 통신 중 오류가 발생했습니다.' };
+    }
 };
 
 /**
