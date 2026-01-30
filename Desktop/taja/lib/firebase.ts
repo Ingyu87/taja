@@ -3,7 +3,7 @@ import { initializeApp, getApps, FirebaseApp } from 'firebase/app';
 import { getAuth, Auth } from 'firebase/auth';
 import { getFirestore, Firestore } from 'firebase/firestore';
 import { getStorage, FirebaseStorage } from 'firebase/storage';
-import { getAnalytics, Analytics } from 'firebase/analytics';
+import { getAnalytics } from 'firebase/analytics';
 
 const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -15,18 +15,30 @@ const firebaseConfig = {
     measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
-// Firebase 앱 초기화 (중복 초기화 방지)
-let app: FirebaseApp;
-if (!getApps().length) {
-    app = initializeApp(firebaseConfig);
-} else {
-    app = getApps()[0];
+// Firebase 앱 초기화 (환경 변수가 있을 때만)
+let app: FirebaseApp | null = null;
+let auth: Auth | null = null;
+let db: Firestore | null = null;
+let storage: FirebaseStorage | null = null;
+let analytics: any = null;
+
+if (
+    process.env.NEXT_PUBLIC_FIREBASE_API_KEY &&
+    process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID
+) {
+    if (!getApps().length) {
+        app = initializeApp(firebaseConfig);
+    } else {
+        app = getApps()[0];
+    }
+
+    auth = getAuth(app);
+    db = getFirestore(app);
+    storage = getStorage(app);
+    if (typeof window !== 'undefined') {
+        analytics = getAnalytics(app);
+    }
 }
 
-// 서비스 인스턴스
-export const auth: Auth = getAuth(app);
-export const db: Firestore = getFirestore(app);
-export const storage: FirebaseStorage = getStorage(app);
-export const analytics = typeof window !== 'undefined' ? getAnalytics(app) : null;
-
+export { app, auth, db, storage, analytics };
 export default app;

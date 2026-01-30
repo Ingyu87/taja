@@ -12,6 +12,7 @@ import { saveResultToFirestore } from '@/lib/firestore';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import { useToast } from '@/contexts/ToastContext';
 import confetti from 'canvas-confetti';
+import StoryGenerator from '@/components/story/StoryGenerator';
 
 // 연습 데이터
 const PRACTICE_DATA: Record<string, string[]> = {
@@ -136,17 +137,24 @@ export default function PracticePage({ params }: PracticePageProps) {
                                 <span className="font-bold">소요 시간:</span> {finalStats.time.toFixed(1)}초
                             </div>
                         </div>
-                        <div className="flex gap-4 justify-center">
-                            <Button variant="primary" size="lg" onClick={handleRestart} className="text-2xl px-12 py-6">
-                                다시 하기 🔄
-                            </Button>
-                            <Button variant="secondary" size="lg" onClick={() => router.push('/')} className="text-2xl px-12 py-6">
-                                홈으로 🏠
-                            </Button>
-                        </div>
+                    </div>
+
+                    {/* AI 스토리 생성기 (단어/문장 모드일 때만 표시) */}
+                    {(mode === 'word' || mode === 'sentence') && (
+                        <StoryGenerator keywords={practiceTexts} />
+                    )}
+
+                    <div className="flex gap-4 justify-center mt-8">
+                        <Button variant="primary" size="lg" onClick={handleRestart} className="text-2xl px-12 py-6">
+                            다시 하기 🔄
+                        </Button>
+                        <Button variant="secondary" size="lg" onClick={() => router.push('/')} className="text-2xl px-12 py-6">
+                            홈으로 🏠
+                        </Button>
                     </div>
                 </div>
             </div>
+            </div >
         );
     }
 

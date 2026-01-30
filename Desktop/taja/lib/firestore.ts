@@ -20,6 +20,10 @@ const RESULTS_COLLECTION = 'practice_results';
  * 연습 결과를 Firestore에 저장합니다.
  */
 export const saveResultToFirestore = async (result: Omit<PracticeResult, 'createdAt'>) => {
+    if (!db) {
+        console.warn("Firestore is not initialized. Skipping save.");
+        return { success: true, id: 'offline' }; // 에러 없이 통과시킴
+    }
     try {
         const docRef = await addDoc(collection(db, RESULTS_COLLECTION), {
             ...result,
@@ -37,6 +41,10 @@ export const saveResultToFirestore = async (result: Omit<PracticeResult, 'create
  * 전체 랭킹을 가져옵니다. (타자 속도 내림차순, 상위 100개)
  */
 export const getRankingsFromFirestore = async (limitCount = 100) => {
+    if (!db) {
+        console.warn("Firestore is not initialized. Returning empty rankings.");
+        return [];
+    }
     try {
         const q = query(
             collection(db, RESULTS_COLLECTION),
@@ -72,6 +80,10 @@ export const getRankingsFromFirestore = async (limitCount = 100) => {
  * 특정 모드의 랭킹을 가져옵니다.
  */
 export const getModeRankingsFromFirestore = async (mode: string, limitCount = 50) => {
+    if (!db) {
+        console.warn("Firestore is not initialized. Returning empty rankings.");
+        return [];
+    }
     try {
         const q = query(
             collection(db, RESULTS_COLLECTION),

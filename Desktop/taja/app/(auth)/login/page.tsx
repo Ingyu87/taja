@@ -21,7 +21,7 @@ export default function LoginPage() {
         setLoading(true);
 
         try {
-            let result;
+            let result: { success: boolean; user?: any; error?: string };
 
             if (userType === 'teacher') {
                 // 교사: 관리자 번호만 검증
@@ -44,6 +44,7 @@ export default function LoginPage() {
                 setLoading(false);
             }
         } catch (err: any) {
+            console.error(err); // 린트 에러 방지용 로깅
             const msg = err.message || '로그인에 실패했습니다.';
             setError(msg);
             showToast(msg, 'error');
