@@ -25,7 +25,8 @@ const PRACTICE_DATA: Record<string, string[]> = {
 export default function PracticePage() {
     const router = useRouter();
     const params = useParams();
-    const mode = params ? (Array.isArray(params.mode) ? params.mode[0] : params.mode) : 'vowel';
+    const rawMode = params?.mode;
+    const mode = (Array.isArray(rawMode) ? rawMode[0] : rawMode) || 'vowel';
     const practiceTexts = PRACTICE_DATA[mode] || PRACTICE_DATA.vowel;
 
     const [user, setUser] = useState<User | null>(null);
