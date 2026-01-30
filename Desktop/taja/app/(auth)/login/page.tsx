@@ -105,19 +105,19 @@ export default function LoginPage() {
                             </h2>
 
                             {/* 폼 */}
-                            <form onSubmit={handleLogin} className="space-y-6">
+                            <form onSubmit={handleLogin} className="space-y-6 max-w-sm mx-auto">
                                 {userType === 'student' ? (
                                     <>
                                         <div>
                                             <label className="block text-lg font-bold mb-2" style={{ color: '#333' }}>
-                                                아이디
+                                                아이디 <span className="text-sm font-normal text-gray-500 ml-2">(a1 ~ a30)</span>
                                             </label>
                                             <input
                                                 type="text"
                                                 value={email}
                                                 onChange={(e) => setEmail(e.target.value)}
-                                                className="w-full px-4 py-3 text-lg rounded-xl border-2 border-gray-300 
-                              focus:outline-none focus:border-pink-400 transition-colors"
+                                                className="w-full px-4 py-4 text-xl rounded-xl border-2 border-gray-300 
+                              focus:outline-none focus:border-pink-400 transition-colors shadow-sm"
                                                 placeholder="a1"
                                                 required
                                             />
@@ -131,8 +131,8 @@ export default function LoginPage() {
                                                 type="password"
                                                 value={password}
                                                 onChange={(e) => setPassword(e.target.value)}
-                                                className="w-full px-4 py-3 text-lg rounded-xl border-2 border-gray-300 
-                              focus:outline-none focus:border-pink-400 transition-colors"
+                                                className="w-full px-4 py-4 text-xl rounded-xl border-2 border-gray-300 
+                              focus:outline-none focus:border-pink-400 transition-colors shadow-sm"
                                                 placeholder="1234"
                                                 required
                                             />
@@ -147,8 +147,8 @@ export default function LoginPage() {
                                             type="password"
                                             value={password}
                                             onChange={(e) => setPassword(e.target.value)}
-                                            className="w-full px-4 py-3 text-lg rounded-xl border-2 border-gray-300 
-                          focus:outline-none focus:border-pink-400 transition-colors"
+                                            className="w-full px-4 py-4 text-xl rounded-xl border-2 border-gray-300 
+                          focus:outline-none focus:border-pink-400 transition-colors shadow-sm"
                                             placeholder="관리자 번호를 입력하세요"
                                             required
                                         />
@@ -156,7 +156,7 @@ export default function LoginPage() {
                                 )}
 
                                 {error && (
-                                    <div className="p-4 rounded-xl text-center bg-red-50 text-red-600 font-semibold">
+                                    <div className="p-4 rounded-xl text-center bg-red-50 text-red-600 font-semibold text-lg">
                                         {error}
                                     </div>
                                 )}
@@ -164,7 +164,7 @@ export default function LoginPage() {
                                 <button
                                     type="submit"
                                     disabled={loading}
-                                    className="w-full py-4 rounded-xl font-bold text-xl transition-all duration-200 hover:opacity-90"
+                                    className="w-full py-4 rounded-xl font-bold text-xl transition-all duration-200 hover:opacity-90 transform hover:-translate-y-1 shadow-md"
                                     style={{
                                         background: 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)',
                                         color: 'white',
@@ -174,15 +174,7 @@ export default function LoginPage() {
                                 </button>
                             </form>
 
-                            {/* 회원가입 링크 */}
-                            <div className="mt-6 text-center">
-                                <p className="text-lg text-gray-600">
-                                    계정이 없으신가요?{' '}
-                                    <Link href="/signup" className="font-bold" style={{ color: '#4ECDC4' }}>
-                                        회원가입
-                                    </Link>
-                                </p>
-                            </div>
+                            {/* 회원가입 링크 제거됨 */}
                         </div>
                     </div>
 
