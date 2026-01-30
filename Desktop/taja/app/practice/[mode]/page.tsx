@@ -5,32 +5,17 @@ import { PracticeDisplay } from '@/components/practice/PracticeDisplay';
 import { VirtualKeyboard } from '@/components/practice/VirtualKeyboard';
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/Button';
-import { useRouter } from 'next/navigation';
-import { getCurrentUser, User } from '@/lib/auth';
-import { savePracticeResult } from '@/lib/storage';
-import { saveResultToFirestore } from '@/lib/firestore';
-import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
-import { useToast } from '@/contexts/ToastContext';
-import confetti from 'canvas-confetti';
-import StoryGenerator from '@/components/story/StoryGenerator';
+import { useParams, useRouter } from 'next/navigation';
 
-// 연습 데이터
-const PRACTICE_DATA: Record<string, string[]> = {
-    vowel: ['ㅏ', 'ㅓ', 'ㅗ', 'ㅜ', 'ㅡ', 'ㅣ', 'ㅐ', 'ㅔ'],
-    consonant: ['ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', 'ㅎ'],
-    word: ['가나', '다라', '마바', '사자', '하늘', '바다', '산', '강'],
-    sentence: ['안녕하세요', '반갑습니다', '좋은 아침입니다', '타자 연습 재미있어요'],
-};
+// ... (other imports)
 
-interface PracticePageProps {
-    params: {
-        mode: string;
-    };
-}
+// PracticePageProps interface removal (or keep empty if needed)
+interface PracticePageProps { }
 
-export default function PracticePage({ params }: PracticePageProps) {
+export default function PracticePage() {
     const router = useRouter();
-    const mode = params.mode;
+    const params = useParams();
+    const mode = params?.mode as string;
     const practiceTexts = PRACTICE_DATA[mode] || PRACTICE_DATA.vowel;
 
     const [user, setUser] = useState<User | null>(null);

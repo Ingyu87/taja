@@ -22,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={`${gowunDodum.variable} antialiased`}>
+      <body className={`${gowunDodum.variable} antialiased`} suppressHydrationWarning>
         <ToastProvider>
           {children}
         </ToastProvider>
