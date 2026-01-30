@@ -6,16 +6,26 @@ import { VirtualKeyboard } from '@/components/practice/VirtualKeyboard';
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/Button';
 import { useParams, useRouter } from 'next/navigation';
+import { getCurrentUser, User } from '@/lib/auth';
+import { savePracticeResult } from '@/lib/storage';
+import { saveResultToFirestore } from '@/lib/firestore';
+import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
+import { useToast } from '@/contexts/ToastContext';
+import confetti from 'canvas-confetti';
+import StoryGenerator from '@/components/story/StoryGenerator';
 
-// ... (other imports)
-
-// PracticePageProps interface removal (or keep empty if needed)
-interface PracticePageProps { }
+// 연습 데이터
+const PRACTICE_DATA: Record<string, string[]> = {
+    vowel: ['ㅏ', 'ㅓ', 'ㅗ', 'ㅜ', 'ㅡ', 'ㅣ', 'ㅐ', 'ㅔ'],
+    consonant: ['ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', 'ㅎ'],
+    word: ['가나', '다라', '마바', '사자', '하늘', '바다', '산', '강'],
+    sentence: ['안녕하세요', '반갑습니다', '좋은 아침입니다', '타자 연습 재미있어요'],
+};
 
 export default function PracticePage() {
     const router = useRouter();
     const params = useParams();
-    const mode = params?.mode as string;
+    const mode = params ? (Array.isArray(params.mode) ? params.mode[0] : params.mode) : 'vowel';
     const practiceTexts = PRACTICE_DATA[mode] || PRACTICE_DATA.vowel;
 
     const [user, setUser] = useState<User | null>(null);
@@ -122,24 +132,23 @@ export default function PracticePage() {
                                 <span className="font-bold">소요 시간:</span> {finalStats.time.toFixed(1)}초
                             </div>
                         </div>
-                    </div>
 
-                    {/* AI 스토리 생성기 (단어/문장 모드일 때만 표시) */}
-                    {(mode === 'word' || mode === 'sentence') && (
-                        <StoryGenerator keywords={practiceTexts} />
-                    )}
+                        {/* AI 스토리 생성기 (단어/문장 모드일 때만 표시) */}
+                        {(mode === 'word' || mode === 'sentence') && (
+                            <StoryGenerator keywords={practiceTexts} />
+                        )}
 
-                    <div className="flex gap-4 justify-center mt-8">
-                        <Button variant="primary" size="lg" onClick={handleRestart} className="text-2xl px-12 py-6">
-                            다시 하기 🔄
-                        </Button>
-                        <Button variant="secondary" size="lg" onClick={() => router.push('/')} className="text-2xl px-12 py-6">
-                            홈으로 🏠
-                        </Button>
+                        <div className="flex gap-4 justify-center mt-8">
+                            <Button variant="primary" size="lg" onClick={handleRestart} className="text-2xl px-12 py-6">
+                                다시 하기 🔄
+                            </Button>
+                            <Button variant="secondary" size="lg" onClick={() => router.push('/')} className="text-2xl px-12 py-6">
+                                홈으로 🏠
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </div>
-            </div >
         );
     }
 
@@ -173,6 +182,7 @@ export default function PracticePage() {
                         className="w-96 px-8 py-6 text-3xl text-center rounded-2xl border-4 focus:outline-none focus:ring-4 focus:ring-pink-200"
                         style={{ borderColor: 'var(--color-primary)' }}
                         placeholder="여기에 입력하세요"
+                        autoFocus
                     />
                 </div>
             </div>
