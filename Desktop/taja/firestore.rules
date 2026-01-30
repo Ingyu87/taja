@@ -1,0 +1,32 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // 연습 결과 컬렉션 규칙
+    match /practice_results/{document} {
+      // 1. 읽기는 모든 사용자에게 허용 (랭킹 조회를 위해)
+      allow read: if true;
+      
+      // 2. 쓰기는 유효한 데이터 형식을 갖춘 경우에만 허용
+      // (현재 커스텀 로컬 인증을 사용하므로 request.auth 검사는 생략하고 데이터 스키마만 검증합니다)
+      allow create: if isValidPracticeResult();
+      
+      // 3. 수정 및 삭제는 허용하지 않음 (기록 위변조 방지)
+      allow update, delete: if false;
+    }
+
+    // 데이터 유효성 검사 함수
+    function isValidPracticeResult() {
+      let data = request.resource.data;
+      return data.keys().hasAll(['userId', 'username', 'avatar', 'mode', 'cpm', 'accuracy', 'time', 'createdAt'])
+             && data.userId is string
+             && data.username is string
+             && data.cpm is number
+             && data.accuracy is number
+             && data.time is number
+             && data.cpm >= 0
+             && data.accuracy >= 0 && data.accuracy <= 100
+             && data.mode in ['vowel', 'consonant', 'word', 'sentence'];
+    }
+  }
+}
