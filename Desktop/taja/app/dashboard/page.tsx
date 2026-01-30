@@ -336,4 +336,5 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
             </main>
         </div>
     );
+}
 
