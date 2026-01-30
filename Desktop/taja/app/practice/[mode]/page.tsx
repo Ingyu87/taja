@@ -179,6 +179,7 @@ export default function PracticePage() {
                 {/* 숨겨진 입력 필드 */}
                 <div className="text-center mt-8">
                     <input
+                        key={currentIndex}
                         {...inputProps}
                         className="w-96 px-8 py-6 text-3xl text-center rounded-2xl border-4 focus:outline-none focus:ring-4 focus:ring-pink-200"
                         style={{ borderColor: 'var(--color-primary)' }}

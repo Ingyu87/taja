@@ -115,3 +115,42 @@ export const getModeRankingsFromFirestore = async (mode: string, limitCount = 50
         return [];
     }
 };
+
+/**
+ * 모든 연습 결과를 가져옵니다. (교사용, 최신순 1000개)
+ */
+export const getAllResultsFromFirestore = async (limitCount = 1000) => {
+    if (!db) {
+        console.warn("Firestore is not initialized. Returning empty results.");
+        return [];
+    }
+    try {
+        const q = query(
+            collection(db, RESULTS_COLLECTION),
+            orderBy('createdAt', 'desc'),
+            limit(limitCount)
+        );
+
+        const querySnapshot = await getDocs(q);
+        const results: PracticeResult[] = [];
+
+        querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            results.push({
+                userId: data.userId,
+                username: data.username,
+                avatar: data.avatar,
+                mode: data.mode,
+                cpm: data.cpm,
+                accuracy: data.accuracy,
+                time: data.time,
+                createdAt: data.createdAt.toDate(),
+            });
+        });
+
+        return results;
+    } catch (e) {
+        console.error("Error getting all documents: ", e);
+        return [];
+    }
+};

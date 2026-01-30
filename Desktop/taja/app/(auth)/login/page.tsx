@@ -15,6 +15,17 @@ export default function LoginPage() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
+    // 이미 로그인된 상태라면 대시보드로 이동
+    useState(() => {
+        // 클라이언트 사이드에서만 실행
+        if (typeof window !== 'undefined') {
+            const user = localStorage.getItem('current_user');
+            if (user) {
+                router.replace('/dashboard');
+            }
+        }
+    });
+
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
@@ -35,7 +46,7 @@ export default function LoginPage() {
                 saveCurrentUser(result.user);
                 showToast(`환영합니다, ${result.user.username}님!`, 'success');
                 setTimeout(() => {
-                    router.push('/dashboard');
+                    router.replace('/dashboard');
                 }, 500);
             } else {
                 const msg = result.error || '로그인에 실패했습니다.';
