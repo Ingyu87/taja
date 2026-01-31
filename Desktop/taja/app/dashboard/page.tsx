@@ -50,14 +50,6 @@ const GAME_MODES = [
         bgGradient: 'linear-gradient(135deg, #D4F1F4 0%, #B8E3E6 100%)',
     },
     {
-        id: 'bomb',
-        title: '폭탄 피하기',
-        emoji: '💣',
-        description: '폭탄은 피해요!',
-        color: '#FF6B9D',
-        bgGradient: 'linear-gradient(135deg, #FFE5EC 0%, #FFD4E0 100%)',
-    },
-    {
         id: 'timeattack',
         title: '시간 공격',
         emoji: '⏰',

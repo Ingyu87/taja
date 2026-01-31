@@ -6,7 +6,7 @@ import { getRankingsFromFirestore, getGameRankingsFromFirestore } from '@/lib/fi
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 
 type ViewMode = 'practice' | 'game';
-type GameType = 'falling' | 'bomb' | 'timeattack' | 'all';
+type GameType = 'falling' | 'timeattack' | 'all';
 
 export default function RankingPage() {
     const router = useRouter();
