@@ -105,11 +105,14 @@ export default function StoryPage() {
                             value={keywords}
                             onChange={(e) => setKeywords(e.target.value)}
                             placeholder="예: 토끼 거북이 달리기 경주"
-                            className="w-full px-8 py-6 text-center border-4 focus:outline-none focus:ring-4 focus:ring-pink-200 font-bold rounded-full"
+                            className="mx-auto px-8 text-center border-4 focus:outline-none focus:ring-4 focus:ring-pink-200 font-bold rounded-full"
                             style={{ 
                                 borderColor: '#9B59B6',
                                 fontSize: '2rem',
-                                color: '#000000'
+                                color: '#000000',
+                                width: '50%',
+                                paddingTop: '2rem',
+                                paddingBottom: '2rem'
                             }}
                             onKeyPress={(e) => {
                                 if (e.key === 'Enter' && !loading) {
