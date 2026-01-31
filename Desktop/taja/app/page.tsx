@@ -11,15 +11,15 @@ export default function Home() {
       style={{ backgroundColor: '#FAF9F6' }}>
       <div className="text-center max-w-2xl mx-auto flex flex-col gap-0 w-full">
         {/* 메인 타이틀 */}
-        <div className="space-y-4 mb-12">
-          <div className="flex items-center justify-center gap-4">
-            <span className="text-5xl">👑</span>
-            <h1 className="text-4xl font-bold" style={{ color: '#5D4E6D' }}>
+        <div className="space-y-3 mb-8">
+          <div className="flex items-center justify-center gap-3">
+            <span style={{ fontSize: '2.5rem' }}>👑</span>
+            <h1 className="text-2xl font-bold" style={{ color: '#5D4E6D' }}>
               AI와 함께하는 재미있는 한글 타자 연습
             </h1>
-            <span className="text-5xl">👑</span>
+            <span style={{ fontSize: '2.5rem' }}>👑</span>
           </div>
-          <p className="text-xl" style={{ color: '#5D4E6D' }}>
+          <p className="text-base" style={{ color: '#5D4E6D' }}>
             동화, 시, 게임으로 즐겁게 배우는 타자 연습! 친구들과 경쟁하고 멋진 배지도 모아보세요 ✨
           </p>
         </div>
@@ -37,15 +37,15 @@ export default function Home() {
                 router.push('/login');
               }
             }}
-            className="bg-white p-6 cursor-pointer hover:bg-gray-50 transition-colors border-b-2"
+            className="bg-white p-4 cursor-pointer hover:bg-gray-50 transition-colors border-b-2"
             style={{ borderColor: '#9B59B6' }}
           >
-            <div className="flex items-start gap-5">
-              <span className="text-5xl">👑</span>
+            <div className="flex items-start gap-3">
+              <span style={{ fontSize: '2.5rem' }}>👑</span>
               <div className="flex-1 text-left">
-                <h2 className="text-3xl font-bold mb-3" style={{ color: '#5D4E6D' }}>시작하기</h2>
-                <p className="text-lg mb-4" style={{ color: '#5D4E6D' }}>재미있는 타자 왕국으로 입장하세요!</p>
-                <span className="text-lg px-6 py-3 inline-block rounded-full font-bold" style={{ 
+                <h2 className="text-xl font-bold mb-2" style={{ color: '#5D4E6D' }}>시작하기</h2>
+                <p className="text-sm mb-3" style={{ color: '#5D4E6D' }}>재미있는 타자 왕국으로 입장하세요!</p>
+                <span className="text-sm px-4 py-2 inline-block rounded-full font-bold" style={{ 
                   backgroundColor: '#FFE5F0',
                   color: '#9B59B6'
                 }}>
@@ -56,14 +56,14 @@ export default function Home() {
           </div>
 
           {/* 섹션 2: 단계별 연습 */}
-          <div className="bg-white p-6 border-b-2" style={{ borderColor: '#9B59B6' }}>
-            <div className="flex items-start gap-5">
-              <span className="text-5xl">📚</span>
+          <div className="bg-white p-4 border-b-2" style={{ borderColor: '#9B59B6' }}>
+            <div className="flex items-start gap-3">
+              <span style={{ fontSize: '2.5rem' }}>📚</span>
               <div className="flex-1 text-left">
-                <h3 className="text-3xl font-bold mb-2" style={{ color: '#5D4E6D' }}>
+                <h3 className="text-xl font-bold mb-1" style={{ color: '#5D4E6D' }}>
                   단계별 연습
                 </h3>
-                <p className="text-lg" style={{ color: '#5D4E6D' }}>
+                <p className="text-sm" style={{ color: '#5D4E6D' }}>
                   모음, 자음부터 문장까지 차근차근
                 </p>
               </div>
@@ -71,14 +71,14 @@ export default function Home() {
           </div>
 
           {/* 섹션 3: 재미있는 게임 */}
-          <div className="bg-white p-6 border-b-2" style={{ borderColor: '#9B59B6' }}>
-            <div className="flex items-start gap-5">
-              <span className="text-5xl">🎮</span>
+          <div className="bg-white p-4 border-b-2" style={{ borderColor: '#9B59B6' }}>
+            <div className="flex items-start gap-3">
+              <span style={{ fontSize: '2.5rem' }}>🎮</span>
               <div className="flex-1 text-left">
-                <h3 className="text-3xl font-bold mb-2" style={{ color: '#5D4E6D' }}>
+                <h3 className="text-xl font-bold mb-1" style={{ color: '#5D4E6D' }}>
                   재미있는 게임
                 </h3>
-                <p className="text-lg" style={{ color: '#5D4E6D' }}>
+                <p className="text-sm" style={{ color: '#5D4E6D' }}>
                   5가지 타자 게임으로 즐겁게 연습
                 </p>
               </div>
@@ -86,14 +86,14 @@ export default function Home() {
           </div>
 
           {/* 섹션 4: AI 스토리 */}
-          <div className="bg-white p-6">
-            <div className="flex items-start gap-5">
-              <span className="text-5xl">🤖</span>
+          <div className="bg-white p-4">
+            <div className="flex items-start gap-3">
+              <span style={{ fontSize: '2.5rem' }}>🤖</span>
               <div className="flex-1 text-left">
-                <h3 className="text-3xl font-bold mb-2" style={{ color: '#5D4E6D' }}>
+                <h3 className="text-xl font-bold mb-1" style={{ color: '#5D4E6D' }}>
                   AI 스토리
                 </h3>
-                <p className="text-lg" style={{ color: '#5D4E6D' }}>
+                <p className="text-sm" style={{ color: '#5D4E6D' }}>
                   내가 원하는 주제로 AI가 글 생성
                 </p>
               </div>
