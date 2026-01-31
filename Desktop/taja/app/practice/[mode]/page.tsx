@@ -104,11 +104,7 @@ export default function PracticePage() {
             }
 
             // 다음 문제로 이동 또는 결과 표시
-            // 입력 필드 즉시 리셋 및 강제 리마운트
-            reset();
-            setInputKey(prev => prev + 1);
-            
-            // 다음 문제로 즉시 이동
+            // 다음 문제로 즉시 이동 (useEffect에서 자동으로 리셋됨)
             if (currentIndex < practiceTexts.length - 1) {
                 setCurrentIndex(prev => prev + 1);
             } else {
@@ -116,6 +112,12 @@ export default function PracticePage() {
             }
         },
     });
+
+    // currentIndex가 변경될 때마다 입력 필드 강제 리셋
+    useEffect(() => {
+        reset();
+        setInputKey(prev => prev + 1);
+    }, [currentIndex, reset]);
 
     const handleRestart = () => {
         setCurrentIndex(0);
