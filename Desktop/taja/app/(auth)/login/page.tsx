@@ -77,169 +77,135 @@ function LoginContent() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#F5F0EB' }}>
-            <div className="w-full max-w-6xl mx-auto px-8">
-                <div className="bg-white shadow-2xl overflow-hidden" style={{ display: 'flex', borderRadius: '48px' }}>
-                    {/* 왼쪽: 로그인 폼 */}
-                    <div style={{ flex: '1', padding: '4rem' }}>
-                        <div className="max-w-md mx-auto">
-                            {/* 헤더 */}
-                            <div className="text-center mb-12">
-                                <h1 className="text-5xl font-bold mb-3" style={{
-                                    background: 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)',
-                                    WebkitBackgroundClip: 'text',
-                                    WebkitTextFillColor: 'transparent'
-                                }}>
-                                    타자왕국
-                                </h1>
-                                <p className="text-xl text-gray-600">
-                                    초등학교 AI 타자 자료집
-                                </p>
+        <div className="min-h-screen flex items-center justify-center p-12" style={{ backgroundColor: '#F5F0EB' }}>
+            <div className="w-full max-w-[1800px] mx-auto">
+                <div className="bg-white shadow-2xl overflow-hidden" style={{ borderRadius: '60px', padding: '6rem' }}>
+                    {/* 로그인 폼 */}
+                    <div className="max-w-[1400px] mx-auto">
+                        {/* 헤더 */}
+                        <div className="text-center mb-20">
+                            <h1 className="font-bold mb-6" style={{
+                                background: 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)',
+                                WebkitBackgroundClip: 'text',
+                                WebkitTextFillColor: 'transparent',
+                                fontSize: '12rem',
+                                lineHeight: '1'
+                            }}>
+                                타자왕국
+                            </h1>
+                            <p className="font-semibold text-gray-600" style={{ fontSize: '5rem' }}>
+                                초등학교 AI 타자 자료집
+                            </p>
+                        </div>
+
+                        {/* 탭 */}
+                        <div className="flex gap-8 mb-16">
+                            <div
+                                onClick={() => setUserType('student')}
+                                className="flex-1 text-center font-black cursor-pointer hover:scale-105 transition-transform"
+                                style={{
+                                    borderRadius: '40px',
+                                    background: userType === 'student' ? 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)' : '#F5F5F5',
+                                    color: userType === 'student' ? 'white' : '#666',
+                                    padding: '3rem 0',
+                                    fontSize: '6rem'
+                                }}
+                            >
+                                🎓 학생
                             </div>
-
-                            {/* 탭 */}
-                            <div className="flex gap-4 mb-8">
-                                <div
-                                    onClick={() => setUserType('student')}
-                                    className="flex-1 py-3 text-center font-bold text-lg cursor-pointer"
-                                    style={{
-                                        borderRadius: '20px',
-                                        background: userType === 'student' ? 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)' : 'transparent',
-                                        color: userType === 'student' ? 'white' : '#666',
-                                        backgroundColor: userType === 'student' ? '' : '#F5F5F5'
-                                    }}
-                                >
-                                    🎓 학생
-                                </div>
-                                <div
-                                    onClick={() => setUserType('teacher')}
-                                    className="flex-1 py-3 text-center font-bold text-lg cursor-pointer"
-                                    style={{
-                                        borderRadius: '20px',
-                                        background: userType === 'teacher' ? 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)' : 'transparent',
-                                        color: userType === 'teacher' ? 'white' : '#666',
-                                        backgroundColor: userType === 'teacher' ? '' : '#F5F5F5'
-                                    }}
-                                >
-                                    📚 교사
-                                </div>
+                            <div
+                                onClick={() => setUserType('teacher')}
+                                className="flex-1 text-center font-black cursor-pointer hover:scale-105 transition-transform"
+                                style={{
+                                    borderRadius: '40px',
+                                    background: userType === 'teacher' ? 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)' : '#F5F5F5',
+                                    color: userType === 'teacher' ? 'white' : '#666',
+                                    padding: '3rem 0',
+                                    fontSize: '6rem'
+                                }}
+                            >
+                                📚 교사
                             </div>
+                        </div>
 
-                            {/* 로그인 제목 */}
-                            <h2 className="text-3xl font-bold text-center mb-8" style={{ color: '#333' }}>
-                                {userType === 'student' ? '학생 로그인' : '교사 로그인'}
-                            </h2>
+                        {/* 로그인 제목 */}
+                        <h2 className="font-black text-center mb-16" style={{ color: '#333', fontSize: '8rem' }}>
+                            {userType === 'student' ? '학생 로그인' : '교사 로그인'}
+                        </h2>
 
-                            {/* 폼 */}
-                            <form onSubmit={handleLogin} className="space-y-16 flex flex-col items-center">
-                                {userType === 'student' ? (
-                                    <>
-                                        <div className="w-full max-w-[600px]">
-                                            <label className="block text-4xl font-black mb-6 text-left" style={{ color: '#333' }}>
-                                                아이디 <span className="text-xl font-normal text-gray-500 ml-4">(a1 ~ a30)</span>
-                                            </label>
-                                            <input
-                                                type="text"
-                                                value={email}
-                                                onChange={(e) => setEmail(e.target.value.trim())}
-                                                className="w-full px-10 h-[140px] text-7xl rounded-[40px] border-8 border-gray-300 
+                        {/* 폼 */}
+                        <form onSubmit={handleLogin} className="space-y-20 flex flex-col items-center">
+                            {userType === 'student' ? (
+                                <>
+                                    <div className="w-full">
+                                        <label className="block font-black mb-10 text-left" style={{ color: '#333', fontSize: '7rem' }}>
+                                            아이디 <span className="font-normal text-gray-500 ml-6" style={{ fontSize: '4rem' }}>(a1 ~ a30)</span>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value.trim())}
+                                            className="w-full px-16 rounded-[60px] border-8 border-gray-300 
                                focus:outline-none focus:border-pink-400 transition-colors shadow-2xl text-center font-black tracking-widest"
-                                                required
-                                            />
-                                        </div>
+                                            style={{ height: '220px', fontSize: '10rem' }}
+                                            required
+                                        />
+                                    </div>
 
-                                        <div className="w-full max-w-[600px]">
-                                            <label className="block text-4xl font-black mb-6 text-left" style={{ color: '#333' }}>
-                                                비밀번호
-                                            </label>
-                                            <input
-                                                type="password"
-                                                value={password}
-                                                onChange={(e) => setPassword(e.target.value.trim())}
-                                                className="w-full px-10 h-[140px] text-7xl rounded-[40px] border-8 border-gray-300 
-                               focus:outline-none focus:border-pink-400 transition-colors shadow-2xl text-center font-black tracking-widest"
-                                                required
-                                            />
-                                        </div>
-                                    </>
-                                ) : (
-                                    <div className="w-full max-w-[600px]">
-                                        <label className="block text-4xl font-black mb-6 text-left" style={{ color: '#333' }}>
-                                            관리자 번호
+                                    <div className="w-full">
+                                        <label className="block font-black mb-10 text-left" style={{ color: '#333', fontSize: '7rem' }}>
+                                            비밀번호
                                         </label>
                                         <input
                                             type="password"
                                             value={password}
                                             onChange={(e) => setPassword(e.target.value.trim())}
-                                            className="w-full px-10 h-[140px] text-7xl rounded-[40px] border-8 border-gray-300 
-                          focus:outline-none focus:border-pink-400 transition-colors shadow-2xl text-center font-black tracking-widest"
+                                            className="w-full px-16 rounded-[60px] border-8 border-gray-300 
+                               focus:outline-none focus:border-pink-400 transition-colors shadow-2xl text-center font-black tracking-widest"
+                                            style={{ height: '220px', fontSize: '10rem' }}
                                             required
                                         />
                                     </div>
-                                )}
-
-                                {error && (
-                                    <div className="w-full max-w-[600px] p-8 rounded-[32px] text-center bg-red-50 text-red-600 font-black text-3xl border-4 border-red-200">
-                                        {error}
-                                    </div>
-                                )}
-
-                                <button
-                                    type="submit"
-                                    disabled={loading}
-                                    className="w-full max-w-[600px] py-12 rounded-[40px] font-black text-5xl transition-all duration-200 hover:opacity-90 transform hover:-translate-y-2 shadow-2xl active:scale-95 mt-8"
-                                    style={{
-                                        background: 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)',
-                                        color: 'white',
-                                    }}
-                                >
-                                    로그인 하기 →
-                                </button>
-                            </form>
-
-                            {/* 회원가입 링크 제거됨 */}
-                        </div>
-                    </div>
-
-                    {/* 오른쪽: 일러스트 */}
-                    <div style={{
-                        flex: '1',
-                        background: 'linear-gradient(135deg, #FFF9E6 0%, #FFE5F0 100%)',
-                        padding: '4rem',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        position: 'relative',
-                        overflow: 'hidden'
-                    }}>
-                        <div className="text-center relative z-10">
-                            <h2 className="text-5xl font-bold mb-8" style={{
-                                background: 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)',
-                                WebkitBackgroundClip: 'text',
-                                WebkitTextFillColor: 'transparent',
-                                fontFamily: 'cursive'
-                            }}>
-                                타자왕국
-                            </h2>
-                            <p className="text-2xl text-gray-600 mb-8 font-bold">
-                                초등학교 AI 타자 자료집
-                            </p>
-                            {/* 일러스트 영역 */}
-                            <div className="relative" style={{ width: '100%', maxWidth: '500px', margin: '0 auto' }}>
-                                <div className="text-9xl mb-4">⌨️</div>
-                                <div className="flex justify-center gap-4 text-6xl mb-4">
-                                    <span>👦</span>
-                                    <span>👧</span>
-                                    <span>🤖</span>
+                                </>
+                            ) : (
+                                <div className="w-full">
+                                    <label className="block font-black mb-10 text-left" style={{ color: '#333', fontSize: '7rem' }}>
+                                        관리자 번호
+                                    </label>
+                                    <input
+                                        type="password"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value.trim())}
+                                        className="w-full px-16 rounded-[60px] border-8 border-gray-300 
+                          focus:outline-none focus:border-pink-400 transition-colors shadow-2xl text-center font-black tracking-widest"
+                                        style={{ height: '220px', fontSize: '10rem' }}
+                                        required
+                                    />
                                 </div>
-                                <div className="text-5xl">✨ 재미있는 타자 연습 ✨</div>
-                            </div>
-                        </div>
-                        {/* 배경 장식 */}
-                        <div className="absolute top-10 right-10 text-6xl opacity-20">🎨</div>
-                        <div className="absolute bottom-10 left-10 text-6xl opacity-20">📚</div>
-                        <div className="absolute top-1/2 right-20 text-5xl opacity-20">🌟</div>
+                            )}
+
+                            {error && (
+                                <div className="w-full p-12 rounded-[40px] text-center bg-red-50 text-red-600 font-black border-4 border-red-200" style={{ fontSize: '5rem' }}>
+                                    {error}
+                                </div>
+                            )}
+
+                            <button
+                                type="submit"
+                                disabled={loading}
+                                className="w-full rounded-[60px] font-black transition-all duration-200 hover:opacity-90 transform hover:scale-105 shadow-2xl active:scale-95 mt-12"
+                                style={{
+                                    background: 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)',
+                                    color: 'white',
+                                    padding: '4rem 0',
+                                    fontSize: '8rem'
+                                }}
+                            >
+                                로그인 하기 →
+                            </button>
+                        </form>
+
+                        {/* 회원가입 링크 제거됨 */}
                     </div>
                 </div>
             </div>
