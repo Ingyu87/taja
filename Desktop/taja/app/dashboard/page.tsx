@@ -74,7 +74,7 @@ export default function DashboardPage() {
                                 {user.username}
                             </p>
                             <p className="text-sm text-gray-500">
-                                {user.role === 'teacher' ? '👨‍🏫 교사' : '🎓 학생'}
+                                🎓 학생
                             </p>
                         </div>
                     </div>
