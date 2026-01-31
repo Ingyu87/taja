@@ -386,50 +386,50 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
             </div>
 
             <main className="max-w-full mx-auto px-6 py-8">
-                {/* 탭 메뉴 */}
-                <div className="bg-white shadow-lg mb-8 p-2" style={{ borderRadius: '20px' }}>
-                    <div className="flex gap-2">
+                {/* 탭 메뉴 - 선택 상태 명확하게 */}
+                <div className="bg-white shadow-lg mb-8 p-3" style={{ borderRadius: '25px' }}>
+                    <div className="flex gap-3">
                         <button
                             onClick={() => setActiveTab('all')}
-                            className={`flex-1 py-4 px-6 font-black rounded-2xl transition-all ${
+                            className={`flex-1 py-6 px-6 font-black rounded-2xl transition-all transform ${
                                 activeTab === 'all' 
-                                    ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg' 
-                                    : 'text-gray-600 hover:bg-gray-100'
+                                    ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-2xl scale-105 border-4 border-purple-300' 
+                                    : 'text-gray-400 hover:bg-gray-50 hover:text-gray-600 bg-gray-100'
                             }`}
-                            style={{ fontSize: '1.8rem' }}
+                            style={{ fontSize: activeTab === 'all' ? '2.5rem' : '2rem' }}
                         >
                             📊 전체
                         </button>
                         <button
                             onClick={() => setActiveTab('practice')}
-                            className={`flex-1 py-4 px-6 font-black rounded-2xl transition-all ${
+                            className={`flex-1 py-6 px-6 font-black rounded-2xl transition-all transform ${
                                 activeTab === 'practice' 
-                                    ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg' 
-                                    : 'text-gray-600 hover:bg-gray-100'
+                                    ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-2xl scale-105 border-4 border-blue-300' 
+                                    : 'text-gray-400 hover:bg-gray-50 hover:text-gray-600 bg-gray-100'
                             }`}
-                            style={{ fontSize: '1.8rem' }}
+                            style={{ fontSize: activeTab === 'practice' ? '2.5rem' : '2rem' }}
                         >
                             📝 연습모드
                         </button>
                         <button
                             onClick={() => setActiveTab('game')}
-                            className={`flex-1 py-4 px-6 font-black rounded-2xl transition-all ${
+                            className={`flex-1 py-6 px-6 font-black rounded-2xl transition-all transform ${
                                 activeTab === 'game' 
-                                    ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-lg' 
-                                    : 'text-gray-600 hover:bg-gray-100'
+                                    ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-2xl scale-105 border-4 border-green-300' 
+                                    : 'text-gray-400 hover:bg-gray-50 hover:text-gray-600 bg-gray-100'
                             }`}
-                            style={{ fontSize: '1.8rem' }}
+                            style={{ fontSize: activeTab === 'game' ? '2.5rem' : '2rem' }}
                         >
                             🎮 게임모드
                         </button>
                         <button
                             onClick={() => setActiveTab('story')}
-                            className={`flex-1 py-4 px-6 font-black rounded-2xl transition-all ${
+                            className={`flex-1 py-6 px-6 font-black rounded-2xl transition-all transform ${
                                 activeTab === 'story' 
-                                    ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-lg' 
-                                    : 'text-gray-600 hover:bg-gray-100'
+                                    ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-2xl scale-105 border-4 border-orange-300' 
+                                    : 'text-gray-400 hover:bg-gray-50 hover:text-gray-600 bg-gray-100'
                             }`}
-                            style={{ fontSize: '1.8rem' }}
+                            style={{ fontSize: activeTab === 'story' ? '2.5rem' : '2rem' }}
                         >
                             🤖 AI 스토리
                         </button>
@@ -479,12 +479,11 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
                             <tr style={{
                                 background: 'linear-gradient(135deg, #9B59B6 0%, #FF6B9D 100%)'
                             }}>
-                                <th className="text-white font-bold text-center" style={{ padding: '1.25rem', fontSize: '1.75rem' }}>순위</th>
-                                <th className="text-white font-bold" style={{ padding: '1.25rem', fontSize: '1.75rem' }}>학생</th>
-                                <th className="text-white font-bold text-center" style={{ padding: '1.25rem', fontSize: '1.75rem' }}>평균 속도</th>
-                                <th className="text-white font-bold text-center" style={{ padding: '1.25rem', fontSize: '1.75rem' }}>연습 횟수</th>
-                                <th className="text-white font-bold text-center" style={{ padding: '1.25rem', fontSize: '1.75rem' }}>총 연습 시간</th>
-                                <th className="text-white font-bold text-center" style={{ padding: '1.25rem', fontSize: '1.75rem' }}>최근 활동</th>
+                                <th className="text-white font-bold text-center" style={{ padding: '1.5rem', fontSize: '2rem' }}>순위</th>
+                                <th className="text-white font-bold" style={{ padding: '1.5rem', fontSize: '2rem' }}>학생</th>
+                                <th className="text-white font-bold text-center" style={{ padding: '1.5rem', fontSize: '2rem' }}>평균 CPM</th>
+                                <th className="text-white font-bold text-center" style={{ padding: '1.5rem', fontSize: '2rem' }}>연습 횟수</th>
+                                <th className="text-white font-bold text-center" style={{ padding: '1.5rem', fontSize: '2rem' }}>상태</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-50">
@@ -503,24 +502,25 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
                                 }
                                 
                                 return (
-                                    <tr key={student.id} className={`hover:bg-gray-50 transition-colors ${rankBg}`}>
-                                        <td className="font-black text-center" style={{ padding: '1.25rem', fontSize: '2rem' }}>
+                                    <tr key={student.id} className={`hover:bg-purple-50 transition-colors ${rankBg}`}>
+                                        <td className="font-black text-center" style={{ padding: '1.5rem', fontSize: '2.5rem' }}>
                                             {rankText || (index + 1)}
                                         </td>
-                                        <td className="font-bold text-gray-700 flex items-center gap-2" style={{ padding: '1.25rem', fontSize: '1.5rem' }}>
-                                            <span style={{ fontSize: '2rem' }}>{student.avatar}</span>
+                                        <td className="font-bold text-gray-700 flex items-center gap-3" style={{ padding: '1.5rem', fontSize: '1.8rem' }}>
+                                            <span style={{ fontSize: '2.5rem' }}>{student.avatar}</span>
                                             <span>{student.id}</span>
                                         </td>
-                                        <td className="font-black text-center" style={{ padding: '1.25rem', fontSize: '1.75rem', color: student.avgCpm > 0 ? '#9B59B6' : '#999' }}>
-                                            {student.avgCpm} CPM
+                                        <td className="font-black text-center" style={{ padding: '1.5rem', fontSize: '2.2rem', color: student.avgCpm > 0 ? '#9B59B6' : '#999' }}>
+                                            {student.avgCpm}
                                         </td>
-                                        <td className="font-medium text-center" style={{ padding: '1.25rem', fontSize: '1.5rem' }}>{student.playCount}회</td>
-                                        <td className="font-medium text-center" style={{ padding: '1.25rem', fontSize: '1.5rem' }}>{student.totalTime}초</td>
-                                        <td className="text-center" style={{ padding: '1.25rem' }}>
+                                        <td className="font-bold text-center" style={{ padding: '1.5rem', fontSize: '1.8rem', color: '#4B5563' }}>
+                                            {student.playCount}회
+                                        </td>
+                                        <td className="text-center" style={{ padding: '1.5rem' }}>
                                             {student.playCount > 0 ? (
-                                                <span className="px-3 py-1.5 bg-green-100 text-green-700 rounded-full font-bold" style={{ fontSize: '1.25rem' }}>활동중</span>
+                                                <span className="px-4 py-2 bg-green-100 text-green-700 rounded-full font-black border-2 border-green-300" style={{ fontSize: '1.4rem' }}>✅ 활동중</span>
                                             ) : (
-                                                <span className="px-3 py-1.5 bg-gray-100 text-gray-400 rounded-full font-bold" style={{ fontSize: '1.25rem' }}>미접속</span>
+                                                <span className="px-4 py-2 bg-gray-100 text-gray-400 rounded-full font-black border-2 border-gray-300" style={{ fontSize: '1.4rem' }}>💤 미접속</span>
                                             )}
                                         </td>
                                     </tr>
@@ -557,19 +557,42 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
                                     </td>
                                     <td style={{ padding: '1.25rem' }}>
                                         <div className="flex flex-col gap-1">
-                                            <span className="px-3 py-1.5 bg-blue-50 text-blue-600 rounded-lg font-bold border border-blue-100" style={{ fontSize: '1.25rem' }}>
-                                                {log.mode === 'vowel' ? '📝 모음 연습' :
-                                                 log.mode === 'consonant' ? '📝 자음 연습' :
-                                                 log.mode === 'word' ? '📝 단어 연습' :
-                                                 log.mode === 'sentence' ? '📝 문장 연습' :
-                                                 log.mode === 'falling' ? '🎮 떨어지는 글자' :
-                                                 log.mode === 'timeattack' ? '🎮 시간 공격' :
+                                            <span className="px-4 py-2 rounded-xl font-black border-2" style={{ 
+                                                fontSize: '1.5rem',
+                                                backgroundColor: log.mode === 'vowel' || log.mode === 'consonant' || log.mode === 'word' || log.mode === 'sentence' ? '#DBEAFE' :
+                                                                 log.mode === 'falling' || log.mode === 'timeattack' ? '#D1FAE5' :
+                                                                 log.mode === 'story' ? '#FED7AA' : '#F3F4F6',
+                                                borderColor: log.mode === 'vowel' || log.mode === 'consonant' || log.mode === 'word' || log.mode === 'sentence' ? '#3B82F6' :
+                                                            log.mode === 'falling' || log.mode === 'timeattack' ? '#10B981' :
+                                                            log.mode === 'story' ? '#F97316' : '#D1D5DB',
+                                                color: log.mode === 'vowel' || log.mode === 'consonant' || log.mode === 'word' || log.mode === 'sentence' ? '#1E40AF' :
+                                                       log.mode === 'falling' || log.mode === 'timeattack' ? '#065F46' :
+                                                       log.mode === 'story' ? '#9A3412' : '#6B7280'
+                                            }}>
+                                                {log.mode === 'vowel' ? '📝 모음' :
+                                                 log.mode === 'consonant' ? '📝 자음' :
+                                                 log.mode === 'word' ? '📝 단어' :
+                                                 log.mode === 'sentence' ? '📝 문장' :
+                                                 log.mode === 'falling' ? '⬇️ 떨어지는 글자' :
+                                                 log.mode === 'timeattack' ? '⏱️ 시간 공격' :
                                                  log.mode === 'story' ? '🤖 AI 스토리' :
                                                  log.mode}
                                             </span>
                                             {log.mode === 'story' && log.keywords && (
-                                                <span className="text-gray-600 text-sm font-medium">
-                                                    주제: {log.keywords}
+                                                <div className="mt-2 px-3 py-1.5 bg-orange-50 border-2 border-orange-200 rounded-lg">
+                                                    <span className="text-orange-700 font-black" style={{ fontSize: '1.4rem' }}>
+                                                        💡 주제: {log.keywords}
+                                                    </span>
+                                                </div>
+                                            )}
+                                            {log.mode === 'falling' && (
+                                                <span className="text-gray-500 font-medium" style={{ fontSize: '1.1rem' }}>
+                                                    자음/모음 연습
+                                                </span>
+                                            )}
+                                            {log.mode === 'timeattack' && (
+                                                <span className="text-gray-500 font-medium" style={{ fontSize: '1.1rem' }}>
+                                                    단어 타자 속도
                                                 </span>
                                             )}
                                         </div>
