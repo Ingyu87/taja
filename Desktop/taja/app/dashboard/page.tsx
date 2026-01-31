@@ -311,7 +311,9 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
         const fetchData = async () => {
             const { getAllResultsFromFirestore } = await import('@/lib/firestore');
             const data = await getAllResultsFromFirestore();
-            setResults(data);
+            // 교사 계정 제외
+            const studentData = data.filter(r => r.userId !== 'teacher' && !r.userId?.startsWith('teacher'));
+            setResults(studentData);
             setLoading(false);
         };
         fetchData();

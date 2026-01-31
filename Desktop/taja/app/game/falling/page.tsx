@@ -199,9 +199,10 @@ export default function FallingGamePage() {
                 accuracy,
             });
 
-            // 랭킹 가져오기
+            // 랭킹 가져오기 (교사 제외)
             const rankingData = await getGameRankingsFromFirestore('falling');
-            setRankings(rankingData.slice(0, 10)); // 상위 10명만
+            const studentRankings = rankingData.filter(r => r.userId !== 'teacher' && !r.userId?.startsWith('teacher'));
+            setRankings(studentRankings.slice(0, 10)); // 상위 10명만
         }
 
         if (score >= 100) {

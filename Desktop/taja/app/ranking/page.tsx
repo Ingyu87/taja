@@ -24,6 +24,11 @@ export default function RankingPage() {
                 const userStats = new Map<string, { username: string; avatar: string; totalCpm: number; count: number }>();
 
                 results.forEach(result => {
+                    // 교사 계정 제외
+                    if (result.userId === 'teacher' || result.userId?.startsWith('teacher')) {
+                        return;
+                    }
+                    
                     const existing = userStats.get(result.userId);
                     if (existing) {
                         existing.totalCpm += result.cpm;
@@ -56,6 +61,11 @@ export default function RankingPage() {
                 const gameUserStats = new Map<string, { username: string; avatar: string; totalScore: number; count: number; maxScore: number }>();
 
                 gameResults.forEach(result => {
+                    // 교사 계정 제외
+                    if (result.userId === 'teacher' || result.userId?.startsWith('teacher')) {
+                        return;
+                    }
+                    
                     const existing = gameUserStats.get(result.userId);
                     if (existing) {
                         existing.totalScore += result.score;
