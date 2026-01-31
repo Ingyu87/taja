@@ -80,10 +80,11 @@ export default function DashboardPage() {
                     </div>
                     <button
                         onClick={handleLogout}
-                        className="px-6 py-2 rounded-xl font-bold text-lg transition-all duration-200 hover:opacity-80"
+                        className="px-10 py-5 rounded-2xl font-bold text-2xl transition-all duration-200 hover:opacity-80 shadow-lg"
                         style={{
                             backgroundColor: '#FF6B9D',
                             color: 'white',
+                            minHeight: '70px'
                         }}
                     >
                         로그아웃
@@ -97,48 +98,57 @@ export default function DashboardPage() {
                 </p>
             </div>
 
-            {/* 연습 모드 리스트 */}
-            <div className="max-w-5xl mx-auto px-8 pb-20">
-                <div className="space-y-0">
-                    {PRACTICE_MODES.map((mode, index) => (
+            {/* 연습 모드 카드 그리드 */}
+            <div className="max-w-7xl mx-auto px-8 pb-20">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {PRACTICE_MODES.map((mode) => (
                         <div
                             key={mode.id}
-                            className="relative"
+                            onClick={() => router.push(`/practice/${mode.id}`)}
+                            className="group relative bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer transform hover:-translate-y-2 border-2 border-transparent hover:border-pink-200"
                             style={{
-                                borderBottom: index < PRACTICE_MODES.length - 1 ? '1px solid #E0E0E0' : 'none'
+                                background: 'linear-gradient(135deg, #ffffff 0%, #fff5f8 100%)'
                             }}
                         >
-                            <div className="flex items-center justify-between py-8 px-6 hover:bg-gray-50 transition-colors duration-200">
-                                {/* 왼쪽: 아이콘 + 텍스트 */}
-                                <div className="flex items-center gap-6">
-                                    {/* 아이콘 */}
-                                    <div className="text-5xl">
-                                        {mode.emoji}
-                                    </div>
-
-                                    {/* 텍스트 */}
-                                    <div>
-                                        <h2 className="text-3xl font-bold mb-1" style={{ color: '#333' }}>
-                                            {mode.title}
-                                        </h2>
-                                        <p className="text-lg text-gray-600">
-                                            {mode.description}
-                                        </p>
-                                    </div>
+                            {/* 카드 내용 */}
+                            <div className="flex flex-col items-center text-center">
+                                {/* 이모지 아이콘 */}
+                                <div className="text-8xl mb-6 transform group-hover:scale-110 transition-transform duration-300">
+                                    {mode.emoji}
                                 </div>
 
-                                {/* 오른쪽: 입장 버튼 */}
-                                <button
-                                    onClick={() => router.push(`/practice/${mode.id}`)}
-                                    className="px-16 py-4 rounded-xl font-bold text-xl transition-all duration-200 hover:opacity-90 flex-shrink-0"
-                                    style={{
-                                        background: 'linear-gradient(135deg, #FF6B9D 0%, #FFA8C5 100%)',
-                                        color: 'white',
-                                    }}
-                                >
-                                    입장
-                                </button>
+                                {/* 제목 */}
+                                <h2 className="text-4xl font-bold mb-4" style={{ color: '#333' }}>
+                                    {mode.title}
+                                </h2>
+
+                                {/* 설명 */}
+                                <p className="text-xl text-gray-600 mb-6 leading-relaxed">
+                                    {mode.description}
+                                </p>
+
+                                {/* 입장 버튼 스타일 */}
+                                <div className="mt-auto w-full">
+                                    <div className="px-12 py-6 rounded-3xl font-black text-3xl text-white text-center transition-all duration-300 transform group-hover:scale-105 shadow-lg"
+                                        style={{
+                                            background: 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)',
+                                            minHeight: '80px',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center'
+                                        }}
+                                    >
+                                        입장하기 →
+                                    </div>
+                                </div>
                             </div>
+
+                            {/* 호버 효과 - 그라데이션 오버레이 */}
+                            <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-10 transition-opacity duration-300"
+                                style={{
+                                    background: 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)'
+                                }}
+                            />
                         </div>
                     ))}
                 </div>
@@ -148,8 +158,12 @@ export default function DashboardPage() {
             <div className="text-center pb-16">
                 <button
                     onClick={() => router.push('/')}
-                    className="px-12 py-4 text-xl font-medium rounded-xl bg-white shadow-md hover:shadow-lg transition-all duration-200"
-                    style={{ color: '#666', border: '2px solid #E0E0E0' }}
+                    className="px-16 py-6 text-3xl font-bold rounded-2xl bg-white shadow-lg hover:shadow-xl transition-all duration-200"
+                    style={{ 
+                        color: '#666', 
+                        border: '4px solid #E0E0E0',
+                        minHeight: '80px'
+                    }}
                 >
                     ← 홈으로 돌아가기
                 </button>

@@ -48,6 +48,8 @@ export const useTyping = ({ targetText, onFinish }: UseTypingProps) => {
             setStatus('finished');
             const endTime = Date.now();
             if (onFinish && startTime) {
+                // 완료 시 즉시 입력 필드 비우기
+                setInputText('');
                 onFinish({
                     cpm: measureSpeed(startTime, value),
                     accuracy: currentAcc,

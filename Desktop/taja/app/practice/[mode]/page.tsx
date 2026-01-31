@@ -104,9 +104,11 @@ export default function PracticePage() {
 
             // 다음 문제로 이동 또는 결과 표시
             if (currentIndex < practiceTexts.length - 1) {
+                // 입력 필드 즉시 리셋
+                reset();
+                // 다음 문제로 이동
                 setTimeout(() => {
                     setCurrentIndex(prev => prev + 1);
-                    reset();
                 }, 500);
             } else {
                 setShowResult(true);
@@ -155,13 +157,28 @@ export default function PracticePage() {
                             <StoryGenerator keywords={practiceTexts} />
                         )}
 
-                        <div className="flex gap-4 justify-center mt-8">
-                            <Button variant="primary" size="lg" onClick={handleRestart} className="text-2xl px-12 py-6">
+                        <div className="flex gap-6 justify-center mt-12">
+                            <button
+                                onClick={handleRestart}
+                                className="px-16 py-8 rounded-3xl font-black text-4xl text-white transition-all duration-200 hover:opacity-90 shadow-xl transform hover:scale-105"
+                                style={{
+                                    background: 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)',
+                                    minHeight: '100px'
+                                }}
+                            >
                                 다시 하기 🔄
-                            </Button>
-                            <Button variant="secondary" size="lg" onClick={() => router.push('/')} className="text-2xl px-12 py-6">
+                            </button>
+                            <button
+                                onClick={() => router.push('/')}
+                                className="px-16 py-8 rounded-3xl font-black text-4xl bg-white transition-all duration-200 hover:shadow-xl transform hover:scale-105"
+                                style={{
+                                    color: '#666',
+                                    border: '4px solid #E0E0E0',
+                                    minHeight: '100px'
+                                }}
+                            >
                                 홈으로 🏠
-                            </Button>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -175,9 +192,17 @@ export default function PracticePage() {
             {/* 상단 헤더 */}
             <div className="p-8">
                 <div className="max-w-7xl mx-auto flex justify-between items-center">
-                    <Button variant="secondary" onClick={() => router.push('/')}>
+                    <button
+                        onClick={() => router.push('/')}
+                        className="px-10 py-5 rounded-2xl font-bold text-2xl bg-white transition-all duration-200 hover:shadow-lg"
+                        style={{
+                            color: '#666',
+                            border: '4px solid #E0E0E0',
+                            minHeight: '70px'
+                        }}
+                    >
                         ← 뒤로가기
-                    </Button>
+                    </button>
                     <div className="text-2xl font-bold" style={{ color: 'var(--color-text)' }}>
                         {currentIndex + 1} / {practiceTexts.length}
                     </div>
@@ -192,13 +217,17 @@ export default function PracticePage() {
             <div className="flex-1 flex flex-col justify-center">
                 <PracticeDisplay targetText={currentText} inputText={inputText} />
 
-                {/* 숨겨진 입력 필드 */}
-                <div className="text-center mt-8">
+                {/* 숨겨진 입력 필드 - 초등학생 저학년용 큰 크기 */}
+                <div className="text-center mt-12">
                     <input
                         key={currentIndex}
                         {...inputProps}
-                        className="w-96 px-8 py-6 text-3xl text-center rounded-2xl border-4 focus:outline-none focus:ring-4 focus:ring-pink-200"
-                        style={{ borderColor: 'var(--color-primary)' }}
+                        className="w-full max-w-4xl px-12 py-10 text-7xl text-center rounded-3xl border-8 focus:outline-none focus:ring-8 focus:ring-pink-200 font-bold"
+                        style={{ 
+                            borderColor: 'var(--color-primary)',
+                            fontSize: '4rem',
+                            minHeight: '120px'
+                        }}
                         placeholder="여기에 입력하세요"
                         autoFocus
                     />
