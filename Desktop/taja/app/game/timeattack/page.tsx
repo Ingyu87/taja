@@ -167,20 +167,20 @@ export default function TimeAttackGamePage() {
             <div className="flex justify-between items-center mb-6">
                 <button
                     onClick={() => router.push('/dashboard')}
-                    className="px-16 py-8 font-black bg-white text-gray-600 hover:bg-gray-50 transition-all rounded-3xl shadow-md"
-                    style={{ border: '6px solid #4ECDC4', fontSize: '12rem' }}
+                    className="px-8 py-4 font-black bg-white text-gray-600 hover:bg-gray-50 transition-all rounded-3xl shadow-md"
+                    style={{ border: '3px solid #4ECDC4', fontSize: '6rem' }}
                 >
                     ← 뒤로가기
                 </button>
                 
-                <div className="flex gap-12 font-black" style={{ fontSize: '16rem' }}>
-                    <div className="bg-white px-12 py-6 rounded-3xl shadow-md">
+                <div className="flex gap-6 font-black" style={{ fontSize: '8rem' }}>
+                    <div className="bg-white px-6 py-3 rounded-3xl shadow-md">
                         점수: <span className="text-green-600">{score}</span>
                     </div>
-                    <div className="bg-white px-12 py-6 rounded-3xl shadow-md">
+                    <div className="bg-white px-6 py-3 rounded-3xl shadow-md">
                         콤보: <span className="text-orange-600">{combo}🔥</span>
                     </div>
-                    <div className="bg-white px-12 py-6 rounded-3xl shadow-md">
+                    <div className="bg-white px-6 py-3 rounded-3xl shadow-md">
                         시간: <span className="text-red-600">{timeLeft}초</span>
                     </div>
                 </div>
@@ -189,14 +189,14 @@ export default function TimeAttackGamePage() {
             {/* 게임 영역 */}
             <div className="flex-1 relative bg-white rounded-[40px] shadow-2xl overflow-hidden flex items-center justify-center" style={{ minHeight: '700px' }}>
                 {gameState === 'ready' && (
-                    <div className="flex flex-col items-center justify-center p-16">
-                        <h1 className="font-black text-green-600 mb-12" style={{ fontSize: '12rem', lineHeight: '1' }}>⏰ 시간 공격 게임</h1>
-                        <p className="text-8xl font-bold text-gray-700 mb-8">30초 안에 최대한 많은 단어를 치세요!</p>
-                        <p className="text-6xl text-gray-600 mb-20">연속으로 맞추면 콤보 점수 획득!</p>
+                    <div className="flex flex-col items-center justify-center p-8">
+                        <h1 className="font-black text-green-600 mb-6" style={{ fontSize: '6rem', lineHeight: '1' }}>⏰ 시간 공격 게임</h1>
+                        <p className="text-4xl font-bold text-gray-700 mb-4">30초 안에 최대한 많은 단어를 치세요!</p>
+                        <p className="text-3xl text-gray-600 mb-10">연속으로 맞추면 콤보 점수 획득!</p>
                         <button
                             onClick={startGame}
-                            className="px-32 py-12 font-black text-white rounded-full shadow-2xl hover:scale-110 transition-transform"
-                            style={{ background: 'linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%)', fontSize: '8rem' }}
+                            className="px-16 py-6 font-black text-white rounded-full shadow-2xl hover:scale-110 transition-transform"
+                            style={{ background: 'linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%)', fontSize: '4rem' }}
                         >
                             게임 시작! 🚀
                         </button>
@@ -204,17 +204,17 @@ export default function TimeAttackGamePage() {
                 )}
 
                 {gameState === 'playing' && (
-                    <div className="flex flex-col items-center justify-center p-20">
+                    <div className="flex flex-col items-center justify-center p-10">
                         {/* 콤보 표시 */}
                         {combo >= 3 && (
-                            <div className="mb-16 font-black text-orange-600 animate-pulse" style={{ fontSize: '12rem' }}>
+                            <div className="mb-8 font-black text-orange-600 animate-pulse" style={{ fontSize: '6rem' }}>
                                 {combo} COMBO! 🔥
                             </div>
                         )}
 
                         {/* 목표 단어 */}
-                        <div className="bg-gradient-to-br from-blue-400 to-purple-400 text-white px-32 py-20 rounded-[40px] shadow-2xl mb-24">
-                            <div className="font-black text-center" style={{ letterSpacing: '0.1em', fontSize: '14rem' }}>
+                        <div className="bg-gradient-to-br from-blue-400 to-purple-400 text-white px-16 py-10 rounded-[40px] shadow-2xl mb-12">
+                            <div className="font-black text-center" style={{ letterSpacing: '0.1em', fontSize: '7rem' }}>
                                 {currentWord.split('').map((char, index) => {
                                     let color = 'white';
                                     if (index < inputValue.length) {
@@ -230,9 +230,9 @@ export default function TimeAttackGamePage() {
                         </div>
 
                         {/* 진행률 표시 */}
-                        <div className="w-full max-w-5xl bg-gray-200 rounded-full h-10 mb-16">
+                        <div className="w-full max-w-3xl bg-gray-200 rounded-full h-5 mb-8">
                             <div 
-                                className="bg-gradient-to-r from-green-400 to-blue-500 h-10 rounded-full transition-all duration-300"
+                                className="bg-gradient-to-r from-green-400 to-blue-500 h-5 rounded-full transition-all duration-300"
                                 style={{ width: `${(inputValue.length / currentWord.length) * 100}%` }}
                             ></div>
                         </div>
@@ -242,39 +242,40 @@ export default function TimeAttackGamePage() {
                             type="text"
                             value={inputValue}
                             onChange={handleInput}
-                            className="w-full max-w-6xl px-24 py-16 text-center border-8 focus:outline-none focus:ring-8 focus:ring-green-200 font-black rounded-full"
+                            className="w-full max-w-3xl px-12 py-8 text-center border-4 focus:outline-none focus:ring-4 focus:ring-green-200 font-black rounded-full"
                             style={{ 
                                 borderColor: isWrong ? '#EF4444' : '#4ECDC4',
                                 backgroundColor: isWrong ? '#FEE2E2' : 'white',
-                                fontSize: '10rem'
+                                fontSize: '5rem',
+                                color: '#000000'
                             }}
-                            placeholder="여기 입력"
+                            placeholder=""
                             autoFocus
                         />
                     </div>
                 )}
 
                 {gameState === 'gameover' && (
-                    <div className="flex flex-col items-center justify-center p-16">
-                        <h2 className="font-black text-green-600 mb-12" style={{ fontSize: '12rem', lineHeight: '1' }}>시간 종료! ⏰</h2>
-                        <div className="bg-white p-20 rounded-[40px] shadow-2xl mb-16">
-                            <p className="text-9xl font-black text-gray-800 mb-10">최종 점수: <span className="text-green-600">{score}</span></p>
-                            <p className="text-7xl font-bold text-gray-700 mb-6">최고 콤보: {maxCombo}연속</p>
-                            <p className="text-7xl font-bold text-gray-700 mb-6">도달 레벨: {level}</p>
-                            <p className="text-7xl font-bold text-gray-700">정확도: {totalTyped > 0 ? Math.round((correctTyped / totalTyped) * 100) : 100}%</p>
+                    <div className="flex flex-col items-center justify-center p-8">
+                        <h2 className="font-black text-green-600 mb-6" style={{ fontSize: '6rem', lineHeight: '1' }}>시간 종료! ⏰</h2>
+                        <div className="bg-white p-10 rounded-[40px] shadow-2xl mb-8">
+                            <p className="text-5xl font-black text-gray-800 mb-5">최종 점수: <span className="text-green-600">{score}</span></p>
+                            <p className="text-4xl font-bold text-gray-700 mb-3">최고 콤보: {maxCombo}연속</p>
+                            <p className="text-4xl font-bold text-gray-700 mb-3">도달 레벨: {level}</p>
+                            <p className="text-4xl font-bold text-gray-700">정확도: {totalTyped > 0 ? Math.round((correctTyped / totalTyped) * 100) : 100}%</p>
                         </div>
-                        <div className="flex gap-12">
+                        <div className="flex gap-6">
                             <button
                                 onClick={startGame}
-                                className="px-28 py-10 font-black text-white rounded-full shadow-xl hover:scale-110 transition-transform"
-                                style={{ background: 'linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%)', fontSize: '7rem' }}
+                                className="px-14 py-5 font-black text-white rounded-full shadow-xl hover:scale-110 transition-transform"
+                                style={{ background: 'linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%)', fontSize: '3.5rem' }}
                             >
                                 다시 하기 🔄
                             </button>
                             <button
                                 onClick={() => router.push('/dashboard')}
-                                className="px-28 py-10 font-black text-white rounded-full shadow-xl hover:scale-110 transition-transform"
-                                style={{ background: 'linear-gradient(135deg, #FF6B9D 0%, #FF8FB9 100%)', fontSize: '7rem' }}
+                                className="px-14 py-5 font-black text-white rounded-full shadow-xl hover:scale-110 transition-transform"
+                                style={{ background: 'linear-gradient(135deg, #FF6B9D 0%, #FF8FB9 100%)', fontSize: '3.5rem' }}
                             >
                                 홈으로 🏠
                             </button>
