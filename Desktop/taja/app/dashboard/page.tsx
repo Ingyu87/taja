@@ -357,8 +357,8 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
                 {/* 학생 현황 테이블 */}
                 <div className="bg-white shadow-lg overflow-hidden" style={{ borderRadius: '20px' }}>
                     <div className="border-b border-gray-100" style={{ padding: '1.5rem' }}>
-                        <h2 className="font-bold text-gray-800" style={{ fontSize: '2.5rem' }}>학생별 현황</h2>
-                        <p className="text-gray-500 mt-1" style={{ fontSize: '1.25rem' }}>개별 학생의 학습 패턴을 확인하세요</p>
+                        <h2 className="font-bold text-gray-800" style={{ fontSize: '2.5rem' }}>학생 랭킹 TOP 15</h2>
+                        <p className="text-gray-500 mt-1" style={{ fontSize: '1.25rem' }}>평균 타자 속도 기준 상위 15명</p>
                     </div>
                     <table className="w-full text-left">
                         <thead>
@@ -374,7 +374,7 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-50">
-                            {studentStats.map((student, index) => {
+                            {studentStats.slice(0, 15).map((student, index) => {
                                 let rankBg = '';
                                 let rankText = '';
                                 if (index === 0 && student.avgCpm > 0) {
@@ -419,7 +419,7 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
                 {/* 최근 활동 로그 */}
                 <div className="bg-white shadow-lg overflow-hidden mt-8" style={{ borderRadius: '20px' }}>
                     <div className="border-b border-gray-100" style={{ padding: '1.5rem' }}>
-                        <h2 className="font-bold text-gray-800" style={{ fontSize: '2.5rem' }}>최근 활동 로그</h2>
+                        <h2 className="font-bold text-gray-800" style={{ fontSize: '2.5rem' }}>최근 활동 로그 (최근 20개)</h2>
                         <p className="text-gray-500 mt-1" style={{ fontSize: '1.25rem' }}>학생들의 최근 학습 활동 내역</p>
                     </div>
                     <table className="w-full text-left">
@@ -434,7 +434,7 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-50">
-                            {results.slice(0, 50).map((log, i) => (
+                            {results.slice(0, 20).map((log, i) => (
                                 <tr key={i} className="hover:bg-gray-50 transition-colors">
                                     <td className="text-gray-500" style={{ padding: '1.25rem', fontSize: '1.25rem' }}>{new Date(log.createdAt).toLocaleString()}</td>
                                     <td className="font-bold flex items-center gap-1.5" style={{ padding: '1.25rem', fontSize: '1.5rem' }}>
