@@ -20,10 +20,13 @@ const GAME_CHARS = [
     'ㅏ', 'ㅓ', 'ㅗ', 'ㅜ', 'ㅡ', 'ㅣ', 'ㅐ', 'ㅔ'
 ];
 
+type Difficulty = '하' | '중' | '상';
+
 export default function FallingGamePage() {
     const router = useRouter();
     const [user, setUser] = useState<User | null>(null);
     const [gameState, setGameState] = useState<'ready' | 'playing' | 'gameover'>('ready');
+    const [difficulty, setDifficulty] = useState<Difficulty | null>(null);
     const [score, setScore] = useState(0);
     const [lives, setLives] = useState(3);
     const [level, setLevel] = useState(1);
@@ -80,9 +83,19 @@ export default function FallingGamePage() {
 
     // 글자 생성
     useEffect(() => {
-        if (gameState !== 'playing') return;
+        if (gameState !== 'playing' || !difficulty) return;
 
         const spawnInterval = Math.max(800 - level * 50, 300);
+
+        // 난이도별 속도 설정
+        const getSpeed = () => {
+            switch (difficulty) {
+                case '하': return 0.3 + level * 0.05; // 느림
+                case '중': return 0.4 + level * 0.08; // 보통
+                case '상': return 0.5 + level * 0.1;  // 빠름 (기존)
+                default: return 0.5 + level * 0.1;
+            }
+        };
 
         spawnTimerRef.current = setInterval(() => {
             const newChar: FallingChar = {
@@ -90,7 +103,7 @@ export default function FallingGamePage() {
                 char: GAME_CHARS[Math.floor(Math.random() * GAME_CHARS.length)],
                 x: Math.random() * 80 + 10,
                 y: 0,
-                speed: 0.5 + level * 0.1
+                speed: getSpeed()
             };
             setFallingChars(prev => [...prev, newChar]);
         }, spawnInterval);
@@ -98,7 +111,7 @@ export default function FallingGamePage() {
         return () => {
             if (spawnTimerRef.current) clearInterval(spawnTimerRef.current);
         };
-    }, [gameState, level]);
+    }, [gameState, level, difficulty]);
 
     const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
@@ -126,7 +139,8 @@ export default function FallingGamePage() {
         }
     };
 
-    const startGame = () => {
+    const startGame = (selectedDifficulty: Difficulty) => {
+        setDifficulty(selectedDifficulty);
         setGameState('playing');
         setScore(0);
         setLives(3);
@@ -210,14 +224,35 @@ export default function FallingGamePage() {
                     <div className="flex flex-col items-center justify-center p-16">
                         <h1 className="font-black text-purple-600 mb-12" style={{ fontSize: '12rem', lineHeight: '1' }}>⬇️ 떨어지는 글자 게임</h1>
                         <p className="text-8xl font-bold text-gray-700 mb-8">떨어지는 글자를 빨리 쳐서 없애세요!</p>
-                        <p className="text-6xl text-gray-600 mb-20">바닥에 닿으면 생명이 줄어듭니다</p>
-                        <button
-                            onClick={startGame}
-                            className="px-32 py-12 font-black text-white rounded-full shadow-2xl hover:scale-110 transition-transform"
-                            style={{ background: 'linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%)', fontSize: '8rem' }}
-                        >
-                            게임 시작! 🚀
-                        </button>
+                        <p className="text-6xl text-gray-600 mb-12">바닥에 닿으면 생명이 줄어듭니다</p>
+                        
+                        {/* 난이도 선택 */}
+                        <div className="mb-20">
+                            <h2 className="text-7xl font-black text-gray-800 text-center mb-12">난이도를 선택하세요</h2>
+                            <div className="flex gap-8">
+                                <button
+                                    onClick={() => startGame('하')}
+                                    className="px-24 py-12 font-black text-white rounded-full shadow-2xl hover:scale-110 transition-transform"
+                                    style={{ background: 'linear-gradient(135deg, #4ADE80 0%, #16A34A 100%)', fontSize: '7rem' }}
+                                >
+                                    😊 하 (느림)
+                                </button>
+                                <button
+                                    onClick={() => startGame('중')}
+                                    className="px-24 py-12 font-black text-white rounded-full shadow-2xl hover:scale-110 transition-transform"
+                                    style={{ background: 'linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%)', fontSize: '7rem' }}
+                                >
+                                    😎 중 (보통)
+                                </button>
+                                <button
+                                    onClick={() => startGame('상')}
+                                    className="px-24 py-12 font-black text-white rounded-full shadow-2xl hover:scale-110 transition-transform"
+                                    style={{ background: 'linear-gradient(135deg, #EF4444 0%, #DC2626 100%)', fontSize: '7rem' }}
+                                >
+                                    🔥 상 (빠름)
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 )}
 
@@ -250,11 +285,12 @@ export default function FallingGamePage() {
                         <div className="bg-white p-20 rounded-[40px] shadow-2xl mb-16">
                             <p className="text-9xl font-black text-gray-800 mb-10">최종 점수: <span className="text-blue-600">{score}</span></p>
                             <p className="text-7xl font-bold text-gray-700 mb-6">도달 레벨: {level}</p>
+                            <p className="text-7xl font-bold text-gray-700 mb-6">난이도: <span className="text-purple-600">{difficulty}</span></p>
                             <p className="text-7xl font-bold text-gray-700">정확도: {totalTyped > 0 ? Math.round((correctTyped / totalTyped) * 100) : 0}%</p>
                         </div>
                         <div className="flex gap-12">
                             <button
-                                onClick={startGame}
+                                onClick={() => setGameState('ready')}
                                 className="px-28 py-10 font-black text-white rounded-full shadow-xl hover:scale-110 transition-transform"
                                 style={{ background: 'linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%)', fontSize: '7rem' }}
                             >
