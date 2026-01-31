@@ -205,7 +205,7 @@ export default function DashboardPage() {
                                 </h3>
 
                                 {/* 설명 */}
-                                <p className="text-sm text-gray-600 mb-4 leading-relaxed">
+                                <p className="text-base text-gray-600 mb-4 leading-relaxed">
                                     {mode.description}
                                 </p>
 

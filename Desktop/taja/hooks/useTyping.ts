@@ -44,30 +44,22 @@ export const useTyping = ({ targetText, onFinish }: UseTypingProps) => {
         }
 
         // 완료 체크 (정확히 일치하는지 확인)
-        // 한 글자일 때는 즉시 완료 처리
-        if (targetText.length === 1 && value === targetText) {
-            if (status !== 'finished') {
-                setStatus('finished');
-                const endTime = Date.now();
-                if (onFinish && startTime) {
-                    onFinish({
-                        cpm: measureSpeed(startTime, value),
-                        accuracy: currentAcc,
-                        time: (endTime - startTime) / 1000
-                    });
-                }
-            }
-        } else if (value === targetText && value.length === targetText.length && value.length > 0) {
+        if (value === targetText && value.length === targetText.length && value.length > 0) {
             // 완료 상태로 변경 (한 번만 실행)
             if (status !== 'finished') {
                 setStatus('finished');
+                // 입력 필드 즉시 리셋
+                setInputText('');
+                
                 const endTime = Date.now();
-                if (onFinish && startTime) {
-                    // 완료 콜백 호출
+                const actualStartTime = startTime || Date.now();
+                
+                if (onFinish) {
+                    // 완료 콜백 호출 (startTime이 없어도 최소 시간으로 처리)
                     onFinish({
-                        cpm: measureSpeed(startTime, value),
+                        cpm: startTime ? measureSpeed(actualStartTime, value) : 0,
                         accuracy: currentAcc,
-                        time: (endTime - startTime) / 1000
+                        time: (endTime - actualStartTime) / 1000
                     });
                 }
             }
