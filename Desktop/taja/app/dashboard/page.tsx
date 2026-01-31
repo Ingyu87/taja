@@ -78,7 +78,7 @@ export default function DashboardPage() {
             {/* 상단 네비게이션 바 */}
             <div className="bg-white shadow-sm sticky top-0 z-10">
                 <div className="max-w-7xl mx-auto">
-                    <nav className="px-8 py-4">
+                    <nav className="px-6 py-3">
                         <div className="flex items-center justify-between">
                             {/* 왼쪽 탭들 */}
                             <div className="flex items-center gap-2">
@@ -86,7 +86,7 @@ export default function DashboardPage() {
                                     <button
                                         key={tab.id}
                                         onClick={() => setActiveTab(tab.id)}
-                                        className={`px-6 py-3 font-bold text-lg whitespace-nowrap transition-all rounded-2xl ${
+                                        className={`px-4 py-2 font-semibold text-base whitespace-nowrap transition-all rounded-xl ${
                                             activeTab === tab.id
                                                 ? 'text-white'
                                                 : 'text-gray-600 bg-white hover:bg-gray-50'
@@ -99,22 +99,22 @@ export default function DashboardPage() {
                                                 : {}
                                         }
                                     >
-                                        <span className="mr-2">{tab.icon}</span>
+                                        <span className="mr-1.5 text-sm">{tab.icon}</span>
                                         {tab.label}
                                     </button>
                                 ))}
                             </div>
                             {/* 오른쪽 버튼들 */}
-                            <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-2">
                                 <button
-                                    className="px-6 py-3 font-bold text-lg bg-white text-gray-600 hover:bg-gray-50 transition-all rounded-2xl"
+                                    className="px-4 py-2 font-semibold text-base bg-white text-gray-600 hover:bg-gray-50 transition-all rounded-xl"
                                     style={{ border: '2px solid #E0E0E0' }}
                                 >
                                     👤 선생님
                                 </button>
                                 <button
                                     onClick={handleLogout}
-                                    className="px-6 py-3 font-bold text-lg bg-white text-gray-600 hover:bg-gray-50 transition-all rounded-2xl"
+                                    className="px-4 py-2 font-semibold text-base bg-white text-gray-600 hover:bg-gray-50 transition-all rounded-xl"
                                     style={{ border: '2px solid #E0E0E0' }}
                                 >
                                     로그아웃
@@ -126,40 +126,36 @@ export default function DashboardPage() {
             </div>
 
             {/* 메인 콘텐츠 */}
-            <div className="max-w-6xl mx-auto px-8 py-12">
-                <div className="text-center mb-8">
-                    <h1 className="text-5xl font-bold mb-2 text-gray-800">창체 웹앱</h1>
-                    <p className="text-2xl text-gray-600">{PRACTICE_MODES.length}개의 앱</p>
+            <div className="max-w-6xl mx-auto px-8 py-10">
+                <div className="text-center mb-10">
+                    <h1 className="text-4xl font-bold mb-1 text-gray-900">창체 웹앱</h1>
+                    <p className="text-lg text-gray-500 mt-1">{PRACTICE_MODES.length}개의 앱</p>
                 </div>
 
                 {/* 앱 카드 그리드 - 3개 위, 2개 아래 */}
-                <div className="grid grid-cols-3 gap-6 mb-6">
+                <div className="grid grid-cols-3 gap-5 mb-5">
                     {PRACTICE_MODES.slice(0, 3).map((mode) => (
                         <div
                             key={mode.id}
                             onClick={() => router.push(`/practice/${mode.id}`)}
-                            className="bg-white p-6 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-1 rounded-3xl"
+                            className="bg-white p-5 shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer rounded-2xl"
                             style={{
                                 border: '1px solid #E0E0E0',
                             }}
                         >
                             <div className="flex flex-col items-center text-center">
                                 {/* 아이콘 */}
-                                <div className="text-7xl mb-4">{mode.emoji}</div>
+                                <div className="text-6xl mb-3">{mode.emoji}</div>
                                 {/* 제목 */}
-                                <h3 className="text-2xl font-bold mb-3 text-gray-800">{mode.title}</h3>
+                                <h3 className="text-xl font-bold mb-2 text-gray-800">{mode.title}</h3>
                                 {/* 설명 */}
-                                <p className="text-lg text-gray-600 mb-4 leading-relaxed">{mode.description}</p>
+                                <p className="text-sm text-gray-600 mb-3 leading-relaxed">{mode.description}</p>
                                 {/* 하단 태그 버튼 */}
                                 <div className="mt-auto w-full">
                                     <div
-                                        className="px-4 py-2 font-bold text-base text-white text-center rounded-2xl"
+                                        className="px-3 py-1.5 font-semibold text-sm text-white text-center rounded-xl"
                                         style={{
                                             background: 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)',
-                                            minHeight: '40px',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
                                         }}
                                     >
                                         창체
@@ -171,33 +167,29 @@ export default function DashboardPage() {
                 </div>
 
                 {/* 아래 2개 카드 */}
-                <div className="grid grid-cols-2 gap-6 max-w-4xl mx-auto">
+                <div className="grid grid-cols-2 gap-5 max-w-4xl mx-auto">
                     {PRACTICE_MODES.slice(3, 5).map((mode) => (
                         <div
                             key={mode.id}
                             onClick={() => router.push(`/practice/${mode.id}`)}
-                            className="bg-white p-6 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-1 rounded-3xl"
+                            className="bg-white p-5 shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer rounded-2xl"
                             style={{
                                 border: '1px solid #E0E0E0',
                             }}
                         >
                             <div className="flex flex-col items-center text-center">
                                 {/* 아이콘 */}
-                                <div className="text-7xl mb-4">{mode.emoji}</div>
+                                <div className="text-6xl mb-3">{mode.emoji}</div>
                                 {/* 제목 */}
-                                <h3 className="text-2xl font-bold mb-3 text-gray-800">{mode.title}</h3>
+                                <h3 className="text-xl font-bold mb-2 text-gray-800">{mode.title}</h3>
                                 {/* 설명 */}
-                                <p className="text-lg text-gray-600 mb-4 leading-relaxed">{mode.description}</p>
+                                <p className="text-sm text-gray-600 mb-3 leading-relaxed">{mode.description}</p>
                                 {/* 하단 태그 버튼 */}
                                 <div className="mt-auto w-full">
                                     <div
-                                        className="px-4 py-2 font-bold text-base text-white text-center rounded-2xl"
+                                        className="px-3 py-1.5 font-semibold text-sm text-white text-center rounded-xl"
                                         style={{
                                             background: 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)',
-                                            minHeight: '40px',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
                                         }}
                                     >
                                         창체
@@ -262,7 +254,7 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
             {/* 상단 네비게이션 바 */}
             <div className="bg-white shadow-sm sticky top-0 z-10">
                 <div className="max-w-7xl mx-auto">
-                    <nav className="px-8 py-4">
+                    <nav className="px-6 py-3">
                         <div className="flex items-center justify-between">
                             {/* 왼쪽 탭들 */}
                             <div className="flex items-center gap-2">
@@ -270,7 +262,7 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
                                     <button
                                         key={tab.id}
                                         onClick={() => setActiveTab(tab.id)}
-                                        className={`px-6 py-3 font-bold text-lg whitespace-nowrap transition-all rounded-2xl ${
+                                        className={`px-4 py-2 font-semibold text-base whitespace-nowrap transition-all rounded-xl ${
                                             activeTab === tab.id
                                                 ? 'text-white'
                                                 : 'text-gray-600 bg-white hover:bg-gray-50'
@@ -283,22 +275,22 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
                                                 : {}
                                         }
                                     >
-                                        <span className="mr-2">{tab.icon}</span>
+                                        <span className="mr-1.5 text-sm">{tab.icon}</span>
                                         {tab.label}
                                     </button>
                                 ))}
                             </div>
                             {/* 오른쪽 버튼들 */}
-                            <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-2">
                                 <button
-                                    className="px-6 py-3 font-bold text-lg bg-white text-gray-600 hover:bg-gray-50 transition-all rounded-2xl"
+                                    className="px-4 py-2 font-semibold text-base bg-white text-gray-600 hover:bg-gray-50 transition-all rounded-xl"
                                     style={{ border: '2px solid #E0E0E0' }}
                                 >
                                     👤 선생님
                                 </button>
                                 <button
                                     onClick={onLogout}
-                                    className="px-6 py-3 font-bold text-lg bg-white text-gray-600 hover:bg-gray-50 transition-all rounded-2xl"
+                                    className="px-4 py-2 font-semibold text-base bg-white text-gray-600 hover:bg-gray-50 transition-all rounded-xl"
                                     style={{ border: '2px solid #E0E0E0' }}
                                 >
                                     로그아웃
