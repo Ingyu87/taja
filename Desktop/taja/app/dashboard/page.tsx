@@ -255,21 +255,10 @@ export default function DashboardPage() {
     );
 }
 
-const NAV_TABS = [
-    { id: 'changche', label: '창체', icon: '🎭', active: true },
-    { id: 'math', label: '수학', icon: '1234' },
-    { id: 'korean', label: '국어', icon: '📖' },
-    { id: 'social', label: '사회', icon: '🌍' },
-    { id: 'class', label: '학급운영', icon: '🏠' },
-    { id: 'manage', label: '관리', icon: '⚙️' },
-];
-
 function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void }) {
     const router = useRouter();
     const [results, setResults] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
-    const [view, setView] = useState<'students' | 'recent' | 'stats'>('students');
-    const [activeTab, setActiveTab] = useState<string>('changche');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -311,59 +300,25 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
 
     return (
         <div className="min-h-screen" style={{ backgroundColor: '#FAF9F6' }}>
-            {/* 상단 네비게이션 바 */}
+            {/* 상단 헤더 - 로그아웃 버튼만 */}
             <div className="bg-white shadow-sm sticky top-0 z-10">
-                <div className="max-w-full mx-auto">
-                    <nav className="px-12 py-8">
-                        <div className="flex items-center justify-between">
-                            {/* 왼쪽 탭들 */}
-                            <div className="flex items-center gap-6">
-                                {NAV_TABS.map((tab) => (
-                                    <button
-                                        key={tab.id}
-                                        onClick={() => setActiveTab(tab.id)}
-                                        className={`font-black whitespace-nowrap transition-all rounded-3xl shadow-lg hover:shadow-xl transform hover:scale-105 ${
-                                            activeTab === tab.id
-                                                ? 'text-white'
-                                                : 'text-gray-700 bg-white hover:bg-gray-50'
-                                        }`}
-                                        style={
-                                            activeTab === tab.id
-                                                ? {
-                                                      background: 'linear-gradient(135deg, #FF6B9D 0%, #9B59B6 50%, #4ECDC4 100%)',
-                                                      padding: '2rem 3rem',
-                                                      fontSize: '4rem'
-                                                  }
-                                                : { border: '4px solid #E0E0E0', padding: '2rem 3rem', fontSize: '4rem' }
-                                        }
-                                    >
-                                        <span className="mr-3" style={{ fontSize: '4rem' }}>{tab.icon}</span>
-                                        {tab.label}
-                                    </button>
-                                ))}
-                            </div>
-                            {/* 오른쪽 버튼들 */}
-                            <div className="flex items-center gap-6">
-                                <button
-                                    className="font-black bg-white text-gray-700 hover:bg-gray-50 transition-all rounded-3xl shadow-lg hover:shadow-xl transform hover:scale-105"
-                                    style={{ border: '4px solid #FF6B9D', padding: '2rem 3rem', fontSize: '4rem' }}
-                                >
-                                    👨‍🏫 교사
-                                </button>
-                                <button
-                                    onClick={onLogout}
-                                    className="font-black text-white hover:opacity-90 transition-all rounded-3xl shadow-lg hover:shadow-xl transform hover:scale-105"
-                                    style={{ 
-                                        background: 'linear-gradient(135deg, #FF6B9D 0%, #FF8FB9 100%)',
-                                        padding: '2rem 3rem',
-                                        fontSize: '4rem'
-                                    }}
-                                >
-                                    👋 로그아웃
-                                </button>
-                            </div>
-                        </div>
-                    </nav>
+                <div className="max-w-full mx-auto px-12 py-8">
+                    <div className="flex items-center justify-between">
+                        <h1 className="font-black" style={{ fontSize: '6rem', color: '#000000' }}>
+                            👨‍🏫 교사 대시보드
+                        </h1>
+                        <button
+                            onClick={onLogout}
+                            className="font-black text-white hover:opacity-90 transition-all rounded-3xl shadow-lg hover:shadow-xl transform hover:scale-105"
+                            style={{ 
+                                background: 'linear-gradient(135deg, #FF6B9D 0%, #FF8FB9 100%)',
+                                padding: '2rem 3rem',
+                                fontSize: '4rem'
+                            }}
+                        >
+                            👋 로그아웃
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -401,8 +356,7 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
                 </div>
 
                 {/* 학생 현황 테이블 */}
-                {view === 'students' && (
-                    <div className="bg-white shadow-lg overflow-hidden" style={{ borderRadius: '40px' }}>
+                <div className="bg-white shadow-lg overflow-hidden" style={{ borderRadius: '40px' }}>
                         <div className="border-b border-gray-100" style={{ padding: '3rem' }}>
                             <h2 className="font-bold text-gray-800" style={{ fontSize: '5rem' }}>학생별 현황</h2>
                             <p className="text-gray-500 mt-2" style={{ fontSize: '2.5rem' }}>개별 학생의 학습 패턴을 확인하세요</p>
@@ -443,11 +397,9 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
                             </tbody>
                         </table>
                     </div>
-                )}
 
                 {/* 최근 활동 로그 */}
-                {view === 'recent' && (
-                    <div className="bg-white shadow-lg overflow-hidden" style={{ borderRadius: '40px' }}>
+                <div className="bg-white shadow-lg overflow-hidden mt-16" style={{ borderRadius: '40px' }}>
                         <div className="border-b border-gray-100" style={{ padding: '3rem' }}>
                             <h2 className="font-bold text-gray-800" style={{ fontSize: '5rem' }}>최근 활동 로그</h2>
                             <p className="text-gray-500 mt-2" style={{ fontSize: '2.5rem' }}>학생들의 최근 학습 활동 내역</p>
@@ -486,7 +438,6 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
                             </tbody>
                         </table>
                     </div>
-                )}
             </main>
         </div>
     );
