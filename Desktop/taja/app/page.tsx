@@ -7,27 +7,22 @@ export default function Home() {
   const router = useRouter();
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-8"
-      style={{ backgroundColor: 'var(--color-bg)' }}>
-      <div className="text-center max-w-7xl mx-auto flex flex-col gap-16 fade-in w-full">
+    <div className="flex flex-col items-center py-12 px-8"
+      style={{ backgroundColor: '#FAF9F6', minHeight: 'auto' }}>
+      <div className="text-center max-w-4xl mx-auto flex flex-col gap-8 w-full">
         {/* 메인 타이틀 */}
-        <div className="space-y-6">
-          <div className="text-8xl mb-6 bounce">🏰</div>
-          <h1 className="text-6xl md:text-8xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-purple-500"
-            style={{ paddingBottom: '0.1em' }}>
-            타자왕국
-          </h1>
-          <p className="text-2xl md:text-3xl font-medium text-gray-700">
+        <div className="space-y-4 mb-8">
+          <div className="text-5xl mb-4">👑</div>
+          <h1 className="text-4xl font-bold text-gray-800">
             AI와 함께하는 재미있는 한글 타자 연습
-          </p>
-          <p className="text-xl text-gray-500 leading-relaxed max-w-2xl mx-auto">
-            동화, 시, 게임으로 즐겁게 배우는 타자 연습! <br className="hidden md:block" />
-            친구들과 경쟁하고 멋진 배지도 모아보세요 ✨
+          </h1>
+          <p className="text-lg text-gray-600 leading-relaxed">
+            동화, 시, 게임으로 즐겁게 배우는 타자 연습! 친구들과 경쟁하고 멋진 배지도 모아보세요 ✨
           </p>
         </div>
 
         {/* 메인 시작 버튼 (카드형) */}
-        <div className="flex justify-center items-center w-full max-w-2xl mx-auto">
+        <div className="flex justify-center items-center w-full mb-8">
           <div
             onClick={() => {
               const userStr = localStorage.getItem('current_user');
@@ -38,53 +33,54 @@ export default function Home() {
                 router.push('/login');
               }
             }}
-            className="group relative bg-white rounded-[48px] p-20 shadow-2xl hover:shadow-[0_20px_50px_rgba(0,0,0,0.1)] transition-all cursor-pointer transform hover:-translate-y-4 border-8 border-white hover:border-pink-200 w-full text-center"
+            className="group relative bg-white p-12 shadow-lg hover:shadow-xl transition-all cursor-pointer transform hover:-translate-y-1 w-full text-center"
             style={{
-              background: 'linear-gradient(135deg, #ffffff 0%, #fff5f8 100%)'
+              borderRadius: '32px',
+              border: '3px solid #9B59B6'
             }}
           >
-            <div className="text-9xl mb-10 group-hover:scale-110 transition-transform bounce">🏰</div>
-            <h2 className="text-6xl font-black mb-6 text-gray-800 tracking-tight">시작하기</h2>
-            <p className="text-2xl text-gray-500 mb-10 font-bold">재미있는 타자 왕국으로 입장하세요!</p>
-            <div className="py-8 px-16 rounded-[32px] font-black text-4xl text-white shadow-xl inline-block transform group-hover:scale-105 transition-all"
-              style={{ background: 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)' }}>
+            <div className="text-5xl mb-6">👑</div>
+            <h2 className="text-3xl font-bold mb-4 text-gray-800">시작하기</h2>
+            <p className="text-lg text-gray-600 mb-6">재미있는 타자 왕국으로 입장하세요!</p>
+            <div className="py-4 px-8 font-bold text-xl text-white shadow-md inline-block transform group-hover:scale-105 transition-all"
+              style={{ 
+                borderRadius: '24px',
+                background: 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)' 
+              }}>
               입장하기 →
             </div>
           </div>
         </div>
 
         {/* 기능 소개 카드 */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8 w-full">
-          <div className="bg-white/80 backdrop-blur p-8 shadow-xl hover:shadow-2xl transition-all hover:-translate-y-2 border border-white/50" style={{ borderRadius: '40px' }}>
-            <div className="text-6xl mb-6 bg-green-100 w-24 h-24 rounded-full flex items-center justify-center mx-auto">📚</div>
-            <h3 className="font-bold text-2xl mb-4 text-gray-800">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
+          <div className="bg-white p-6 shadow-md hover:shadow-lg transition-all border-2 border-purple-300" style={{ borderRadius: '24px' }}>
+            <div className="text-4xl mb-4">📚</div>
+            <h3 className="font-bold text-xl mb-3 text-gray-800">
               단계별 연습
             </h3>
-            <p className="text-lg text-gray-600 leading-relaxed">
-              모음, 자음부터<br />
-              문장까지 차근차근
+            <p className="text-base text-gray-600 leading-relaxed">
+              모음, 자음부터 문장까지 차근차근
             </p>
           </div>
 
-          <div className="bg-white/80 backdrop-blur p-8 shadow-xl hover:shadow-2xl transition-all hover:-translate-y-2 border border-white/50" style={{ borderRadius: '40px' }}>
-            <div className="text-6xl mb-6 bg-blue-100 w-24 h-24 rounded-full flex items-center justify-center mx-auto">🎮</div>
-            <h3 className="font-bold text-2xl mb-4 text-gray-800">
+          <div className="bg-white p-6 shadow-md hover:shadow-lg transition-all border-2 border-purple-300" style={{ borderRadius: '24px' }}>
+            <div className="text-4xl mb-4">🎮</div>
+            <h3 className="font-bold text-xl mb-3 text-gray-800">
               재미있는 게임
             </h3>
-            <p className="text-lg text-gray-600 leading-relaxed">
-              5가지 타자 게임으로<br />
-              즐겁게 연습
+            <p className="text-base text-gray-600 leading-relaxed">
+              5가지 타자 게임으로 즐겁게 연습
             </p>
           </div>
 
-          <div className="bg-white/80 backdrop-blur p-8 shadow-xl hover:shadow-2xl transition-all hover:-translate-y-2 border border-white/50" style={{ borderRadius: '40px' }}>
-            <div className="text-6xl mb-6 bg-purple-100 w-24 h-24 rounded-full flex items-center justify-center mx-auto">🤖</div>
-            <h3 className="font-bold text-2xl mb-4 text-gray-800">
+          <div className="bg-white p-6 shadow-md hover:shadow-lg transition-all border-2 border-purple-300" style={{ borderRadius: '24px' }}>
+            <div className="text-4xl mb-4">🤖</div>
+            <h3 className="font-bold text-xl mb-3 text-gray-800">
               AI 스토리
             </h3>
-            <p className="text-lg text-gray-600 leading-relaxed">
-              내가 원하는 주제로<br />
-              AI가 글 생성
+            <p className="text-base text-gray-600 leading-relaxed">
+              내가 원하는 주제로 AI가 글 생성
             </p>
           </div>
         </div>
