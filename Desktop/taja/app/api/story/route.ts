@@ -25,7 +25,7 @@ export async function POST(request: Request) {
 
         // Gemini API 초기화
         const genAI = new GoogleGenerativeAI(API_KEY);
-        const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+        const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
         // 프롬프트 구성
         const prompt = `
