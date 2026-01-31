@@ -26,27 +26,51 @@ export default function Home() {
           </p>
         </div>
 
-        {/* 버튼 */}
-        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center w-full">
-          <Button
-            variant="primary"
-            size="lg"
+        {/* 버튼 (포털형 UI) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 justify-center items-center w-full max-w-4xl mx-auto">
+          {/* 학생 포털 */}
+          <div
             onClick={() => {
-              const user = localStorage.getItem('current_user');
-              if (user) {
+              const userStr = localStorage.getItem('current_user');
+              const user = userStr ? JSON.parse(userStr) : null;
+              if (user && user.role === 'student') {
                 router.push('/dashboard');
               } else {
-                router.push('/login');
+                router.push('/login?type=student');
               }
             }}
-            className="text-xl md:text-2xl px-16 py-8 w-full sm:w-auto shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all"
-            style={{
-              background: 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)',
-              color: 'white'
-            }}
+            className="group relative bg-white rounded-3xl p-10 shadow-xl hover:shadow-2xl transition-all cursor-pointer transform hover:-translate-y-2 border-4 border-transparent hover:border-pink-300"
           >
-            시작하기 🚀
-          </Button>
+            <div className="text-7xl mb-6 group-hover:scale-110 transition-transform">🎓</div>
+            <h2 className="text-3xl font-bold mb-2 text-gray-800">학생 시작하기</h2>
+            <p className="text-lg text-gray-500 mb-6 font-medium">재미있는 타자 연습과 AI 동화 만들기!</p>
+            <div className="py-4 px-8 rounded-2xl font-bold text-xl text-white shadow-md inline-block"
+              style={{ background: 'linear-gradient(135deg, #FF6B9D 0%, #FFA8C5 100%)' }}>
+              입장하기 →
+            </div>
+          </div>
+
+          {/* 교사 포털 */}
+          <div
+            onClick={() => {
+              const userStr = localStorage.getItem('current_user');
+              const user = userStr ? JSON.parse(userStr) : null;
+              if (user && user.role === 'teacher') {
+                router.push('/dashboard');
+              } else {
+                router.push('/login?type=teacher');
+              }
+            }}
+            className="group relative bg-white rounded-3xl p-10 shadow-xl hover:shadow-2xl transition-all cursor-pointer transform hover:-translate-y-2 border-4 border-transparent hover:border-cyan-300"
+          >
+            <div className="text-7xl mb-6 group-hover:scale-110 transition-transform">👨‍🏫</div>
+            <h2 className="text-3xl font-bold mb-2 text-gray-800">교사 대시보드</h2>
+            <p className="text-lg text-gray-500 mb-6 font-medium">학생들의 학습 현황을 한눈에 관리하세요!</p>
+            <div className="py-4 px-8 rounded-2xl font-bold text-xl text-white shadow-md inline-block"
+              style={{ background: 'linear-gradient(135deg, #4ECDC4 0%, #A5D6A7 100%)' }}>
+              관리자 모드 →
+            </div>
+          </div>
         </div>
 
         {/* 기능 소개 카드 */}

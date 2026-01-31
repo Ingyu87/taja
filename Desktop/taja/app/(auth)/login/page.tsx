@@ -1,30 +1,43 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { Suspense, useEffect, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { validateLogin, saveCurrentUser } from '@/lib/auth';
 import { useToast } from '@/contexts/ToastContext';
+import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 
-export default function LoginPage() {
+function LoginContent() {
     const router = useRouter();
+    const searchParams = useSearchParams();
     const { showToast } = useToast();
-    const [userType, setUserType] = useState<'student' | 'teacher'>('student');
+
+    // URL 파라미터에서 타입 가져오기
+    const initialType = searchParams?.get('type') === 'teacher' ? 'teacher' : 'student';
+
+    const [userType, setUserType] = useState<'student' | 'teacher'>(initialType);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
     // 이미 로그인된 상태라면 대시보드로 이동
-    useState(() => {
-        // 클라이언트 사이드에서만 실행
+    useEffect(() => {
         if (typeof window !== 'undefined') {
             const user = localStorage.getItem('current_user');
             if (user) {
                 router.replace('/dashboard');
             }
         }
-    });
+    }, [router]);
+
+    // URL 파라미터가 변경되면 타입 업데이트
+    useEffect(() => {
+        const type = searchParams?.get('type');
+        if (type === 'teacher' || type === 'student') {
+            setUserType(type);
+        }
+    }, [searchParams]);
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -217,5 +230,13 @@ export default function LoginPage() {
                 </div>
             </div>
         </div>
+    );
+}
+
+export default function LoginPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-[#F5F0EB]"><LoadingSpinner /></div>}>
+            <LoginContent />
+        </Suspense>
     );
 }
