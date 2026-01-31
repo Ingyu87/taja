@@ -186,12 +186,12 @@ export default function FallingGamePage() {
                 <button
                     onClick={() => router.push('/dashboard')}
                     className="px-16 py-8 font-black bg-white text-gray-600 hover:bg-gray-50 transition-all rounded-3xl shadow-md"
-                    style={{ border: '6px solid #4ECDC4', fontSize: '6rem' }}
+                    style={{ border: '6px solid #4ECDC4', fontSize: '12rem' }}
                 >
                     ← 뒤로가기
                 </button>
                 
-                <div className="flex gap-12 font-black" style={{ fontSize: '8rem' }}>
+                <div className="flex gap-12 font-black" style={{ fontSize: '16rem' }}>
                     <div className="bg-white px-12 py-6 rounded-3xl shadow-md">
                         점수: <span className="text-blue-600">{score}</span>
                     </div>
