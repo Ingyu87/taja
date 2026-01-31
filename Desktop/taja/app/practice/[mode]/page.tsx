@@ -268,20 +268,20 @@ export default function PracticePage() {
                 <div className="max-w-7xl mx-auto flex justify-between items-center">
                     <button
                         onClick={() => router.push('/dashboard')}
-                        className="px-10 py-5 font-bold text-2xl bg-white transition-all duration-200 hover:shadow-lg"
+                        className="px-10 py-5 font-bold text-3xl bg-white transition-all duration-200 hover:shadow-lg"
                         style={{
                             borderRadius: '32px',
                             color: '#666',
                             border: '4px solid #E0E0E0',
-                            minHeight: '70px'
+                            minHeight: '80px'
                         }}
                     >
                         ← 뒤로가기
                     </button>
-                    <div className="text-2xl font-bold" style={{ color: 'var(--color-text)' }}>
+                    <div className="text-4xl font-bold" style={{ color: 'var(--color-text)' }}>
                         {currentIndex + 1} / {practiceTexts.length}
                     </div>
-                    <div className="flex gap-6 text-xl">
+                    <div className="flex gap-6 text-2xl">
                         <div><span className="font-bold">속도:</span> {cpm} CPM</div>
                         <div><span className="font-bold">정확도:</span> {accuracy}%</div>
                     </div>
@@ -293,17 +293,17 @@ export default function PracticePage() {
                 <PracticeDisplay targetText={currentText} inputText={inputText} />
 
                 {/* 숨겨진 입력 필드 - 초등학생 저학년용 큰 크기 */}
-                <div className="text-center mt-12">
+                <div className="text-center mt-20">
                     <input
                         key={`${currentIndex}-${inputKey}`}
                         {...inputProps}
                         disabled={status === 'finished'}
-                        className="w-full max-w-4xl px-12 py-10 text-7xl text-center border-8 focus:outline-none focus:ring-8 focus:ring-pink-200 font-bold disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full max-w-5xl px-16 py-12 text-7xl text-center border-8 focus:outline-none focus:ring-8 focus:ring-pink-200 font-bold disabled:opacity-50 disabled:cursor-not-allowed"
                         style={{ 
                             borderRadius: '48px',
                             borderColor: 'var(--color-primary)',
-                            fontSize: '4rem',
-                            minHeight: '120px'
+                            fontSize: '5rem',
+                            minHeight: '150px'
                         }}
                         placeholder="여기에 입력하세요"
                         autoFocus
