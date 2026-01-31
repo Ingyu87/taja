@@ -103,17 +103,12 @@ export default function PracticePage() {
             }
 
             // 다음 문제로 이동 또는 결과 표시
-            // 약간의 지연을 두어 완료 상태를 확실히 처리
-            setTimeout(() => {
-                if (currentIndex < practiceTexts.length - 1) {
-                    // 다음 문제로 이동
-                    setCurrentIndex(prev => prev + 1);
-                    // 입력 필드 리셋
-                    reset();
-                } else {
-                    setShowResult(true);
-                }
-            }, 100);
+            // 즉시 다음 문제로 이동 (입력 필드는 key 변경으로 자동 리셋됨)
+            if (currentIndex < practiceTexts.length - 1) {
+                setCurrentIndex(prev => prev + 1);
+            } else {
+                setShowResult(true);
+            }
         },
     });
 

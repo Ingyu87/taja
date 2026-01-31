@@ -44,7 +44,20 @@ export const useTyping = ({ targetText, onFinish }: UseTypingProps) => {
         }
 
         // 완료 체크 (정확히 일치하는지 확인)
-        if (value === targetText && value.length === targetText.length && value.length > 0) {
+        // 한 글자일 때는 즉시 완료 처리
+        if (targetText.length === 1 && value === targetText) {
+            if (status !== 'finished') {
+                setStatus('finished');
+                const endTime = Date.now();
+                if (onFinish && startTime) {
+                    onFinish({
+                        cpm: measureSpeed(startTime, value),
+                        accuracy: currentAcc,
+                        time: (endTime - startTime) / 1000
+                    });
+                }
+            }
+        } else if (value === targetText && value.length === targetText.length && value.length > 0) {
             // 완료 상태로 변경 (한 번만 실행)
             if (status !== 'finished') {
                 setStatus('finished');

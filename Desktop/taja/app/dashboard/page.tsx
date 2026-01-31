@@ -168,7 +168,7 @@ export default function DashboardPage() {
             </div>
 
             {/* 메인 콘텐츠 */}
-            <div className="max-w-7xl mx-auto px-8 py-12">
+            <div className="max-w-5xl mx-auto px-8 py-12">
                 <h2 className="text-4xl font-bold mb-8 text-center text-gray-800">
                     {selectedCategory === 'all' ? `${PRACTICE_MODES.length}개의 앱` : 
                      selectedCategory === 'vowel' ? '모음 연습 앱' :
@@ -177,7 +177,7 @@ export default function DashboardPage() {
                 </h2>
 
                 {/* 연습 모드 카드 그리드 */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 justify-items-center">
                     {PRACTICE_MODES
                         .filter(mode => selectedCategory === 'all' || mode.id === selectedCategory)
                         .map((mode) => (
@@ -187,7 +187,9 @@ export default function DashboardPage() {
                             className="group relative bg-white p-6 shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer transform hover:-translate-y-1"
                             style={{
                                 borderRadius: '24px',
-                                border: '2px solid #E0E0E0'
+                                border: '2px solid #E0E0E0',
+                                width: '100%',
+                                maxWidth: '400px'
                             }}
                         >
                             {/* 카드 내용 */}
