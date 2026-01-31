@@ -306,18 +306,60 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
     const [results, setResults] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState<'practice' | 'game' | 'story'>('practice');
+    const [deleting, setDeleting] = useState(false);
+
+    const fetchData = async () => {
+        const { getAllResultsFromFirestore } = await import('@/lib/firestore');
+        const data = await getAllResultsFromFirestore();
+        // 교사 계정 제외
+        const studentData = data.filter(r => r.userId !== 'teacher' && !r.userId?.startsWith('teacher'));
+        setResults(studentData);
+        setLoading(false);
+    };
 
     useEffect(() => {
-        const fetchData = async () => {
-            const { getAllResultsFromFirestore } = await import('@/lib/firestore');
-            const data = await getAllResultsFromFirestore();
-            // 교사 계정 제외
-            const studentData = data.filter(r => r.userId !== 'teacher' && !r.userId?.startsWith('teacher'));
-            setResults(studentData);
-            setLoading(false);
-        };
         fetchData();
     }, []);
+
+    const handleDeleteData = async () => {
+        let confirmMessage = '';
+        let deleteFunction: () => Promise<any>;
+
+        if (activeTab === 'practice') {
+            confirmMessage = '연습 모드의 모든 데이터를 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다.';
+            const { deletePracticeData } = await import('@/lib/firestore');
+            deleteFunction = deletePracticeData;
+        } else if (activeTab === 'game') {
+            confirmMessage = '게임 모드의 모든 데이터를 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다.';
+            const { deleteGameData } = await import('@/lib/firestore');
+            deleteFunction = deleteGameData;
+        } else {
+            confirmMessage = 'AI 스토리의 모든 데이터를 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다.';
+            const { deleteStoryData } = await import('@/lib/firestore');
+            deleteFunction = deleteStoryData;
+        }
+
+        if (!window.confirm(confirmMessage)) {
+            return;
+        }
+
+        setDeleting(true);
+        try {
+            const result = await deleteFunction();
+            if (result.success) {
+                alert(`${result.count}개의 데이터가 삭제되었습니다.`);
+                // 데이터 다시 불러오기
+                await fetchData();
+            } else {
+                alert('데이터 삭제에 실패했습니다.');
+            }
+        } catch (error) {
+            console.error('Delete error:', error);
+            alert('데이터 삭제 중 오류가 발생했습니다.');
+        } finally {
+            setDeleting(false);
+        }
+    };
 
     // 실제 활동한 학생들만 추출
     const uniqueStudents = Array.from(new Set(results.map(r => r.userId)));
@@ -461,6 +503,18 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
                             style={{ fontSize: activeTab === 'story' ? '2.5rem' : '2rem' }}
                         >
                             🤖 AI 스토리
+                        </button>
+                    </div>
+                    
+                    {/* 데이터 초기화 버튼 */}
+                    <div className="mt-4 flex justify-end">
+                        <button
+                            onClick={handleDeleteData}
+                            disabled={deleting}
+                            className="px-6 py-3 bg-red-500 hover:bg-red-600 text-white font-black rounded-xl transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                            style={{ fontSize: '1.5rem' }}
+                        >
+                            {deleting ? '삭제 중...' : '🗑️ 데이터 초기화'}
                         </button>
                     </div>
                 </div>

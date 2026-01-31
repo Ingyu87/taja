@@ -1,5 +1,5 @@
 import { db } from './firebase';
-import { collection, addDoc, query, orderBy, limit, getDocs, Timestamp, where } from 'firebase/firestore';
+import { collection, addDoc, query, orderBy, limit, getDocs, Timestamp, where, deleteDoc, doc } from 'firebase/firestore';
 import { GameResult } from '@/types';
 
 // 연습 결과 타입 정의
@@ -225,5 +225,89 @@ export const getGameRankingsFromFirestore = async (gameType?: string, limitCount
     } catch (e) {
         console.error("Error getting game rankings: ", e);
         return [];
+    }
+};
+
+/**
+ * 연습 데이터를 삭제합니다.
+ */
+export const deletePracticeData = async () => {
+    if (!db) {
+        console.warn("Firestore is not initialized.");
+        return { success: false, error: 'Firestore not initialized' };
+    }
+    try {
+        const firestore = db;
+        const q = query(
+            collection(firestore, RESULTS_COLLECTION),
+            where('mode', 'in', ['vowel', 'consonant', 'word', 'sentence'])
+        );
+        const snapshot = await getDocs(q);
+        
+        const deletePromises = snapshot.docs.map(document => 
+            deleteDoc(doc(firestore, RESULTS_COLLECTION, document.id))
+        );
+        
+        await Promise.all(deletePromises);
+        console.log(`Deleted ${snapshot.docs.length} practice records`);
+        return { success: true, count: snapshot.docs.length };
+    } catch (e) {
+        console.error("Error deleting practice data: ", e);
+        return { success: false, error: e };
+    }
+};
+
+/**
+ * 게임 데이터를 삭제합니다.
+ */
+export const deleteGameData = async () => {
+    if (!db) {
+        console.warn("Firestore is not initialized.");
+        return { success: false, error: 'Firestore not initialized' };
+    }
+    try {
+        const firestore = db;
+        const q = query(collection(firestore, GAME_RESULTS_COLLECTION));
+        const snapshot = await getDocs(q);
+        
+        const deletePromises = snapshot.docs.map(document => 
+            deleteDoc(doc(firestore, GAME_RESULTS_COLLECTION, document.id))
+        );
+        
+        await Promise.all(deletePromises);
+        console.log(`Deleted ${snapshot.docs.length} game records`);
+        return { success: true, count: snapshot.docs.length };
+    } catch (e) {
+        console.error("Error deleting game data: ", e);
+        return { success: false, error: e };
+    }
+};
+
+/**
+ * AI 스토리 데이터를 삭제합니다.
+ */
+export const deleteStoryData = async () => {
+    if (!db) {
+        console.warn("Firestore is not initialized.");
+        return { success: false, error: 'Firestore not initialized' };
+    }
+    try {
+        const firestore = db;
+        const q = query(
+            collection(firestore, RESULTS_COLLECTION),
+            where('mode', '==', 'story')
+        );
+        const snapshot = await getDocs(q);
+        
+        const deletePromises = snapshot.docs.map(document => 
+            deleteDoc(doc(firestore, RESULTS_COLLECTION, document.id))
+        );
+        
+        await Promise.all(deletePromises);
+        console.log(`Deleted ${snapshot.docs.length} story records`);
+        return { success: true, count: snapshot.docs.length };
+    } catch (e) {
+        console.error("Error deleting story data: ", e);
+        return { success: false, error: e };
     }
 };
