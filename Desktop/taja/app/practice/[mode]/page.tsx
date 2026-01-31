@@ -209,17 +209,17 @@ export default function PracticePage() {
                 <div className="w-full max-w-2xl">
                     <div className="bg-white p-8 shadow-2xl text-center" style={{ borderRadius: '24px' }}>
                         <div className="text-4xl mb-4">🎉</div>
-                        <h1 className="text-3xl font-bold mb-4" style={{ color: 'var(--color-primary)' }}>
+                        <h1 className="text-3xl font-bold mb-4" style={{ color: '#000000' }}>
                             완료!
                         </h1>
                         <div className="space-y-3 mb-6">
-                            <div className="text-xl">
+                            <div className="text-xl" style={{ color: '#000000' }}>
                                 <span className="font-bold">타자 속도:</span> {finalStats.cpm} CPM
                             </div>
-                            <div className="text-xl">
+                            <div className="text-xl" style={{ color: '#000000' }}>
                                 <span className="font-bold">정확도:</span> {finalStats.accuracy}%
                             </div>
-                            <div className="text-xl">
+                            <div className="text-xl" style={{ color: '#000000' }}>
                                 <span className="font-bold">소요 시간:</span> {finalStats.time.toFixed(1)}초
                             </div>
                         </div>
@@ -246,7 +246,7 @@ export default function PracticePage() {
                                 className="px-4 py-2 font-bold text-sm bg-white transition-all duration-200 hover:shadow-lg transform hover:scale-105"
                                 style={{
                                     borderRadius: '12px',
-                                    color: '#666',
+                                    color: '#000000',
                                     border: '1px solid #E0E0E0',
                                     minHeight: '30px'
                                 }}

@@ -67,7 +67,7 @@ export const PracticeDisplay = ({ targetText, inputText }: PracticeDisplayProps)
                 </div>
 
                 {/* 사용자 입력 표시 (숨김 처리, 실제로는 input에서 처리) */}
-                <div className="text-center text-gray-500 font-bold" style={{ fontSize: '4rem' }}>
+                <div className="text-center font-bold" style={{ fontSize: '4rem', color: '#000000' }}>
                     {inputText.length} / {targetText.length} 글자
                 </div>
             </div>
