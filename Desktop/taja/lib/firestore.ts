@@ -7,7 +7,7 @@ export interface PracticeResult {
     userId: string;
     username: string;
     avatar: string;
-    mode: 'vowel' | 'consonant' | 'word' | 'sentence';
+    mode: 'vowel' | 'consonant' | 'word' | 'sentence' | 'story';
     cpm: number;
     accuracy: number;
     time: number;

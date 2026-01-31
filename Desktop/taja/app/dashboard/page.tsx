@@ -305,6 +305,7 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
     const router = useRouter();
     const [results, setResults] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const [activeTab, setActiveTab] = useState<'all' | 'practice' | 'game' | 'story'>('all');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -342,9 +343,18 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
             return b.playCount - a.playCount;
         });
 
-    const totalPracticeCount = results.length;
-    const avgCpm = results.length > 0
-        ? Math.round(results.reduce((acc, curr) => acc + curr.cpm, 0) / results.length)
+    // 탭별 필터링
+    const filteredResults = results.filter(r => {
+        if (activeTab === 'all') return true;
+        if (activeTab === 'practice') return ['vowel', 'consonant', 'word', 'sentence'].includes(r.mode);
+        if (activeTab === 'game') return ['falling', 'timeattack'].includes(r.mode);
+        if (activeTab === 'story') return r.mode === 'story';
+        return true;
+    });
+
+    const totalPracticeCount = filteredResults.length;
+    const avgCpm = filteredResults.length > 0
+        ? Math.round(filteredResults.reduce((acc, curr) => acc + curr.cpm, 0) / filteredResults.length)
         : 0;
     const participatingStudents = studentStats.filter(s => s.playCount > 0).length;
     const participationRate = Math.round((participatingStudents / 30) * 100);
@@ -376,6 +386,56 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
             </div>
 
             <main className="max-w-full mx-auto px-6 py-8">
+                {/* 탭 메뉴 */}
+                <div className="bg-white shadow-lg mb-8 p-2" style={{ borderRadius: '20px' }}>
+                    <div className="flex gap-2">
+                        <button
+                            onClick={() => setActiveTab('all')}
+                            className={`flex-1 py-4 px-6 font-black rounded-2xl transition-all ${
+                                activeTab === 'all' 
+                                    ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg' 
+                                    : 'text-gray-600 hover:bg-gray-100'
+                            }`}
+                            style={{ fontSize: '1.8rem' }}
+                        >
+                            📊 전체
+                        </button>
+                        <button
+                            onClick={() => setActiveTab('practice')}
+                            className={`flex-1 py-4 px-6 font-black rounded-2xl transition-all ${
+                                activeTab === 'practice' 
+                                    ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg' 
+                                    : 'text-gray-600 hover:bg-gray-100'
+                            }`}
+                            style={{ fontSize: '1.8rem' }}
+                        >
+                            📝 연습모드
+                        </button>
+                        <button
+                            onClick={() => setActiveTab('game')}
+                            className={`flex-1 py-4 px-6 font-black rounded-2xl transition-all ${
+                                activeTab === 'game' 
+                                    ? 'bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-lg' 
+                                    : 'text-gray-600 hover:bg-gray-100'
+                            }`}
+                            style={{ fontSize: '1.8rem' }}
+                        >
+                            🎮 게임모드
+                        </button>
+                        <button
+                            onClick={() => setActiveTab('story')}
+                            className={`flex-1 py-4 px-6 font-black rounded-2xl transition-all ${
+                                activeTab === 'story' 
+                                    ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-lg' 
+                                    : 'text-gray-600 hover:bg-gray-100'
+                            }`}
+                            style={{ fontSize: '1.8rem' }}
+                        >
+                            🤖 AI 스토리
+                        </button>
+                    </div>
+                </div>
+
                 {/* 통계 카드 */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-5 mb-8">
                     <div className="bg-white shadow-lg" style={{ borderRadius: '20px', padding: '1.5rem' }}>
@@ -488,7 +548,7 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-50">
-                            {results.slice(0, 20).map((log, i) => (
+                            {filteredResults.slice(0, 20).map((log, i) => (
                                 <tr key={i} className="hover:bg-gray-50 transition-colors">
                                     <td className="text-gray-500" style={{ padding: '1.25rem', fontSize: '1.25rem' }}>{new Date(log.createdAt).toLocaleString()}</td>
                                     <td className="font-bold flex items-center gap-1.5" style={{ padding: '1.25rem', fontSize: '1.5rem' }}>
@@ -497,12 +557,13 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
                                     </td>
                                     <td style={{ padding: '1.25rem' }}>
                                         <span className="px-3 py-1.5 bg-blue-50 text-blue-600 rounded-lg font-bold border border-blue-100" style={{ fontSize: '1.25rem' }}>
-                                            {log.mode === 'vowel' ? '모음 연습' :
-                                             log.mode === 'consonant' ? '자음 연습' :
-                                             log.mode === 'word' ? '단어 연습' :
-                                             log.mode === 'sentence' ? '문장 연습' :
-                                             log.mode === 'falling' ? '떨어지는 글자' :
-                                             log.mode === 'timeattack' ? '시간 공격' :
+                                            {log.mode === 'vowel' ? '📝 모음 연습' :
+                                             log.mode === 'consonant' ? '📝 자음 연습' :
+                                             log.mode === 'word' ? '📝 단어 연습' :
+                                             log.mode === 'sentence' ? '📝 문장 연습' :
+                                             log.mode === 'falling' ? '🎮 떨어지는 글자' :
+                                             log.mode === 'timeattack' ? '🎮 시간 공격' :
+                                             log.mode === 'story' ? '🤖 AI 스토리' :
                                              log.mode}
                                         </span>
                                     </td>

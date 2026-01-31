@@ -5,7 +5,8 @@ import { useRouter } from 'next/navigation';
 import { getCurrentUser } from '@/lib/auth';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import { useTyping } from '@/hooks/useTyping';
-import { PracticeDisplay } from '@/components/practice/PracticeDisplay';
+import { StoryPracticeDisplay } from '@/components/practice/StoryPracticeDisplay';
+import { saveResultToFirestore } from '@/lib/firestore';
 
 export default function StoryPage() {
     const router = useRouter();
@@ -26,8 +27,21 @@ export default function StoryPage() {
         reset
     } = useTyping({
         targetText: story,
-        onFinish: (stats) => {
+        onFinish: async (stats) => {
             setCompletedStats(stats);
+            
+            // Firestore에 결과 저장
+            if (user) {
+                await saveResultToFirestore({
+                    userId: user.id,
+                    username: user.username,
+                    avatar: user.avatar,
+                    mode: 'story',
+                    cpm: stats.cpm,
+                    accuracy: stats.accuracy,
+                    time: stats.time
+                });
+            }
         }
     });
 
@@ -210,18 +224,18 @@ export default function StoryPage() {
                                 </div>
                             </div>
 
-                            <PracticeDisplay
+                            <StoryPracticeDisplay
                                 targetText={story}
                                 inputText={inputText}
                             />
 
-                            <div className="mt-8">
+                            <div className="mt-6">
                                 <input
                                     {...inputProps}
-                                    className="w-full px-8 py-6 text-center border-4 rounded-3xl focus:outline-none focus:ring-4 focus:ring-purple-300 font-bold text-black placeholder-gray-800"
+                                    className="w-full px-8 py-6 text-center border-4 rounded-3xl focus:outline-none focus:ring-4 focus:ring-purple-300 font-black text-black placeholder-gray-700"
                                     style={{ 
                                         borderColor: '#9B59B6',
-                                        fontSize: '2rem'
+                                        fontSize: '2.5rem'
                                     }}
                                     placeholder="여기에 입력하세요"
                                 />

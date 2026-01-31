@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { getCurrentUser, User } from '@/lib/auth';
-import { saveGameResultToFirestore } from '@/lib/firestore';
+import { saveGameResultToFirestore, getGameRankingsFromFirestore } from '@/lib/firestore';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import confetti from 'canvas-confetti';
 
@@ -34,6 +34,7 @@ export default function FallingGamePage() {
     const [inputValue, setInputValue] = useState('');
     const [totalTyped, setTotalTyped] = useState(0);
     const [correctTyped, setCorrectTyped] = useState(0);
+    const [rankings, setRankings] = useState<any[]>([]);
     
     const gameLoopRef = useRef<NodeJS.Timeout | null>(null);
     const spawnTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -197,6 +198,10 @@ export default function FallingGamePage() {
                 level,
                 accuracy,
             });
+
+            // 랭킹 가져오기
+            const rankingData = await getGameRankingsFromFirestore('falling');
+            setRankings(rankingData.slice(0, 10)); // 상위 10명만
         }
 
         if (score >= 100) {
@@ -311,14 +316,57 @@ export default function FallingGamePage() {
                 )}
 
                 {gameState === 'gameover' && (
-                    <div className="flex flex-col items-center justify-center p-8">
+                    <div className="flex flex-col items-center justify-center p-8 overflow-y-auto max-h-full">
                         <h2 className="font-black text-red-600 mb-6" style={{ fontSize: '6rem', lineHeight: '1' }}>게임 오버! 😢</h2>
+                        
+                        {/* 결과 카드 */}
                         <div className="bg-white p-10 rounded-[40px] shadow-2xl mb-8">
                             <p className="text-5xl font-black text-gray-800 mb-5">최종 점수: <span className="text-blue-600">{score}</span></p>
                             <p className="text-4xl font-bold text-gray-700 mb-3">도달 레벨: {level}</p>
                             <p className="text-4xl font-bold text-gray-700 mb-3">난이도: <span className="text-purple-600">{difficulty}</span></p>
                             <p className="text-4xl font-bold text-gray-700">정확도: {totalTyped > 0 ? Math.round((correctTyped / totalTyped) * 100) : 0}%</p>
                         </div>
+
+                        {/* 실시간 랭킹 */}
+                        {rankings.length > 0 && (
+                            <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-8 rounded-[40px] shadow-2xl mb-8 w-full max-w-3xl">
+                                <h3 className="text-center font-black text-purple-600 mb-6" style={{ fontSize: '3rem' }}>
+                                    🏆 실시간 랭킹 TOP 10
+                                </h3>
+                                <div className="bg-white rounded-3xl overflow-hidden">
+                                    {rankings.map((rank, index) => {
+                                        const isCurrentUser = rank.userId === user?.id;
+                                        let rankEmoji = '';
+                                        if (index === 0) rankEmoji = '🥇';
+                                        else if (index === 1) rankEmoji = '🥈';
+                                        else if (index === 2) rankEmoji = '🥉';
+
+                                        return (
+                                            <div
+                                                key={index}
+                                                className={`flex items-center justify-between px-6 py-4 border-b border-gray-100 ${
+                                                    isCurrentUser ? 'bg-yellow-50' : ''
+                                                }`}
+                                            >
+                                                <div className="flex items-center gap-4">
+                                                    <span className="font-black text-gray-600" style={{ fontSize: '2rem', minWidth: '3rem' }}>
+                                                        {rankEmoji || (index + 1)}
+                                                    </span>
+                                                    <span style={{ fontSize: '2rem' }}>{rank.avatar}</span>
+                                                    <span className={`font-bold ${isCurrentUser ? 'text-purple-600' : 'text-gray-700'}`} style={{ fontSize: '1.8rem' }}>
+                                                        {rank.username} {isCurrentUser && '(나)'}
+                                                    </span>
+                                                </div>
+                                                <div className="font-black text-blue-600" style={{ fontSize: '2rem' }}>
+                                                    {rank.score}점
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        )}
+
                         <div className="flex gap-6">
                             <button
                                 onClick={() => setGameState('ready')}
