@@ -142,28 +142,36 @@ export default function DashboardPage() {
                             <div
                                 key={mode.id}
                                 onClick={() => router.push(`/practice/${mode.id}`)}
-                                className="p-12 shadow-2xl hover:shadow-2xl transition-all duration-300 cursor-pointer transform hover:scale-105 hover:-translate-y-3"
+                                className="p-8 shadow-2xl hover:shadow-2xl transition-all duration-300 cursor-pointer transform hover:scale-105 hover:-translate-y-3"
                                 style={{
                                     background: mode.bgGradient,
                                     borderRadius: '40px',
                                     border: '6px solid',
                                     borderColor: mode.color,
-                                    minHeight: '380px',
+                                    minHeight: '250px',
                                 }}
                             >
-                                <div className="flex flex-col items-center text-center h-full">
-                                    <div className="mb-8 p-8 rounded-full bg-white shadow-2xl">
-                                        <div className="text-9xl">{mode.emoji}</div>
+                                <div className="flex flex-col h-full">
+                                    {/* 상단: 아이콘 + 텍스트 */}
+                                    <div className="flex items-center gap-6 mb-6">
+                                        {/* 아이콘 왼쪽 */}
+                                        <div className="flex-shrink-0 p-6 rounded-3xl bg-white shadow-lg">
+                                            <div className="text-8xl">{mode.emoji}</div>
+                                        </div>
+                                        {/* 텍스트 오른쪽 */}
+                                        <div className="flex-1 text-left">
+                                            <h3 className="text-4xl font-black mb-2 drop-shadow-md" style={{ color: mode.color }}>
+                                                {mode.title}
+                                            </h3>
+                                            <p className="text-2xl font-black text-gray-800 leading-relaxed">
+                                                {mode.description}
+                                            </p>
+                                        </div>
                                     </div>
-                                    <h3 className="text-5xl font-black mb-6 drop-shadow-md" style={{ color: mode.color }}>
-                                        {mode.title}
-                                    </h3>
-                                    <p className="text-3xl font-black text-gray-800 mb-8 leading-relaxed">
-                                        {mode.description}
-                                    </p>
-                                    <div className="mt-auto w-full">
+                                    {/* 하단: 시작 버튼 */}
+                                    <div className="mt-auto">
                                         <div
-                                            className="px-10 py-5 font-black text-3xl text-white text-center rounded-full shadow-xl hover:shadow-2xl transition-all transform hover:scale-110"
+                                            className="px-10 py-4 font-black text-3xl text-white text-center rounded-full shadow-xl hover:shadow-2xl transition-all transform hover:scale-105"
                                             style={{
                                                 background: `linear-gradient(135deg, ${mode.color} 0%, ${mode.color}DD 100%)`,
                                             }}
@@ -192,33 +200,41 @@ export default function DashboardPage() {
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-3 gap-10 max-w-6xl mx-auto">
+                    <div className="grid grid-cols-3 gap-8 max-w-6xl mx-auto">
                         {GAME_MODES.map((game) => (
                             <div
                                 key={game.id}
                                 onClick={() => router.push(`/game/${game.id}`)}
-                                className="p-10 shadow-2xl hover:shadow-2xl transition-all duration-300 cursor-pointer transform hover:scale-105 hover:-translate-y-3"
+                                className="p-6 shadow-2xl hover:shadow-2xl transition-all duration-300 cursor-pointer transform hover:scale-105 hover:-translate-y-3"
                                 style={{
                                     background: game.bgGradient,
                                     borderRadius: '40px',
                                     border: '6px solid',
                                     borderColor: game.color,
-                                    minHeight: '350px',
+                                    minHeight: '280px',
                                 }}
                             >
-                                <div className="flex flex-col items-center text-center h-full">
-                                    <div className="mb-6 p-6 rounded-full bg-white shadow-2xl">
-                                        <div className="text-8xl">{game.emoji}</div>
+                                <div className="flex flex-col h-full">
+                                    {/* 상단: 아이콘 + 텍스트 */}
+                                    <div className="flex flex-col items-center text-center mb-4">
+                                        {/* 아이콘 */}
+                                        <div className="mb-4 p-5 rounded-3xl bg-white shadow-lg">
+                                            <div className="text-7xl">{game.emoji}</div>
+                                        </div>
+                                        {/* 텍스트 */}
+                                        <div>
+                                            <h3 className="text-3xl font-black mb-2 drop-shadow-md" style={{ color: game.color }}>
+                                                {game.title}
+                                            </h3>
+                                            <p className="text-xl font-black text-gray-800 leading-relaxed">
+                                                {game.description}
+                                            </p>
+                                        </div>
                                     </div>
-                                    <h3 className="text-4xl font-black mb-4 drop-shadow-md" style={{ color: game.color }}>
-                                        {game.title}
-                                    </h3>
-                                    <p className="text-2xl font-black text-gray-800 mb-6 leading-relaxed">
-                                        {game.description}
-                                    </p>
-                                    <div className="mt-auto w-full">
+                                    {/* 하단: 게임하기 버튼 */}
+                                    <div className="mt-auto">
                                         <div
-                                            className="px-8 py-4 font-black text-2xl text-white text-center rounded-full shadow-xl hover:shadow-2xl transition-all transform hover:scale-110"
+                                            className="px-6 py-3 font-black text-2xl text-white text-center rounded-full shadow-xl hover:shadow-2xl transition-all transform hover:scale-105"
                                             style={{
                                                 background: `linear-gradient(135deg, ${game.color} 0%, ${game.color}DD 100%)`,
                                             }}
