@@ -77,38 +77,38 @@ function LoginContent() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center p-12" style={{ backgroundColor: '#F5F0EB' }}>
-            <div className="w-full max-w-[1800px] mx-auto">
-                <div className="bg-white shadow-2xl overflow-hidden" style={{ borderRadius: '60px', padding: '6rem' }}>
+        <div className="min-h-screen flex items-center justify-center p-6" style={{ backgroundColor: '#F5F0EB' }}>
+            <div className="w-full max-w-[900px] mx-auto">
+                <div className="bg-white shadow-2xl overflow-hidden" style={{ borderRadius: '30px', padding: '3rem' }}>
                     {/* 로그인 폼 */}
-                    <div className="max-w-[1400px] mx-auto">
+                    <div className="max-w-[700px] mx-auto">
                         {/* 헤더 */}
-                        <div className="text-center mb-20">
-                            <h1 className="font-bold mb-6" style={{
+                        <div className="text-center mb-10">
+                            <h1 className="font-bold mb-3" style={{
                                 background: 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)',
                                 WebkitBackgroundClip: 'text',
                                 WebkitTextFillColor: 'transparent',
-                                fontSize: '12rem',
+                                fontSize: '6rem',
                                 lineHeight: '1'
                             }}>
                                 타자왕국
                             </h1>
-                            <p className="font-semibold text-gray-600" style={{ fontSize: '5rem' }}>
+                            <p className="font-semibold text-gray-600" style={{ fontSize: '2.5rem' }}>
                                 초등학교 AI 타자 자료집
                             </p>
                         </div>
 
                         {/* 탭 */}
-                        <div className="flex gap-8 mb-16">
+                        <div className="flex gap-4 mb-8">
                             <div
                                 onClick={() => setUserType('student')}
                                 className="flex-1 text-center font-black cursor-pointer hover:scale-105 transition-transform"
                                 style={{
-                                    borderRadius: '40px',
+                                    borderRadius: '20px',
                                     background: userType === 'student' ? 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)' : '#F5F5F5',
                                     color: userType === 'student' ? 'white' : '#666',
-                                    padding: '3rem 0',
-                                    fontSize: '6rem'
+                                    padding: '1.5rem 0',
+                                    fontSize: '3rem'
                                 }}
                             >
                                 🎓 학생
@@ -117,11 +117,11 @@ function LoginContent() {
                                 onClick={() => setUserType('teacher')}
                                 className="flex-1 text-center font-black cursor-pointer hover:scale-105 transition-transform"
                                 style={{
-                                    borderRadius: '40px',
+                                    borderRadius: '20px',
                                     background: userType === 'teacher' ? 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)' : '#F5F5F5',
                                     color: userType === 'teacher' ? 'white' : '#666',
-                                    padding: '3rem 0',
-                                    fontSize: '6rem'
+                                    padding: '1.5rem 0',
+                                    fontSize: '3rem'
                                 }}
                             >
                                 📚 교사
@@ -129,63 +129,63 @@ function LoginContent() {
                         </div>
 
                         {/* 로그인 제목 */}
-                        <h2 className="font-black text-center mb-16" style={{ color: '#333', fontSize: '8rem' }}>
+                        <h2 className="font-black text-center mb-8" style={{ color: '#333', fontSize: '4rem' }}>
                             {userType === 'student' ? '학생 로그인' : '교사 로그인'}
                         </h2>
 
                         {/* 폼 */}
-                        <form onSubmit={handleLogin} className="space-y-20 flex flex-col items-center">
+                        <form onSubmit={handleLogin} className="space-y-10 flex flex-col items-center">
                             {userType === 'student' ? (
                                 <>
                                     <div className="w-full">
-                                        <label className="block font-black mb-10 text-left" style={{ color: '#333', fontSize: '7rem' }}>
-                                            아이디 <span className="font-normal text-gray-500 ml-6" style={{ fontSize: '4rem' }}>(a1 ~ a30)</span>
+                                        <label className="block font-black mb-5 text-left" style={{ color: '#333', fontSize: '3.5rem' }}>
+                                            아이디 <span className="font-normal text-gray-500 ml-3" style={{ fontSize: '2rem' }}>(a1 ~ a30)</span>
                                         </label>
                                         <input
                                             type="text"
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value.trim())}
-                                            className="w-full px-16 rounded-[60px] border-8 border-gray-300 
+                                            className="w-full px-8 rounded-[30px] border-4 border-gray-300 
                                focus:outline-none focus:border-pink-400 transition-colors shadow-2xl text-center font-black tracking-widest"
-                                            style={{ height: '220px', fontSize: '10rem' }}
+                                            style={{ height: '110px', fontSize: '5rem' }}
                                             required
                                         />
                                     </div>
 
                                     <div className="w-full">
-                                        <label className="block font-black mb-10 text-left" style={{ color: '#333', fontSize: '7rem' }}>
+                                        <label className="block font-black mb-5 text-left" style={{ color: '#333', fontSize: '3.5rem' }}>
                                             비밀번호
                                         </label>
                                         <input
                                             type="password"
                                             value={password}
                                             onChange={(e) => setPassword(e.target.value.trim())}
-                                            className="w-full px-16 rounded-[60px] border-8 border-gray-300 
+                                            className="w-full px-8 rounded-[30px] border-4 border-gray-300 
                                focus:outline-none focus:border-pink-400 transition-colors shadow-2xl text-center font-black tracking-widest"
-                                            style={{ height: '220px', fontSize: '10rem' }}
+                                            style={{ height: '110px', fontSize: '5rem' }}
                                             required
                                         />
                                     </div>
                                 </>
                             ) : (
                                 <div className="w-full">
-                                    <label className="block font-black mb-10 text-left" style={{ color: '#333', fontSize: '7rem' }}>
+                                    <label className="block font-black mb-5 text-left" style={{ color: '#333', fontSize: '3.5rem' }}>
                                         관리자 번호
                                     </label>
                                     <input
                                         type="password"
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value.trim())}
-                                        className="w-full px-16 rounded-[60px] border-8 border-gray-300 
+                                        className="w-full px-8 rounded-[30px] border-4 border-gray-300 
                           focus:outline-none focus:border-pink-400 transition-colors shadow-2xl text-center font-black tracking-widest"
-                                        style={{ height: '220px', fontSize: '10rem' }}
+                                        style={{ height: '110px', fontSize: '5rem' }}
                                         required
                                     />
                                 </div>
                             )}
 
                             {error && (
-                                <div className="w-full p-12 rounded-[40px] text-center bg-red-50 text-red-600 font-black border-4 border-red-200" style={{ fontSize: '5rem' }}>
+                                <div className="w-full p-6 rounded-[20px] text-center bg-red-50 text-red-600 font-black border-2 border-red-200" style={{ fontSize: '2.5rem' }}>
                                     {error}
                                 </div>
                             )}
@@ -193,12 +193,12 @@ function LoginContent() {
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className="w-full rounded-[60px] font-black transition-all duration-200 hover:opacity-90 transform hover:scale-105 shadow-2xl active:scale-95 mt-12"
+                                className="w-full rounded-[30px] font-black transition-all duration-200 hover:opacity-90 transform hover:scale-105 shadow-2xl active:scale-95 mt-6"
                                 style={{
                                     background: 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)',
                                     color: 'white',
-                                    padding: '4rem 0',
-                                    fontSize: '8rem'
+                                    padding: '2rem 0',
+                                    fontSize: '4rem'
                                 }}
                             >
                                 로그인 하기 →
