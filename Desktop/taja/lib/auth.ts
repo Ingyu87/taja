@@ -1,6 +1,9 @@
 // 간단한 인증 로직 (서버 API 호출)
 import { User } from '@/types';
 
+// User 타입 re-export (다른 파일에서 사용하기 위해)
+export type { User };
+
 // 아바타 목록
 export const AVATARS = [
     { id: 'bear', emoji: '🐻', name: '곰돌이' },
