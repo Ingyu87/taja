@@ -80,15 +80,15 @@ export default function DashboardPage() {
                         <div className="flex items-center gap-4">
                             <button
                                 onClick={() => router.push('/ranking')}
-                                className="px-6 py-3 font-bold text-lg bg-white text-gray-600 hover:bg-gray-50 transition-all"
-                                style={{ borderRadius: '20px', border: '2px solid #E0E0E0' }}
+                                className="px-8 py-4 font-bold text-xl bg-white text-gray-600 hover:bg-gray-50 transition-all"
+                                style={{ borderRadius: '24px', border: '3px solid #E0E0E0', minHeight: '56px' }}
                             >
                                 랭킹
                             </button>
                             <button
                                 onClick={handleLogout}
-                                className="px-6 py-3 font-bold text-lg bg-white text-gray-600 hover:bg-gray-50 transition-all"
-                                style={{ borderRadius: '20px', border: '2px solid #E0E0E0' }}
+                                className="px-8 py-4 font-bold text-xl bg-white text-gray-600 hover:bg-gray-50 transition-all"
+                                style={{ borderRadius: '24px', border: '3px solid #E0E0E0', minHeight: '56px' }}
                             >
                                 로그아웃
                             </button>
@@ -96,70 +96,75 @@ export default function DashboardPage() {
                     </div>
                     {/* 네비게이션 메뉴 바 */}
                     <nav className="px-8">
-                        <div className="flex gap-1 border-b-2 border-gray-200">
+                        <div className="flex gap-2 border-b-2 border-gray-200">
                             <button
                                 onClick={() => setSelectedCategory('all')}
-                                className={`px-6 py-4 font-bold text-lg whitespace-nowrap transition-all relative ${
+                                className={`px-8 py-5 font-bold text-xl whitespace-nowrap transition-all relative ${
                                     selectedCategory === 'all'
                                         ? 'text-pink-600'
                                         : 'text-gray-600 hover:text-gray-800'
                                 }`}
+                                style={{ minHeight: '64px' }}
                             >
                                 전체
                                 {selectedCategory === 'all' && (
-                                    <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-pink-400 to-cyan-400" style={{ transform: 'translateY(2px)' }}></div>
+                                    <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-pink-400 to-cyan-400" style={{ transform: 'translateY(2px)' }}></div>
                                 )}
                             </button>
                             <button
                                 onClick={() => setSelectedCategory('vowel')}
-                                className={`px-6 py-4 font-bold text-lg whitespace-nowrap transition-all relative ${
+                                className={`px-8 py-5 font-bold text-xl whitespace-nowrap transition-all relative ${
                                     selectedCategory === 'vowel'
                                         ? 'text-pink-600'
                                         : 'text-gray-600 hover:text-gray-800'
                                 }`}
+                                style={{ minHeight: '64px' }}
                             >
                                 🎨 모음
                                 {selectedCategory === 'vowel' && (
-                                    <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-pink-400 to-cyan-400" style={{ transform: 'translateY(2px)' }}></div>
+                                    <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-pink-400 to-cyan-400" style={{ transform: 'translateY(2px)' }}></div>
                                 )}
                             </button>
                             <button
                                 onClick={() => setSelectedCategory('consonant')}
-                                className={`px-6 py-4 font-bold text-lg whitespace-nowrap transition-all relative ${
+                                className={`px-8 py-5 font-bold text-xl whitespace-nowrap transition-all relative ${
                                     selectedCategory === 'consonant'
                                         ? 'text-pink-600'
                                         : 'text-gray-600 hover:text-gray-800'
                                 }`}
+                                style={{ minHeight: '64px' }}
                             >
                                 📚 자음
                                 {selectedCategory === 'consonant' && (
-                                    <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-pink-400 to-cyan-400" style={{ transform: 'translateY(2px)' }}></div>
+                                    <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-pink-400 to-cyan-400" style={{ transform: 'translateY(2px)' }}></div>
                                 )}
                             </button>
                             <button
                                 onClick={() => setSelectedCategory('word')}
-                                className={`px-6 py-4 font-bold text-lg whitespace-nowrap transition-all relative ${
+                                className={`px-8 py-5 font-bold text-xl whitespace-nowrap transition-all relative ${
                                     selectedCategory === 'word'
                                         ? 'text-pink-600'
                                         : 'text-gray-600 hover:text-gray-800'
                                 }`}
+                                style={{ minHeight: '64px' }}
                             >
                                 🎁 단어
                                 {selectedCategory === 'word' && (
-                                    <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-pink-400 to-cyan-400" style={{ transform: 'translateY(2px)' }}></div>
+                                    <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-pink-400 to-cyan-400" style={{ transform: 'translateY(2px)' }}></div>
                                 )}
                             </button>
                             <button
                                 onClick={() => setSelectedCategory('sentence')}
-                                className={`px-6 py-4 font-bold text-lg whitespace-nowrap transition-all relative ${
+                                className={`px-8 py-5 font-bold text-xl whitespace-nowrap transition-all relative ${
                                     selectedCategory === 'sentence'
                                         ? 'text-pink-600'
                                         : 'text-gray-600 hover:text-gray-800'
                                 }`}
+                                style={{ minHeight: '64px' }}
                             >
                                 📖 문장
                                 {selectedCategory === 'sentence' && (
-                                    <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-pink-400 to-cyan-400" style={{ transform: 'translateY(2px)' }}></div>
+                                    <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-pink-400 to-cyan-400" style={{ transform: 'translateY(2px)' }}></div>
                                 )}
                             </button>
                         </div>
@@ -297,15 +302,15 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
                         <div className="flex items-center gap-4">
                             <button
                                 onClick={() => router.push('/ranking')}
-                                className="px-6 py-3 font-bold text-lg bg-white text-gray-600 hover:bg-gray-50 transition-all"
-                                style={{ borderRadius: '20px', border: '2px solid #E0E0E0' }}
+                                className="px-8 py-4 font-bold text-xl bg-white text-gray-600 hover:bg-gray-50 transition-all"
+                                style={{ borderRadius: '24px', border: '3px solid #E0E0E0', minHeight: '56px' }}
                             >
                                 랭킹
                             </button>
                             <button
                                 onClick={onLogout}
-                                className="px-6 py-3 font-bold text-lg bg-white text-gray-600 hover:bg-gray-50 transition-all"
-                                style={{ borderRadius: '20px', border: '2px solid #E0E0E0' }}
+                                className="px-8 py-4 font-bold text-xl bg-white text-gray-600 hover:bg-gray-50 transition-all"
+                                style={{ borderRadius: '24px', border: '3px solid #E0E0E0', minHeight: '56px' }}
                             >
                                 로그아웃
                             </button>
@@ -313,31 +318,33 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
                     </div>
                     {/* 탭 네비게이션 */}
                     <nav className="px-8">
-                        <div className="flex gap-1 border-b-2 border-gray-200">
+                        <div className="flex gap-2 border-b-2 border-gray-200">
                             <button
                                 onClick={() => setView('students')}
-                                className={`px-6 py-4 font-bold text-lg whitespace-nowrap transition-all relative ${
+                                className={`px-8 py-5 font-bold text-xl whitespace-nowrap transition-all relative ${
                                     view === 'students'
                                         ? 'text-pink-600'
                                         : 'text-gray-600 hover:text-gray-800'
                                 }`}
+                                style={{ minHeight: '64px' }}
                             >
                                 학생별 현황
                                 {view === 'students' && (
-                                    <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-pink-400 to-cyan-400" style={{ transform: 'translateY(2px)' }}></div>
+                                    <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-pink-400 to-cyan-400" style={{ transform: 'translateY(2px)' }}></div>
                                 )}
                             </button>
                             <button
                                 onClick={() => setView('recent')}
-                                className={`px-6 py-4 font-bold text-lg whitespace-nowrap transition-all relative ${
+                                className={`px-8 py-5 font-bold text-xl whitespace-nowrap transition-all relative ${
                                     view === 'recent'
                                         ? 'text-pink-600'
                                         : 'text-gray-600 hover:text-gray-800'
                                 }`}
+                                style={{ minHeight: '64px' }}
                             >
                                 최근 활동 로그
                                 {view === 'recent' && (
-                                    <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-pink-400 to-cyan-400" style={{ transform: 'translateY(2px)' }}></div>
+                                    <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-pink-400 to-cyan-400" style={{ transform: 'translateY(2px)' }}></div>
                                 )}
                             </button>
                         </div>
