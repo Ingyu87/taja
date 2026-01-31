@@ -15,12 +15,15 @@ const GAME_WORDS = [
     '봄', '여름', '가을', '겨울', '꽃', '나비', '별', '달'
 ];
 
+type TimeOption = 120 | 240 | 360;
+
 export default function TimeAttackGamePage() {
     const router = useRouter();
     const [user, setUser] = useState<User | null>(null);
     const [gameState, setGameState] = useState<'ready' | 'playing' | 'gameover'>('ready');
+    const [selectedTime, setSelectedTime] = useState<TimeOption | null>(null);
     const [score, setScore] = useState(0);
-    const [timeLeft, setTimeLeft] = useState(30);
+    const [timeLeft, setTimeLeft] = useState(120);
     const [currentWord, setCurrentWord] = useState('');
     const [inputValue, setInputValue] = useState('');
     const [combo, setCombo] = useState(0);
@@ -98,15 +101,17 @@ export default function TimeAttackGamePage() {
         }
     };
 
-    const startGame = () => {
+    const startGame = (time: TimeOption) => {
+        setSelectedTime(time);
         setGameState('playing');
         setScore(0);
-        setTimeLeft(30);
+        setTimeLeft(time);
         setCombo(0);
         setMaxCombo(0);
+        setLevel(1);
         setTotalTyped(0);
         setCorrectTyped(0);
-        setLevel(1);
+        setInputValue('');
         generateNewWord();
     };
 
@@ -191,15 +196,36 @@ export default function TimeAttackGamePage() {
                 {gameState === 'ready' && (
                     <div className="flex flex-col items-center justify-center p-8">
                         <h1 className="font-black text-green-600 mb-6" style={{ fontSize: '6rem', lineHeight: '1' }}>⏰ 시간 공격 게임</h1>
-                        <p className="text-4xl font-bold text-gray-700 mb-4">30초 안에 최대한 많은 단어를 치세요!</p>
-                        <p className="text-3xl text-gray-600 mb-10">연속으로 맞추면 콤보 점수 획득!</p>
-                        <button
-                            onClick={startGame}
-                            className="px-16 py-6 font-black text-white rounded-full shadow-2xl hover:scale-110 transition-transform"
-                            style={{ background: 'linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%)', fontSize: '4rem' }}
-                        >
-                            게임 시작! 🚀
-                        </button>
+                        <p className="text-4xl font-bold text-gray-700 mb-4">시간 안에 최대한 많은 단어를 치세요!</p>
+                        <p className="text-3xl text-gray-600 mb-6">연속으로 맞추면 콤보 점수 획득!</p>
+                        
+                        {/* 시간 선택 */}
+                        <div className="mb-10">
+                            <h2 className="text-4xl font-black text-gray-800 text-center mb-6">시간을 선택하세요</h2>
+                            <div className="flex gap-4">
+                                <button
+                                    onClick={() => startGame(120)}
+                                    className="px-12 py-6 font-black text-white rounded-full shadow-2xl hover:scale-110 transition-transform"
+                                    style={{ background: 'linear-gradient(135deg, #4ADE80 0%, #16A34A 100%)', fontSize: '3.5rem' }}
+                                >
+                                    ⏱️ 2분
+                                </button>
+                                <button
+                                    onClick={() => startGame(240)}
+                                    className="px-12 py-6 font-black text-white rounded-full shadow-2xl hover:scale-110 transition-transform"
+                                    style={{ background: 'linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%)', fontSize: '3.5rem' }}
+                                >
+                                    ⏱️ 4분
+                                </button>
+                                <button
+                                    onClick={() => startGame(360)}
+                                    className="px-12 py-6 font-black text-white rounded-full shadow-2xl hover:scale-110 transition-transform"
+                                    style={{ background: 'linear-gradient(135deg, #EF4444 0%, #DC2626 100%)', fontSize: '3.5rem' }}
+                                >
+                                    ⏱️ 6분
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 )}
 
@@ -260,13 +286,14 @@ export default function TimeAttackGamePage() {
                         <h2 className="font-black text-green-600 mb-6" style={{ fontSize: '6rem', lineHeight: '1' }}>시간 종료! ⏰</h2>
                         <div className="bg-white p-10 rounded-[40px] shadow-2xl mb-8">
                             <p className="text-5xl font-black text-gray-800 mb-5">최종 점수: <span className="text-green-600">{score}</span></p>
+                            <p className="text-4xl font-bold text-gray-700 mb-3">선택 시간: <span className="text-blue-600">{selectedTime ? `${selectedTime / 60}분` : '-'}</span></p>
                             <p className="text-4xl font-bold text-gray-700 mb-3">최고 콤보: {maxCombo}연속</p>
                             <p className="text-4xl font-bold text-gray-700 mb-3">도달 레벨: {level}</p>
                             <p className="text-4xl font-bold text-gray-700">정확도: {totalTyped > 0 ? Math.round((correctTyped / totalTyped) * 100) : 100}%</p>
                         </div>
                         <div className="flex gap-6">
                             <button
-                                onClick={startGame}
+                                onClick={() => setGameState('ready')}
                                 className="px-14 py-5 font-black text-white rounded-full shadow-xl hover:scale-110 transition-transform"
                                 style={{ background: 'linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%)', fontSize: '3.5rem' }}
                             >
