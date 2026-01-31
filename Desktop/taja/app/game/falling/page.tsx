@@ -175,6 +175,7 @@ export default function FallingGamePage() {
         setLives(3);
         setLevel(1);
         setFallingChars([]);
+        setInputValue(''); // 입력창 초기화
         setTotalTyped(0);
         setCorrectTyped(0);
         nextIdRef.current = 0;
@@ -345,8 +346,8 @@ export default function FallingGamePage() {
                         type="text"
                         value={inputValue}
                         onChange={handleInput}
-                        className="px-10 py-6 text-center border-4 focus:outline-none focus:ring-4 focus:ring-blue-200 font-black rounded-full"
-                        style={{ borderColor: '#4ECDC4', width: '450px', fontSize: '5rem', color: '#000000' }}
+                        className="px-10 text-center border-4 focus:outline-none focus:ring-4 focus:ring-blue-200 font-black rounded-full"
+                        style={{ borderColor: '#4ECDC4', width: '225px', fontSize: '5rem', color: '#000000', paddingTop: '2rem', paddingBottom: '2rem' }}
                         placeholder=""
                         autoFocus
                     />
