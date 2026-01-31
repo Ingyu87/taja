@@ -35,6 +35,7 @@ const PRACTICE_MODES = [
 export default function DashboardPage() {
     const router = useRouter();
     const [user, setUser] = useState<User | null>(null);
+    const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
     useEffect(() => {
         const currentUser = getCurrentUser();
@@ -57,8 +58,6 @@ export default function DashboardPage() {
             </div>
         );
     }
-
-    const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
     if (user.role === 'teacher') {
         return <TeacherDashboard user={user} onLogout={handleLogout} />;
