@@ -43,15 +43,14 @@ export const useTyping = ({ targetText, onFinish }: UseTypingProps) => {
             setCpm(currentCpm);
         }
 
-        // 완료 체크 (공백 제거 후 비교)
-        const trimmedValue = value.trim();
-        const trimmedTarget = targetText.trim();
-        if (trimmedValue === trimmedTarget && trimmedValue.length > 0) {
-            // 완료 상태로 변경
+        // 완료 체크 (정확히 일치하는지 확인)
+        if (value === targetText && value.length === targetText.length && value.length > 0) {
+            // 완료 상태로 변경 (한 번만 실행)
             if (status !== 'finished') {
                 setStatus('finished');
                 const endTime = Date.now();
                 if (onFinish && startTime) {
+                    // 완료 콜백 호출
                     onFinish({
                         cpm: measureSpeed(startTime, value),
                         accuracy: currentAcc,

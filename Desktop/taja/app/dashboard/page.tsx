@@ -67,8 +67,9 @@ export default function DashboardPage() {
         <div className="min-h-screen" style={{ backgroundColor: '#FAF9F6' }}>
             {/* 상단 네비게이션 바 */}
             <div className="bg-white shadow-sm sticky top-0 z-10">
-                <div className="max-w-7xl mx-auto px-8 py-4">
-                    <div className="flex justify-between items-center mb-4">
+                <div className="max-w-7xl mx-auto">
+                    {/* 상단 헤더 */}
+                    <div className="px-8 py-4 flex justify-between items-center border-b border-gray-100">
                         <div className="flex items-center gap-4">
                             <span className="text-4xl">{user.avatar}</span>
                             <div>
@@ -93,64 +94,76 @@ export default function DashboardPage() {
                             </button>
                         </div>
                     </div>
-                    {/* 카테고리 탭 */}
-                    <div className="flex gap-3 overflow-x-auto pb-2">
-                        <button
-                            onClick={() => setSelectedCategory('all')}
-                            className={`px-6 py-3 font-bold text-lg whitespace-nowrap transition-all ${
-                                selectedCategory === 'all'
-                                    ? 'bg-gradient-to-r from-pink-400 to-cyan-400 text-white shadow-md'
-                                    : 'bg-white text-gray-600 hover:bg-gray-50'
-                            }`}
-                            style={{ borderRadius: '20px' }}
-                        >
-                            전체
-                        </button>
-                        <button
-                            onClick={() => setSelectedCategory('vowel')}
-                            className={`px-6 py-3 font-bold text-lg whitespace-nowrap transition-all ${
-                                selectedCategory === 'vowel'
-                                    ? 'bg-gradient-to-r from-pink-400 to-cyan-400 text-white shadow-md'
-                                    : 'bg-white text-gray-600 hover:bg-gray-50'
-                            }`}
-                            style={{ borderRadius: '20px' }}
-                        >
-                            🎨 모음
-                        </button>
-                        <button
-                            onClick={() => setSelectedCategory('consonant')}
-                            className={`px-6 py-3 font-bold text-lg whitespace-nowrap transition-all ${
-                                selectedCategory === 'consonant'
-                                    ? 'bg-gradient-to-r from-pink-400 to-cyan-400 text-white shadow-md'
-                                    : 'bg-white text-gray-600 hover:bg-gray-50'
-                            }`}
-                            style={{ borderRadius: '20px' }}
-                        >
-                            📚 자음
-                        </button>
-                        <button
-                            onClick={() => setSelectedCategory('word')}
-                            className={`px-6 py-3 font-bold text-lg whitespace-nowrap transition-all ${
-                                selectedCategory === 'word'
-                                    ? 'bg-gradient-to-r from-pink-400 to-cyan-400 text-white shadow-md'
-                                    : 'bg-white text-gray-600 hover:bg-gray-50'
-                            }`}
-                            style={{ borderRadius: '20px' }}
-                        >
-                            🎁 단어
-                        </button>
-                        <button
-                            onClick={() => setSelectedCategory('sentence')}
-                            className={`px-6 py-3 font-bold text-lg whitespace-nowrap transition-all ${
-                                selectedCategory === 'sentence'
-                                    ? 'bg-gradient-to-r from-pink-400 to-cyan-400 text-white shadow-md'
-                                    : 'bg-white text-gray-600 hover:bg-gray-50'
-                            }`}
-                            style={{ borderRadius: '20px' }}
-                        >
-                            📖 문장
-                        </button>
-                    </div>
+                    {/* 네비게이션 메뉴 바 */}
+                    <nav className="px-8">
+                        <div className="flex gap-1 border-b-2 border-gray-200">
+                            <button
+                                onClick={() => setSelectedCategory('all')}
+                                className={`px-6 py-4 font-bold text-lg whitespace-nowrap transition-all relative ${
+                                    selectedCategory === 'all'
+                                        ? 'text-pink-600'
+                                        : 'text-gray-600 hover:text-gray-800'
+                                }`}
+                            >
+                                전체
+                                {selectedCategory === 'all' && (
+                                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-pink-400 to-cyan-400 rounded-t-full"></div>
+                                )}
+                            </button>
+                            <button
+                                onClick={() => setSelectedCategory('vowel')}
+                                className={`px-6 py-4 font-bold text-lg whitespace-nowrap transition-all relative ${
+                                    selectedCategory === 'vowel'
+                                        ? 'text-pink-600'
+                                        : 'text-gray-600 hover:text-gray-800'
+                                }`}
+                            >
+                                🎨 모음
+                                {selectedCategory === 'vowel' && (
+                                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-pink-400 to-cyan-400 rounded-t-full"></div>
+                                )}
+                            </button>
+                            <button
+                                onClick={() => setSelectedCategory('consonant')}
+                                className={`px-6 py-4 font-bold text-lg whitespace-nowrap transition-all relative ${
+                                    selectedCategory === 'consonant'
+                                        ? 'text-pink-600'
+                                        : 'text-gray-600 hover:text-gray-800'
+                                }`}
+                            >
+                                📚 자음
+                                {selectedCategory === 'consonant' && (
+                                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-pink-400 to-cyan-400 rounded-t-full"></div>
+                                )}
+                            </button>
+                            <button
+                                onClick={() => setSelectedCategory('word')}
+                                className={`px-6 py-4 font-bold text-lg whitespace-nowrap transition-all relative ${
+                                    selectedCategory === 'word'
+                                        ? 'text-pink-600'
+                                        : 'text-gray-600 hover:text-gray-800'
+                                }`}
+                            >
+                                🎁 단어
+                                {selectedCategory === 'word' && (
+                                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-pink-400 to-cyan-400 rounded-t-full"></div>
+                                )}
+                            </button>
+                            <button
+                                onClick={() => setSelectedCategory('sentence')}
+                                className={`px-6 py-4 font-bold text-lg whitespace-nowrap transition-all relative ${
+                                    selectedCategory === 'sentence'
+                                        ? 'text-pink-600'
+                                        : 'text-gray-600 hover:text-gray-800'
+                                }`}
+                            >
+                                📖 문장
+                                {selectedCategory === 'sentence' && (
+                                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-pink-400 to-cyan-400 rounded-t-full"></div>
+                                )}
+                            </button>
+                        </div>
+                    </nav>
                 </div>
             </div>
 
