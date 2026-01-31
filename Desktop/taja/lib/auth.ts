@@ -19,12 +19,12 @@ export const AVATARS = [
 /**
  * 로그인 검증 (서버 API 호출)
  */
-export const validateLogin = async (username: string, password: string): Promise<{ success: boolean; user?: User; error?: string }> => {
+export const validateLogin = async (username: string, password: string, role: 'student' | 'teacher'): Promise<{ success: boolean; user?: User; error?: string }> => {
     try {
         const res = await fetch('/api/auth', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ type: 'login', username, password }),
+            body: JSON.stringify({ type: 'login', username, password, role }),
         });
 
         const data = await res.json();
