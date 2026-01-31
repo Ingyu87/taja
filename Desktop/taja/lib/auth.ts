@@ -1,10 +1,5 @@
 // 간단한 인증 로직 (서버 API 호출)
-export interface User {
-    id: string;
-    username: string;
-    avatar: string;
-    role: 'student' | 'teacher';
-}
+import { User } from '@/types';
 
 // 아바타 목록
 export const AVATARS = [

@@ -53,45 +53,61 @@ export default function PracticePage() {
 
             // 사용자 정보가 있으면 결과 저장
             if (user) {
-                // 1. Local Storage에 저장 (백업 및 개인 기록용)
-                savePracticeResult({
-                    userId: user.id,
-                    username: user.username,
-                    avatar: user.avatar,
-                    mode: mode as 'vowel' | 'consonant' | 'word' | 'sentence',
-                    cpm: stats.cpm,
-                    accuracy: stats.accuracy,
-                    time: stats.time,
-                });
-
-                // 2. Firestore에 저장 (실시간 랭킹용)
-                saveResultToFirestore({
-                    userId: user.id,
-                    username: user.username,
-                    avatar: user.avatar,
-                    mode: mode as 'vowel' | 'consonant' | 'word' | 'sentence',
-                    cpm: stats.cpm,
-                    accuracy: stats.accuracy,
-                    time: stats.time,
-                });
-
-                // 연습 완료 시 토스트 알림 및 축하 효과 (마지막 문제일 때만)
-                if (currentIndex >= practiceTexts.length - 1) {
-                    showToast('🎉 연습을 완료했습니다! 결과가 저장되었습니다.', 'success');
-                    confetti({
-                        particleCount: 150,
-                        spread: 70,
-                        origin: { y: 0.6 }
+                try {
+                    // 1. Local Storage에 저장 (백업 및 개인 기록용)
+                    savePracticeResult({
+                        userId: user.id,
+                        username: user.username,
+                        avatar: user.avatar,
+                        mode: mode as 'vowel' | 'consonant' | 'word' | 'sentence',
+                        cpm: stats.cpm,
+                        accuracy: stats.accuracy,
+                        time: stats.time,
                     });
+
+                    // 2. Firestore에 저장 (실시간 랭킹용)
+                    saveResultToFirestore({
+                        userId: user.id,
+                        username: user.username,
+                        avatar: user.avatar,
+                        mode: mode as 'vowel' | 'consonant' | 'word' | 'sentence',
+                        cpm: stats.cpm,
+                        accuracy: stats.accuracy,
+                        time: stats.time,
+                    }).then((result) => {
+                        if (!result.success) {
+                            console.error('Firestore 저장 실패:', result.error);
+                            // Firestore 저장 실패는 조용히 처리 (로컬 스토리지에 저장되었으므로)
+                        }
+                    }).catch((error) => {
+                        console.error('Firestore 저장 중 오류:', error);
+                        // 네트워크 오류 등은 조용히 처리
+                    });
+
+                    // 연습 완료 시 토스트 알림 및 축하 효과 (마지막 문제일 때만)
+                    if (currentIndex >= practiceTexts.length - 1) {
+                        showToast('🎉 연습을 완료했습니다! 결과가 저장되었습니다.', 'success');
+                        confetti({
+                            particleCount: 150,
+                            spread: 70,
+                            origin: { y: 0.6 }
+                        });
+                    }
+                } catch (error) {
+                    console.error('결과 저장 중 오류:', error);
+                    // 로컬 스토리지 저장 실패는 드물지만, 사용자에게 알림
+                    if (currentIndex >= practiceTexts.length - 1) {
+                        showToast('⚠️ 결과 저장 중 오류가 발생했습니다. 다시 시도해주세요.', 'error');
+                    }
                 }
             }
 
             // 다음 문제로 이동 또는 결과 표시
             if (currentIndex < practiceTexts.length - 1) {
                 setTimeout(() => {
-                    setCurrentIndex(currentIndex + 1);
+                    setCurrentIndex(prev => prev + 1);
                     reset();
-                }, 1000);
+                }, 500);
             } else {
                 setShowResult(true);
             }

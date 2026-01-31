@@ -11,27 +11,6 @@ export interface PracticeResult {
 }
 
 const STORAGE_KEY = 'taja_practice_results';
-const USER_KEY = 'taja_current_user';
-
-// 현재 사용자 정보
-export interface User {
-    id: string;
-    username: string;
-    avatar: string;
-}
-
-// 현재 사용자 가져오기
-export const getCurrentUser = (): User | null => {
-    if (typeof window === 'undefined') return null;
-    const userStr = localStorage.getItem(USER_KEY);
-    return userStr ? JSON.parse(userStr) : null;
-};
-
-// 현재 사용자 설정
-export const setCurrentUser = (user: User): void => {
-    if (typeof window === 'undefined') return;
-    localStorage.setItem(USER_KEY, JSON.stringify(user));
-};
 
 // 결과 저장
 export const savePracticeResult = (result: Omit<PracticeResult, 'id' | 'timestamp'>): void => {

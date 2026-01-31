@@ -2,7 +2,6 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { getOverallRanking } from '@/lib/storage'; // 로컬 스토리지 함수는 유지 (참고용)
 import { getRankingsFromFirestore } from '@/lib/firestore';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 

@@ -18,7 +18,8 @@ export const useTyping = ({ targetText, onFinish }: UseTypingProps) => {
     // 타겟 텍스트가 변경되면 상태 초기화
     useEffect(() => {
         reset();
-    }, [targetText]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [targetText]); // reset은 useCallback으로 메모이제이션되어 안정적이므로 의존성 제외
 
     // 입력 처리
     const handleInput = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,7 +44,7 @@ export const useTyping = ({ targetText, onFinish }: UseTypingProps) => {
         }
 
         // 완료 체크
-        if (value === targetText) {
+        if (value.trim() === targetText.trim()) {
             setStatus('finished');
             const endTime = Date.now();
             if (onFinish && startTime) {

@@ -1,7 +1,16 @@
 // 사용자 타입 정의
 export type UserRole = 'student' | 'teacher';
 
+// 실제 앱에서 사용하는 사용자 타입
 export interface User {
+    id: string;
+    username: string;
+    avatar: string;
+    role: UserRole;
+}
+
+// 향후 확장용 사용자 타입 (현재 미사용)
+export interface ExtendedUser {
     uid: string;
     role: UserRole;
     displayName: string;

@@ -129,58 +129,55 @@ function LoginContent() {
                             </h2>
 
                             {/* 폼 */}
-                            <form onSubmit={handleLogin} className="space-y-6 flex flex-col items-center">
+                            <form onSubmit={handleLogin} className="space-y-16 flex flex-col items-center">
                                 {userType === 'student' ? (
                                     <>
-                                        <div className="w-full max-w-[320px]">
-                                            <label className="block text-lg font-bold mb-2 text-left" style={{ color: '#333' }}>
-                                                아이디 <span className="text-sm font-normal text-gray-500 ml-2">(a1 ~ a30)</span>
+                                        <div className="w-full max-w-[600px]">
+                                            <label className="block text-4xl font-black mb-6 text-left" style={{ color: '#333' }}>
+                                                아이디 <span className="text-xl font-normal text-gray-500 ml-4">(a1 ~ a30)</span>
                                             </label>
                                             <input
                                                 type="text"
                                                 value={email}
                                                 onChange={(e) => setEmail(e.target.value.trim())}
-                                                className="w-full px-4 py-5 text-2xl rounded-2xl border-2 border-gray-300 
-                              focus:outline-none focus:border-pink-400 transition-colors shadow-sm text-center font-bold tracking-widest"
-                                                placeholder="a1"
+                                                className="w-full px-10 h-[140px] text-7xl rounded-[40px] border-8 border-gray-300 
+                               focus:outline-none focus:border-pink-400 transition-colors shadow-2xl text-center font-black tracking-widest"
                                                 required
                                             />
                                         </div>
 
-                                        <div className="w-full max-w-[320px]">
-                                            <label className="block text-lg font-bold mb-2 text-left" style={{ color: '#333' }}>
+                                        <div className="w-full max-w-[600px]">
+                                            <label className="block text-4xl font-black mb-6 text-left" style={{ color: '#333' }}>
                                                 비밀번호
                                             </label>
                                             <input
                                                 type="password"
                                                 value={password}
                                                 onChange={(e) => setPassword(e.target.value.trim())}
-                                                className="w-full px-4 py-5 text-2xl rounded-2xl border-2 border-gray-300 
-                              focus:outline-none focus:border-pink-400 transition-colors shadow-sm text-center font-bold tracking-widest"
-                                                placeholder="1234"
+                                                className="w-full px-10 h-[140px] text-7xl rounded-[40px] border-8 border-gray-300 
+                               focus:outline-none focus:border-pink-400 transition-colors shadow-2xl text-center font-black tracking-widest"
                                                 required
                                             />
                                         </div>
                                     </>
                                 ) : (
-                                    <div className="w-full max-w-[320px]">
-                                        <label className="block text-lg font-bold mb-2 text-left" style={{ color: '#333' }}>
+                                    <div className="w-full max-w-[600px]">
+                                        <label className="block text-4xl font-black mb-6 text-left" style={{ color: '#333' }}>
                                             관리자 번호
                                         </label>
                                         <input
                                             type="password"
                                             value={password}
                                             onChange={(e) => setPassword(e.target.value.trim())}
-                                            className="w-full px-4 py-5 text-2xl rounded-2xl border-2 border-gray-300 
-                          focus:outline-none focus:border-pink-400 transition-colors shadow-sm text-center font-bold tracking-widest"
-                                            placeholder="관리자 번호를 입력하세요"
+                                            className="w-full px-10 h-[140px] text-7xl rounded-[40px] border-8 border-gray-300 
+                          focus:outline-none focus:border-pink-400 transition-colors shadow-2xl text-center font-black tracking-widest"
                                             required
                                         />
                                     </div>
                                 )}
 
                                 {error && (
-                                    <div className="w-full max-w-[320px] p-4 rounded-xl text-center bg-red-50 text-red-600 font-semibold text-lg">
+                                    <div className="w-full max-w-[600px] p-8 rounded-[32px] text-center bg-red-50 text-red-600 font-black text-3xl border-4 border-red-200">
                                         {error}
                                     </div>
                                 )}
@@ -188,13 +185,13 @@ function LoginContent() {
                                 <button
                                     type="submit"
                                     disabled={loading}
-                                    className="w-full max-w-[320px] py-5 rounded-2xl font-bold text-2xl transition-all duration-200 hover:opacity-90 transform hover:-translate-y-1 shadow-md"
+                                    className="w-full max-w-[600px] py-12 rounded-[40px] font-black text-5xl transition-all duration-200 hover:opacity-90 transform hover:-translate-y-2 shadow-2xl active:scale-95 mt-8"
                                     style={{
                                         background: 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)',
                                         color: 'white',
                                     }}
                                 >
-                                    로그인 →
+                                    로그인 하기 →
                                 </button>
                             </form>
 
