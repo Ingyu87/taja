@@ -7,7 +7,8 @@ import { saveGameResultToFirestore } from '@/lib/firestore';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import confetti from 'canvas-confetti';
 
-const GAME_WORDS = [
+// 기본 단어 (API 실패 시 백업용)
+const FALLBACK_WORDS = [
     '가방', '나무', '다리', '라면', '마음', '바다', '사과', '아이',
     '자동차', '차례', '카메라', '타자', '파도', '하늘', '강아지', '고양이',
     '토끼', '코끼리', '기린', '사자', '학교', '선생님', '친구', '공부',
@@ -31,6 +32,8 @@ export default function TimeAttackGamePage() {
     const [totalTyped, setTotalTyped] = useState(0);
     const [correctTyped, setCorrectTyped] = useState(0);
     const [level, setLevel] = useState(1);
+    const [gameWords, setGameWords] = useState<string[]>(FALLBACK_WORDS);
+    const [loadingWords, setLoadingWords] = useState(false);
     
     const timerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -62,9 +65,36 @@ export default function TimeAttackGamePage() {
         };
     }, [gameState]);
 
+    // AI로부터 새로운 단어 받아오기
+    const fetchAIWords = async () => {
+        setLoadingWords(true);
+        try {
+            const response = await fetch('/api/game-words', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ count: 50, difficulty: 'easy' })
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.success && data.words.length > 0) {
+                setGameWords(data.words);
+            } else {
+                // API 실패 시 기본 단어 사용
+                setGameWords(FALLBACK_WORDS);
+            }
+        } catch (error) {
+            console.error('단어 생성 실패:', error);
+            // 에러 시 기본 단어 사용
+            setGameWords(FALLBACK_WORDS);
+        } finally {
+            setLoadingWords(false);
+        }
+    };
+
     // 새 단어 생성
     const generateNewWord = () => {
-        const newWord = GAME_WORDS[Math.floor(Math.random() * GAME_WORDS.length)];
+        const newWord = gameWords[Math.floor(Math.random() * gameWords.length)];
         setCurrentWord(newWord);
     };
 
@@ -101,9 +131,8 @@ export default function TimeAttackGamePage() {
         }
     };
 
-    const startGame = (time: TimeOption) => {
+    const startGame = async (time: TimeOption) => {
         setSelectedTime(time);
-        setGameState('playing');
         setScore(0);
         setTimeLeft(time);
         setCombo(0);
@@ -112,6 +141,11 @@ export default function TimeAttackGamePage() {
         setTotalTyped(0);
         setCorrectTyped(0);
         setInputValue('');
+        
+        // AI 단어 받아오기
+        await fetchAIWords();
+        
+        setGameState('playing');
         generateNewWord();
     };
 
@@ -198,6 +232,7 @@ export default function TimeAttackGamePage() {
                         <h1 className="font-black text-green-600 mb-6" style={{ fontSize: '6rem', lineHeight: '1' }}>⏰ 시간 공격 게임</h1>
                         <p className="text-4xl font-bold text-gray-700 mb-4">시간 안에 최대한 많은 단어를 치세요!</p>
                         <p className="text-3xl text-gray-600 mb-6">연속으로 맞추면 콤보 점수 획득!</p>
+                        <p className="text-2xl text-purple-600 font-black mb-6">✨ AI가 매번 새로운 단어를 준비해요!</p>
                         
                         {/* 시간 선택 */}
                         <div className="mb-10">
@@ -205,26 +240,32 @@ export default function TimeAttackGamePage() {
                             <div className="flex gap-4">
                                 <button
                                     onClick={() => startGame(120)}
-                                    className="px-12 py-6 font-black text-white rounded-full shadow-2xl hover:scale-110 transition-transform"
+                                    disabled={loadingWords}
+                                    className="px-12 py-6 font-black text-white rounded-full shadow-2xl hover:scale-110 transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
                                     style={{ background: 'linear-gradient(135deg, #4ADE80 0%, #16A34A 100%)', fontSize: '3.5rem' }}
                                 >
-                                    ⏱️ 2분
+                                    {loadingWords ? '⏳' : '⏱️'} 2분
                                 </button>
                                 <button
                                     onClick={() => startGame(240)}
-                                    className="px-12 py-6 font-black text-white rounded-full shadow-2xl hover:scale-110 transition-transform"
+                                    disabled={loadingWords}
+                                    className="px-12 py-6 font-black text-white rounded-full shadow-2xl hover:scale-110 transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
                                     style={{ background: 'linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%)', fontSize: '3.5rem' }}
                                 >
-                                    ⏱️ 4분
+                                    {loadingWords ? '⏳' : '⏱️'} 4분
                                 </button>
                                 <button
                                     onClick={() => startGame(360)}
-                                    className="px-12 py-6 font-black text-white rounded-full shadow-2xl hover:scale-110 transition-transform"
+                                    disabled={loadingWords}
+                                    className="px-12 py-6 font-black text-white rounded-full shadow-2xl hover:scale-110 transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
                                     style={{ background: 'linear-gradient(135deg, #EF4444 0%, #DC2626 100%)', fontSize: '3.5rem' }}
                                 >
-                                    ⏱️ 6분
+                                    {loadingWords ? '⏳' : '⏱️'} 6분
                                 </button>
                             </div>
+                            {loadingWords && (
+                                <p className="text-2xl text-gray-600 text-center mt-4 font-bold">AI가 단어를 준비하는 중...</p>
+                            )}
                         </div>
                     </div>
                 )}
