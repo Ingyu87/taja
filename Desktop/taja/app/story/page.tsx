@@ -7,6 +7,7 @@ import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import { useTyping } from '@/hooks/useTyping';
 import { StoryPracticeDisplay } from '@/components/practice/StoryPracticeDisplay';
 import { saveResultToFirestore } from '@/lib/firestore';
+import { validateText } from '@/lib/profanityFilter';
 
 export default function StoryPage() {
     const router = useRouter();
@@ -30,7 +31,7 @@ export default function StoryPage() {
         onFinish: async (stats) => {
             setCompletedStats(stats);
             
-            // Firestore에 결과 저장
+            // Firestore에 결과 저장 (키워드 포함)
             if (user) {
                 await saveResultToFirestore({
                     userId: user.id,
@@ -39,7 +40,8 @@ export default function StoryPage() {
                     mode: 'story',
                     cpm: stats.cpm,
                     accuracy: stats.accuracy,
-                    time: stats.time
+                    time: stats.time,
+                    keywords: keywords // 키워드 추가
                 });
             }
         }
@@ -57,6 +59,13 @@ export default function StoryPage() {
     const generateStory = async () => {
         if (!keywords.trim()) {
             setError('키워드를 입력해주세요!');
+            return;
+        }
+
+        // 부적절한 단어 검사
+        const validation = validateText(keywords);
+        if (!validation.isValid) {
+            setError(validation.message || '부적절한 내용입니다.');
             return;
         }
 

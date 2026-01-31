@@ -556,16 +556,23 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
                                         <span>{log.username}</span>
                                     </td>
                                     <td style={{ padding: '1.25rem' }}>
-                                        <span className="px-3 py-1.5 bg-blue-50 text-blue-600 rounded-lg font-bold border border-blue-100" style={{ fontSize: '1.25rem' }}>
-                                            {log.mode === 'vowel' ? '📝 모음 연습' :
-                                             log.mode === 'consonant' ? '📝 자음 연습' :
-                                             log.mode === 'word' ? '📝 단어 연습' :
-                                             log.mode === 'sentence' ? '📝 문장 연습' :
-                                             log.mode === 'falling' ? '🎮 떨어지는 글자' :
-                                             log.mode === 'timeattack' ? '🎮 시간 공격' :
-                                             log.mode === 'story' ? '🤖 AI 스토리' :
-                                             log.mode}
-                                        </span>
+                                        <div className="flex flex-col gap-1">
+                                            <span className="px-3 py-1.5 bg-blue-50 text-blue-600 rounded-lg font-bold border border-blue-100" style={{ fontSize: '1.25rem' }}>
+                                                {log.mode === 'vowel' ? '📝 모음 연습' :
+                                                 log.mode === 'consonant' ? '📝 자음 연습' :
+                                                 log.mode === 'word' ? '📝 단어 연습' :
+                                                 log.mode === 'sentence' ? '📝 문장 연습' :
+                                                 log.mode === 'falling' ? '🎮 떨어지는 글자' :
+                                                 log.mode === 'timeattack' ? '🎮 시간 공격' :
+                                                 log.mode === 'story' ? '🤖 AI 스토리' :
+                                                 log.mode}
+                                            </span>
+                                            {log.mode === 'story' && log.keywords && (
+                                                <span className="text-gray-600 text-sm font-medium">
+                                                    주제: {log.keywords}
+                                                </span>
+                                            )}
+                                        </div>
                                     </td>
                                     <td style={{ padding: '1.25rem', fontSize: '1.5rem' }}>
                                         <span className="font-medium text-gray-700">{log.cpm} CPM</span>

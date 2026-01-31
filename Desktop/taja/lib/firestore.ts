@@ -11,6 +11,7 @@ export interface PracticeResult {
     cpm: number;
     accuracy: number;
     time: number;
+    keywords?: string; // AI 스토리의 경우 키워드 저장
     createdAt: Date;
 }
 
