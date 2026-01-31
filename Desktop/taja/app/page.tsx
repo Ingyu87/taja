@@ -31,18 +31,21 @@ export default function Home() {
           <Button
             variant="primary"
             size="lg"
-            onClick={() => router.push('/login')}
-            className="text-xl md:text-2xl px-12 py-8 w-full sm:w-auto shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all"
+            onClick={() => {
+              const user = localStorage.getItem('current_user');
+              if (user) {
+                router.push('/dashboard');
+              } else {
+                router.push('/login');
+              }
+            }}
+            className="text-xl md:text-2xl px-16 py-8 w-full sm:w-auto shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all"
+            style={{
+              background: 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)',
+              color: 'white'
+            }}
           >
-            로그인 🚀
-          </Button>
-          <Button
-            variant="secondary"
-            size="lg"
-            onClick={() => router.push('/signup')}
-            className="text-xl md:text-2xl px-12 py-8 w-full sm:w-auto shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all"
-          >
-            회원가입 ✨
+            시작하기 🚀
           </Button>
         </div>
 
