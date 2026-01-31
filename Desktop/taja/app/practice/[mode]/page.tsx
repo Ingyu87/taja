@@ -104,12 +104,8 @@ export default function PracticePage() {
 
             // 다음 문제로 이동 또는 결과 표시
             if (currentIndex < practiceTexts.length - 1) {
-                // 입력 필드 즉시 리셋
-                reset();
-                // 다음 문제로 이동
-                setTimeout(() => {
-                    setCurrentIndex(prev => prev + 1);
-                }, 500);
+                // 다음 문제로 즉시 이동 (key 변경으로 input이 리마운트되어 자동 리셋됨)
+                setCurrentIndex(prev => prev + 1);
             } else {
                 setShowResult(true);
             }

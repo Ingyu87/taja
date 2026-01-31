@@ -43,18 +43,21 @@ export const useTyping = ({ targetText, onFinish }: UseTypingProps) => {
             setCpm(currentCpm);
         }
 
-        // 완료 체크
-        if (value.trim() === targetText.trim()) {
-            setStatus('finished');
-            const endTime = Date.now();
-            if (onFinish && startTime) {
-                // 완료 시 즉시 입력 필드 비우기
-                setInputText('');
-                onFinish({
-                    cpm: measureSpeed(startTime, value),
-                    accuracy: currentAcc,
-                    time: (endTime - startTime) / 1000
-                });
+        // 완료 체크 (공백 제거 후 비교)
+        const trimmedValue = value.trim();
+        const trimmedTarget = targetText.trim();
+        if (trimmedValue === trimmedTarget && trimmedValue.length > 0) {
+            // 완료 상태로 변경
+            if (status !== 'finished') {
+                setStatus('finished');
+                const endTime = Date.now();
+                if (onFinish && startTime) {
+                    onFinish({
+                        cpm: measureSpeed(startTime, value),
+                        accuracy: currentAcc,
+                        time: (endTime - startTime) / 1000
+                    });
+                }
             }
         }
     }, [status, startTime, targetText, onFinish]);
