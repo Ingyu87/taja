@@ -102,8 +102,8 @@ function LoginContent() {
                                 <div
                                     onClick={() => setUserType('student')}
                                     className="flex-1 py-3 text-center font-bold text-lg cursor-pointer"
-                                    style={{ borderRadius: '20px' }}
                                     style={{
+                                        borderRadius: '20px',
                                         background: userType === 'student' ? 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)' : 'transparent',
                                         color: userType === 'student' ? 'white' : '#666',
                                         backgroundColor: userType === 'student' ? '' : '#F5F5F5'
@@ -114,8 +114,8 @@ function LoginContent() {
                                 <div
                                     onClick={() => setUserType('teacher')}
                                     className="flex-1 py-3 text-center font-bold text-lg cursor-pointer"
-                                    style={{ borderRadius: '20px' }}
                                     style={{
+                                        borderRadius: '20px',
                                         background: userType === 'teacher' ? 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)' : 'transparent',
                                         color: userType === 'teacher' ? 'white' : '#666',
                                         backgroundColor: userType === 'teacher' ? '' : '#F5F5F5'
@@ -201,30 +201,45 @@ function LoginContent() {
                         </div>
                     </div>
 
-                    {/* 오른쪽: 이미지 */}
+                    {/* 오른쪽: 일러스트 */}
                     <div style={{
                         flex: '1',
-                        background: 'linear-gradient(135deg, #FFE5F0 0%, #E0F7FA 100%)',
+                        background: 'linear-gradient(135deg, #FFF9E6 0%, #FFE5F0 100%)',
                         padding: '4rem',
                         display: 'flex',
                         flexDirection: 'column',
                         justifyContent: 'center',
-                        alignItems: 'center'
+                        alignItems: 'center',
+                        position: 'relative',
+                        overflow: 'hidden'
                     }}>
-                        <div className="text-center">
-                            <h2 className="text-4xl font-bold mb-6" style={{
+                        <div className="text-center relative z-10">
+                            <h2 className="text-5xl font-bold mb-8" style={{
                                 background: 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)',
                                 WebkitBackgroundClip: 'text',
-                                WebkitTextFillColor: 'transparent'
+                                WebkitTextFillColor: 'transparent',
+                                fontFamily: 'cursive'
                             }}>
-                                Ingyu's AI World
+                                타자왕국
                             </h2>
-                            <img
-                                src="/cute_typing_bear.png"
-                                alt="Typing illustration"
-                                style={{ width: '100%', maxWidth: '400px', margin: '0 auto' }}
-                            />
+                            <p className="text-2xl text-gray-600 mb-8 font-bold">
+                                초등학교 AI 타자 자료집
+                            </p>
+                            {/* 일러스트 영역 */}
+                            <div className="relative" style={{ width: '100%', maxWidth: '500px', margin: '0 auto' }}>
+                                <div className="text-9xl mb-4">⌨️</div>
+                                <div className="flex justify-center gap-4 text-6xl mb-4">
+                                    <span>👦</span>
+                                    <span>👧</span>
+                                    <span>🤖</span>
+                                </div>
+                                <div className="text-5xl">✨ 재미있는 타자 연습 ✨</div>
+                            </div>
                         </div>
+                        {/* 배경 장식 */}
+                        <div className="absolute top-10 right-10 text-6xl opacity-20">🎨</div>
+                        <div className="absolute bottom-10 left-10 text-6xl opacity-20">📚</div>
+                        <div className="absolute top-1/2 right-20 text-5xl opacity-20">🌟</div>
                     </div>
                 </div>
             </div>

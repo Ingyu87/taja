@@ -146,8 +146,11 @@ export default function RankingPage() {
                     <button
                         onClick={() => router.push('/dashboard')}
                         className="px-12 py-4 text-xl font-medium bg-white shadow-md hover:shadow-lg transition-all duration-200"
-                        style={{ borderRadius: '32px' }}
-                        style={{ color: '#666', border: '2px solid #E0E0E0' }}
+                        style={{ 
+                            borderRadius: '32px',
+                            color: '#666', 
+                            border: '2px solid #E0E0E0' 
+                        }}
                     >
                         ← 대시보드로 돌아가기
                     </button>

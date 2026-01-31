@@ -49,8 +49,8 @@ export const PracticeDisplay = ({ targetText, inputText }: PracticeDisplayProps)
                             <div
                                 key={index}
                                 className="w-20 h-20 flex items-center justify-center text-5xl font-bold transition-all duration-200"
-                                style={{ borderRadius: '24px' }}
                                 style={{
+                                    borderRadius: '24px',
                                     backgroundColor: bgColor,
                                     color: textColor,
                                     border: `3px solid ${borderColor}`,

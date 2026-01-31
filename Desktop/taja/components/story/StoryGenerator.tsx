@@ -41,7 +41,7 @@ export default function StoryGenerator({ keywords }: StoryGeneratorProps) {
     };
 
     return (
-        <div className="mt-8 p-6 bg-white rounded-2xl shadow-lg border-2 border-pink-100">
+        <div className="mt-8 p-6 bg-white shadow-lg border-2 border-pink-100" style={{ borderRadius: '32px' }}>
             {!generated ? (
                 <div className="text-center">
                     <h3 className="text-2xl font-bold mb-4" style={{ color: '#5D4E6D' }}>
@@ -68,11 +68,15 @@ export default function StoryGenerator({ keywords }: StoryGeneratorProps) {
                         onClick={generateStory}
                         disabled={loading}
                         className={`
-                            px-8 py-3 rounded-xl font-bold text-lg text-white transition-all
+                            px-12 py-6 font-black text-2xl text-white transition-all shadow-lg
                             ${loading
                                 ? 'bg-gray-300 cursor-not-allowed'
-                                : 'bg-gradient-to-r from-purple-400 to-pink-400 hover:from-purple-500 hover:to-pink-500 shadow-md hover:shadow-lg transform hover:-translate-y-1'}
+                                : 'bg-gradient-to-r from-purple-400 to-pink-400 hover:from-purple-500 hover:to-pink-500 hover:shadow-xl transform hover:-translate-y-1'}
                         `}
+                        style={{ 
+                            borderRadius: '32px',
+                            minHeight: '70px'
+                        }}
                     >
                         {loading ? '이야기를 짓는 중... 🤔' : '🪄 이야기 만들어줘!'}
                     </button>
@@ -99,8 +103,11 @@ export default function StoryGenerator({ keywords }: StoryGeneratorProps) {
                         </button>
                     </div>
 
-                    <div className="p-6 bg-pink-50 rounded-xl leading-relaxed whitespace-pre-wrap font-medium text-gray-700"
-                        style={{ fontFamily: 'var(--font-gowun-dodum)' }}>
+                    <div className="p-6 bg-pink-50 leading-relaxed whitespace-pre-wrap font-medium text-gray-700"
+                        style={{ 
+                            borderRadius: '32px',
+                            fontFamily: 'var(--font-gowun-dodum)'
+                        }}>
                         {story}
                     </div>
                 </motion.div>

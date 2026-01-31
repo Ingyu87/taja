@@ -37,7 +37,7 @@ export default function PracticePage() {
     useEffect(() => {
         const currentUser = getCurrentUser();
         if (!currentUser) {
-            router.push('/login');
+            router.replace('/login');
         } else {
             setUser(currentUser);
         }
@@ -191,7 +191,7 @@ export default function PracticePage() {
             <div className="p-8">
                 <div className="max-w-7xl mx-auto flex justify-between items-center">
                     <button
-                        onClick={() => router.push('/')}
+                        onClick={() => router.push('/dashboard')}
                         className="px-10 py-5 font-bold text-2xl bg-white transition-all duration-200 hover:shadow-lg"
                         style={{
                             borderRadius: '32px',
@@ -222,8 +222,8 @@ export default function PracticePage() {
                         key={currentIndex}
                         {...inputProps}
                         className="w-full max-w-4xl px-12 py-10 text-7xl text-center border-8 focus:outline-none focus:ring-8 focus:ring-pink-200 font-bold"
-                        style={{ borderRadius: '48px' }}
                         style={{ 
+                            borderRadius: '48px',
                             borderColor: 'var(--color-primary)',
                             fontSize: '4rem',
                             minHeight: '120px'
