@@ -107,7 +107,7 @@ export default function DashboardPage() {
                             >
                                 전체
                                 {selectedCategory === 'all' && (
-                                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-pink-400 to-cyan-400 rounded-t-full"></div>
+                                    <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-pink-400 to-cyan-400" style={{ transform: 'translateY(2px)' }}></div>
                                 )}
                             </button>
                             <button
@@ -120,7 +120,7 @@ export default function DashboardPage() {
                             >
                                 🎨 모음
                                 {selectedCategory === 'vowel' && (
-                                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-pink-400 to-cyan-400 rounded-t-full"></div>
+                                    <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-pink-400 to-cyan-400" style={{ transform: 'translateY(2px)' }}></div>
                                 )}
                             </button>
                             <button
@@ -133,7 +133,7 @@ export default function DashboardPage() {
                             >
                                 📚 자음
                                 {selectedCategory === 'consonant' && (
-                                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-pink-400 to-cyan-400 rounded-t-full"></div>
+                                    <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-pink-400 to-cyan-400" style={{ transform: 'translateY(2px)' }}></div>
                                 )}
                             </button>
                             <button
@@ -146,7 +146,7 @@ export default function DashboardPage() {
                             >
                                 🎁 단어
                                 {selectedCategory === 'word' && (
-                                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-pink-400 to-cyan-400 rounded-t-full"></div>
+                                    <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-pink-400 to-cyan-400" style={{ transform: 'translateY(2px)' }}></div>
                                 )}
                             </button>
                             <button
@@ -159,7 +159,7 @@ export default function DashboardPage() {
                             >
                                 📖 문장
                                 {selectedCategory === 'sentence' && (
-                                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-pink-400 to-cyan-400 rounded-t-full"></div>
+                                    <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-pink-400 to-cyan-400" style={{ transform: 'translateY(2px)' }}></div>
                                 )}
                             </button>
                         </div>
@@ -184,10 +184,10 @@ export default function DashboardPage() {
                         <div
                             key={mode.id}
                             onClick={() => router.push(`/practice/${mode.id}`)}
-                            className="group relative bg-white p-6 shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer transform hover:-translate-y-2"
+                            className="group relative p-6 shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer transform hover:-translate-y-2"
                             style={{
                                 borderRadius: '32px',
-                                background: 'linear-gradient(135deg, #ffffff 0%, #fff5f8 100%)',
+                                background: 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)',
                                 border: '2px solid transparent'
                             }}
                         >
@@ -199,21 +199,21 @@ export default function DashboardPage() {
                                 </div>
 
                                 {/* 제목 */}
-                                <h3 className="text-2xl font-bold mb-3" style={{ color: '#333' }}>
+                                <h3 className="text-2xl font-bold mb-3 text-white">
                                     {mode.title}
                                 </h3>
 
                                 {/* 설명 */}
-                                <p className="text-base text-gray-600 mb-4 leading-relaxed">
+                                <p className="text-base text-white/90 mb-4 leading-relaxed">
                                     {mode.description}
                                 </p>
 
                                 {/* 카테고리 태그 */}
                                 <div className="mt-auto w-full">
-                                    <div className="px-6 py-3 font-bold text-lg text-white text-center transition-all duration-300 transform group-hover:scale-105 shadow-lg"
+                                    <div className="px-6 py-3 font-bold text-lg text-white text-center transition-all duration-300 transform group-hover:scale-105 shadow-lg bg-white/20 backdrop-blur-sm"
                                         style={{
                                             borderRadius: '24px',
-                                            background: 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)',
+                                            border: '2px solid rgba(255, 255, 255, 0.3)',
                                             minHeight: '50px',
                                             display: 'flex',
                                             alignItems: 'center',
@@ -228,12 +228,7 @@ export default function DashboardPage() {
                             </div>
 
                             {/* 호버 효과 */}
-                            <div className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300"
-                                style={{
-                                    borderRadius: '32px',
-                                    background: 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)'
-                                }}
-                            />
+                            <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300 bg-white rounded-[32px]" />
                         </div>
                     ))}
                 </div>
