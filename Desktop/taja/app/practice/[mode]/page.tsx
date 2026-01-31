@@ -205,21 +205,21 @@ export default function PracticePage() {
     // 결과 화면
     if (showResult) {
         return (
-            <div className="min-h-screen flex items-center justify-center p-4" style={{ backgroundColor: 'var(--color-bg)' }}>
-                <div className="w-full max-w-2xl">
-                    <div className="bg-white p-8 shadow-2xl text-center" style={{ borderRadius: '24px' }}>
-                        <div className="text-4xl mb-4">🎉</div>
-                        <h1 className="text-3xl font-bold mb-4" style={{ color: '#000000' }}>
+            <div className="min-h-screen flex items-center justify-center p-8" style={{ backgroundColor: 'var(--color-bg)' }}>
+                <div className="w-full max-w-4xl">
+                    <div className="bg-white p-16 shadow-2xl text-center" style={{ borderRadius: '48px' }}>
+                        <div className="text-8xl mb-8">🎉</div>
+                        <h1 className="text-6xl font-bold mb-8" style={{ color: '#000000' }}>
                             완료!
                         </h1>
-                        <div className="space-y-3 mb-6">
-                            <div className="text-xl" style={{ color: '#000000' }}>
+                        <div className="space-y-6 mb-12">
+                            <div className="text-4xl" style={{ color: '#000000' }}>
                                 <span className="font-bold">타자 속도:</span> {finalStats.cpm} CPM
                             </div>
-                            <div className="text-xl" style={{ color: '#000000' }}>
+                            <div className="text-4xl" style={{ color: '#000000' }}>
                                 <span className="font-bold">정확도:</span> {finalStats.accuracy}%
                             </div>
-                            <div className="text-xl" style={{ color: '#000000' }}>
+                            <div className="text-4xl" style={{ color: '#000000' }}>
                                 <span className="font-bold">소요 시간:</span> {finalStats.time.toFixed(1)}초
                             </div>
                         </div>
@@ -229,26 +229,26 @@ export default function PracticePage() {
                             <StoryGenerator keywords={practiceTexts} />
                         )}
 
-                        <div className="flex gap-2 justify-center mt-6">
+                        <div className="flex gap-4 justify-center mt-12">
                             <button
                                 onClick={handleRestart}
-                                className="px-4 py-2 font-bold text-sm text-white transition-all duration-200 hover:opacity-90 shadow-lg transform hover:scale-105"
+                                className="px-8 py-4 font-bold text-2xl text-white transition-all duration-200 hover:opacity-90 shadow-lg transform hover:scale-105"
                                 style={{
-                                    borderRadius: '12px',
+                                    borderRadius: '24px',
                                     background: 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)',
-                                    minHeight: '30px'
+                                    minHeight: '60px'
                                 }}
                             >
                                 다시 하기 🔄
                             </button>
                             <button
                                 onClick={() => router.push('/dashboard')}
-                                className="px-4 py-2 font-bold text-sm bg-white transition-all duration-200 hover:shadow-lg transform hover:scale-105"
+                                className="px-8 py-4 font-bold text-2xl bg-white transition-all duration-200 hover:shadow-lg transform hover:scale-105"
                                 style={{
-                                    borderRadius: '12px',
+                                    borderRadius: '24px',
                                     color: '#000000',
-                                    border: '1px solid #E0E0E0',
-                                    minHeight: '30px'
+                                    border: '2px solid #E0E0E0',
+                                    minHeight: '60px'
                                 }}
                             >
                                 홈으로 🏠
