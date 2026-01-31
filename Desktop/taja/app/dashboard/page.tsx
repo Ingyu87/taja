@@ -10,25 +10,25 @@ const PRACTICE_MODES = [
         id: 'vowel',
         title: '모음 연습',
         emoji: '🎨',
-        description: '나만의 캐릭터로 만들고 꾸며보세요!',
+        description: '모음(ㅏ,ㅓ,ㅗ,ㅜ,ㅡ,ㅣ 등)을 연습해요',
     },
     {
         id: 'consonant',
         title: '자음 연습',
         emoji: '📚',
-        description: 'AI와 함께 나만의 그림책을 만들어요!',
+        description: '자음(ㄱ,ㄴ,ㄷ,ㄹ,ㅁ,ㅂ 등)을 연습해요',
     },
     {
         id: 'word',
         title: '단어 연습',
         emoji: '🎁',
-        description: '나만의 캐릭터로 굿즈를 디자인해요!',
+        description: '단어 타자를 연습해요',
     },
     {
         id: 'sentence',
         title: '문장 연습',
         emoji: '📖',
-        description: '글로이와 함께 AI 온라인 어드벤처!',
+        description: '문장 타자를 연습해요',
     },
 ];
 
@@ -78,46 +78,48 @@ export default function DashboardPage() {
             {/* 상단 네비게이션 바 */}
             <div className="bg-white shadow-sm sticky top-0 z-10">
                 <div className="max-w-7xl mx-auto">
-                    <nav className="px-6 py-3">
+                    <nav className="px-8 py-5">
                         <div className="flex items-center justify-between">
                             {/* 왼쪽 탭들 */}
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-4">
                                 {NAV_TABS.map((tab) => (
                                     <button
                                         key={tab.id}
                                         onClick={() => setActiveTab(tab.id)}
-                                        className={`px-4 py-2 font-semibold text-base whitespace-nowrap transition-all rounded-xl ${
+                                        className={`px-8 py-4 font-black text-2xl whitespace-nowrap transition-all rounded-3xl shadow-lg hover:shadow-xl transform hover:scale-105 ${
                                             activeTab === tab.id
                                                 ? 'text-white'
-                                                : 'text-gray-600 bg-white hover:bg-gray-50'
+                                                : 'text-gray-700 bg-white hover:bg-gray-50'
                                         }`}
                                         style={
                                             activeTab === tab.id
                                                 ? {
-                                                      background: 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)',
+                                                      background: 'linear-gradient(135deg, #FF6B9D 0%, #9B59B6 50%, #4ECDC4 100%)',
                                                   }
-                                                : {}
+                                                : { border: '3px solid #E0E0E0' }
                                         }
                                     >
-                                        <span className="mr-1.5 text-sm">{tab.icon}</span>
+                                        <span className="mr-2 text-2xl">{tab.icon}</span>
                                         {tab.label}
                                     </button>
                                 ))}
                             </div>
                             {/* 오른쪽 버튼들 */}
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-4">
                                 <button
-                                    className="px-4 py-2 font-semibold text-base bg-white text-gray-600 hover:bg-gray-50 transition-all rounded-xl"
-                                    style={{ border: '2px solid #E0E0E0' }}
+                                    className="px-8 py-4 font-black text-2xl bg-white text-gray-700 hover:bg-gray-50 transition-all rounded-3xl shadow-lg hover:shadow-xl transform hover:scale-105"
+                                    style={{ border: '3px solid #FF6B9D' }}
                                 >
-                                    👤 선생님
+                                    👤 {user.username}
                                 </button>
                                 <button
                                     onClick={handleLogout}
-                                    className="px-4 py-2 font-semibold text-base bg-white text-gray-600 hover:bg-gray-50 transition-all rounded-xl"
-                                    style={{ border: '2px solid #E0E0E0' }}
+                                    className="px-8 py-4 font-black text-2xl text-white hover:opacity-90 transition-all rounded-3xl shadow-lg hover:shadow-xl transform hover:scale-105"
+                                    style={{ 
+                                        background: 'linear-gradient(135deg, #FF6B9D 0%, #FF8FB9 100%)',
+                                    }}
                                 >
-                                    로그아웃
+                                    👋 로그아웃
                                 </button>
                             </div>
                         </div>
@@ -126,73 +128,106 @@ export default function DashboardPage() {
             </div>
 
             {/* 메인 콘텐츠 */}
-            <div className="max-w-6xl mx-auto px-8 py-10">
-                <div className="text-center mb-10">
-                    <h1 className="text-4xl font-bold mb-1 text-gray-900">창체 웹앱</h1>
-                    <p className="text-lg text-gray-500 mt-1">{PRACTICE_MODES.length}개의 앱</p>
+            <div className="max-w-7xl mx-auto px-8 py-12">
+                <div className="text-center mb-12">
+                    <div className="flex items-center justify-center gap-4 mb-4">
+                        <span className="text-6xl animate-bounce">✨</span>
+                        <h1 className="text-6xl font-black mb-0" style={{ 
+                            background: 'linear-gradient(135deg, #FF6B9D 0%, #9B59B6 50%, #4ECDC4 100%)',
+                            WebkitBackgroundClip: 'text',
+                            WebkitTextFillColor: 'transparent',
+                            backgroundClip: 'text'
+                        }}>
+                            한글 타자 연습
+                        </h1>
+                        <span className="text-6xl animate-bounce" style={{ animationDelay: '0.2s' }}>✨</span>
+                    </div>
+                    <p className="text-3xl font-bold text-gray-700 mt-4">
+                        🎮 {PRACTICE_MODES.length}개의 재미있는 연습 모드 🎮
+                    </p>
                 </div>
 
-                {/* 앱 카드 그리드 - 3개 위, 2개 아래 */}
-                <div className="grid grid-cols-3 gap-5 mb-5">
-                    {PRACTICE_MODES.slice(0, 3).map((mode) => (
-                        <div
-                            key={mode.id}
-                            onClick={() => router.push(`/practice/${mode.id}`)}
-                            className="bg-white p-5 shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer rounded-2xl"
-                            style={{
-                                border: '1px solid #E0E0E0',
-                            }}
-                        >
-                            <div className="flex flex-col items-center text-center">
-                                {/* 아이콘 */}
-                                <div className="text-6xl mb-3">{mode.emoji}</div>
-                                {/* 제목 */}
-                                <h3 className="text-xl font-bold mb-2 text-gray-800">{mode.title}</h3>
-                                {/* 설명 */}
-                                <p className="text-sm text-gray-600 mb-3 leading-relaxed">{mode.description}</p>
-                                {/* 하단 태그 버튼 */}
-                                <div className="mt-auto w-full">
-                                    <div
-                                        className="px-3 py-1.5 font-semibold text-sm text-white text-center rounded-xl"
-                                        style={{
-                                            background: 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)',
-                                        }}
-                                    >
-                                        창체
+                {/* 앱 카드 그리드 - 3개 위, 1개 아래 */}
+                <div className="grid grid-cols-3 gap-8 mb-8">
+                    {PRACTICE_MODES.slice(0, 3).map((mode, index) => {
+                        const gradients = [
+                            'linear-gradient(135deg, #FFE5F0 0%, #FFF0F5 100%)',
+                            'linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%)',
+                            'linear-gradient(135deg, #FFF9E6 0%, #FFF4E0 100%)',
+                        ];
+                        return (
+                            <div
+                                key={mode.id}
+                                onClick={() => router.push(`/practice/${mode.id}`)}
+                                className="p-10 shadow-2xl hover:shadow-2xl transition-all duration-300 cursor-pointer transform hover:scale-105 hover:-translate-y-2"
+                                style={{
+                                    background: gradients[index],
+                                    borderRadius: '32px',
+                                    border: '4px solid',
+                                    borderColor: index === 0 ? '#FF6B9D' : index === 1 ? '#4ECDC4' : '#FFB347',
+                                }}
+                            >
+                                <div className="flex flex-col items-center text-center">
+                                    {/* 아이콘 배경 */}
+                                    <div className="mb-6 p-4 rounded-full bg-white shadow-lg">
+                                        <div className="text-9xl animate-pulse">{mode.emoji}</div>
+                                    </div>
+                                    {/* 제목 */}
+                                    <h3 className="text-4xl font-black mb-5" style={{ color: index === 0 ? '#FF6B9D' : index === 1 ? '#4ECDC4' : '#FFB347' }}>
+                                        {mode.title}
+                                    </h3>
+                                    {/* 설명 */}
+                                    <p className="text-2xl font-bold text-gray-700 mb-6 leading-relaxed">{mode.description}</p>
+                                    {/* 하단 시작 버튼 */}
+                                    <div className="mt-auto w-full">
+                                        <div
+                                            className="px-8 py-4 font-black text-2xl text-white text-center rounded-full shadow-lg hover:shadow-xl transition-all transform hover:scale-110"
+                                            style={{
+                                                background: index === 0 ? 'linear-gradient(135deg, #FF6B9D 0%, #FF8FB9 100%)' : 
+                                                           index === 1 ? 'linear-gradient(135deg, #4ECDC4 0%, #71DBDB 100%)' : 
+                                                           'linear-gradient(135deg, #FFB347 0%, #FFCC70 100%)',
+                                            }}
+                                        >
+                                            🚀 시작하기 🚀
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
 
-                {/* 아래 2개 카드 */}
-                <div className="grid grid-cols-2 gap-5 max-w-4xl mx-auto">
-                    {PRACTICE_MODES.slice(3, 5).map((mode) => (
+                {/* 아래 1개 카드 */}
+                <div className="grid grid-cols-1 gap-8 max-w-2xl mx-auto">
+                    {PRACTICE_MODES.slice(3, 4).map((mode) => (
                         <div
                             key={mode.id}
                             onClick={() => router.push(`/practice/${mode.id}`)}
-                            className="bg-white p-5 shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer rounded-2xl"
+                            className="p-10 shadow-2xl hover:shadow-2xl transition-all duration-300 cursor-pointer transform hover:scale-105 hover:-translate-y-2"
                             style={{
-                                border: '1px solid #E0E0E0',
+                                background: 'linear-gradient(135deg, #E8EAF6 0%, #F3E5F5 100%)',
+                                borderRadius: '32px',
+                                border: '4px solid #9B59B6',
                             }}
                         >
                             <div className="flex flex-col items-center text-center">
-                                {/* 아이콘 */}
-                                <div className="text-6xl mb-3">{mode.emoji}</div>
+                                {/* 아이콘 배경 */}
+                                <div className="mb-6 p-4 rounded-full bg-white shadow-lg">
+                                    <div className="text-9xl animate-pulse">{mode.emoji}</div>
+                                </div>
                                 {/* 제목 */}
-                                <h3 className="text-xl font-bold mb-2 text-gray-800">{mode.title}</h3>
+                                <h3 className="text-4xl font-black mb-5 text-purple-600">{mode.title}</h3>
                                 {/* 설명 */}
-                                <p className="text-sm text-gray-600 mb-3 leading-relaxed">{mode.description}</p>
-                                {/* 하단 태그 버튼 */}
+                                <p className="text-2xl font-bold text-gray-700 mb-6 leading-relaxed">{mode.description}</p>
+                                {/* 하단 시작 버튼 */}
                                 <div className="mt-auto w-full">
                                     <div
-                                        className="px-3 py-1.5 font-semibold text-sm text-white text-center rounded-xl"
+                                        className="px-8 py-4 font-black text-2xl text-white text-center rounded-full shadow-lg hover:shadow-xl transition-all transform hover:scale-110"
                                         style={{
-                                            background: 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)',
+                                            background: 'linear-gradient(135deg, #9B59B6 0%, #BA68C8 100%)',
                                         }}
                                     >
-                                        창체
+                                        🚀 시작하기 🚀
                                     </div>
                                 </div>
                             </div>
@@ -254,46 +289,48 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
             {/* 상단 네비게이션 바 */}
             <div className="bg-white shadow-sm sticky top-0 z-10">
                 <div className="max-w-7xl mx-auto">
-                    <nav className="px-6 py-3">
+                    <nav className="px-8 py-5">
                         <div className="flex items-center justify-between">
                             {/* 왼쪽 탭들 */}
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-4">
                                 {NAV_TABS.map((tab) => (
                                     <button
                                         key={tab.id}
                                         onClick={() => setActiveTab(tab.id)}
-                                        className={`px-4 py-2 font-semibold text-base whitespace-nowrap transition-all rounded-xl ${
+                                        className={`px-8 py-4 font-black text-2xl whitespace-nowrap transition-all rounded-3xl shadow-lg hover:shadow-xl transform hover:scale-105 ${
                                             activeTab === tab.id
                                                 ? 'text-white'
-                                                : 'text-gray-600 bg-white hover:bg-gray-50'
+                                                : 'text-gray-700 bg-white hover:bg-gray-50'
                                         }`}
                                         style={
                                             activeTab === tab.id
                                                 ? {
-                                                      background: 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)',
+                                                      background: 'linear-gradient(135deg, #FF6B9D 0%, #9B59B6 50%, #4ECDC4 100%)',
                                                   }
-                                                : {}
+                                                : { border: '3px solid #E0E0E0' }
                                         }
                                     >
-                                        <span className="mr-1.5 text-sm">{tab.icon}</span>
+                                        <span className="mr-2 text-2xl">{tab.icon}</span>
                                         {tab.label}
                                     </button>
                                 ))}
                             </div>
                             {/* 오른쪽 버튼들 */}
-                            <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-4">
                                 <button
-                                    className="px-4 py-2 font-semibold text-base bg-white text-gray-600 hover:bg-gray-50 transition-all rounded-xl"
-                                    style={{ border: '2px solid #E0E0E0' }}
+                                    className="px-8 py-4 font-black text-2xl bg-white text-gray-700 hover:bg-gray-50 transition-all rounded-3xl shadow-lg hover:shadow-xl transform hover:scale-105"
+                                    style={{ border: '3px solid #FF6B9D' }}
                                 >
-                                    👤 선생님
+                                    👨‍🏫 교사
                                 </button>
                                 <button
                                     onClick={onLogout}
-                                    className="px-4 py-2 font-semibold text-base bg-white text-gray-600 hover:bg-gray-50 transition-all rounded-xl"
-                                    style={{ border: '2px solid #E0E0E0' }}
+                                    className="px-8 py-4 font-black text-2xl text-white hover:opacity-90 transition-all rounded-3xl shadow-lg hover:shadow-xl transform hover:scale-105"
+                                    style={{ 
+                                        background: 'linear-gradient(135deg, #FF6B9D 0%, #FF8FB9 100%)',
+                                    }}
                                 >
-                                    로그아웃
+                                    👋 로그아웃
                                 </button>
                             </div>
                         </div>
