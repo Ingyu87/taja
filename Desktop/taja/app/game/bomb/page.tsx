@@ -171,36 +171,36 @@ export default function BombGamePage() {
             <div className="flex justify-between items-center mb-6">
                 <button
                     onClick={() => router.push('/dashboard')}
-                    className="px-10 py-5 text-3xl font-black bg-white text-gray-600 hover:bg-gray-50 transition-all rounded-3xl shadow-md"
-                    style={{ border: '4px solid #FF6B9D' }}
+                    className="px-16 py-8 text-5xl font-black bg-white text-gray-600 hover:bg-gray-50 transition-all rounded-3xl shadow-md"
+                    style={{ border: '6px solid #FF6B9D' }}
                 >
                     ← 뒤로가기
                 </button>
                 
-                <div className="flex gap-8 text-4xl font-black">
-                    <div className="bg-white px-8 py-4 rounded-2xl shadow-md">
+                <div className="flex gap-12 text-6xl font-black">
+                    <div className="bg-white px-12 py-6 rounded-3xl shadow-md">
                         점수: <span className="text-orange-600">{score}</span>
                     </div>
-                    <div className="bg-white px-8 py-4 rounded-2xl shadow-md">
+                    <div className="bg-white px-12 py-6 rounded-3xl shadow-md">
                         레벨: <span className="text-purple-600">{level}</span>
                     </div>
-                    <div className="bg-white px-8 py-4 rounded-2xl shadow-md">
+                    <div className="bg-white px-12 py-6 rounded-3xl shadow-md">
                         시간: <span className="text-red-600">{timeLeft}초</span>
                     </div>
                 </div>
             </div>
 
             {/* 게임 영역 */}
-            <div className="flex-1 relative bg-white rounded-[40px] shadow-2xl overflow-hidden" style={{ minHeight: '600px' }}>
+            <div className="flex-1 relative bg-white rounded-[40px] shadow-2xl overflow-hidden flex items-center justify-center" style={{ minHeight: '700px' }}>
                 {gameState === 'ready' && (
-                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-orange-200 to-red-200">
-                        <h1 className="text-9xl font-black text-red-600 mb-8">💣 폭탄 피하기 게임</h1>
-                        <p className="text-5xl font-bold text-gray-700 mb-6">정답 글자만 치고 폭탄은 피하세요!</p>
-                        <p className="text-4xl text-gray-600 mb-16">폭탄을 치면 점수가 -20점!</p>
+                    <div className="flex flex-col items-center justify-center p-16">
+                        <h1 className="font-black text-red-600 mb-12" style={{ fontSize: '12rem', lineHeight: '1' }}>💣 폭탄 피하기 게임</h1>
+                        <p className="text-8xl font-bold text-gray-700 mb-8">정답 글자만 치고 폭탄은 피하세요!</p>
+                        <p className="text-6xl text-gray-600 mb-20">폭탄을 치면 점수가 -20점!</p>
                         <button
                             onClick={startGame}
-                            className="px-24 py-8 text-6xl font-black text-white rounded-full shadow-2xl hover:scale-110 transition-transform"
-                            style={{ background: 'linear-gradient(135deg, #FF6B9D 0%, #FF8FB9 100%)' }}
+                            className="px-32 py-12 font-black text-white rounded-full shadow-2xl hover:scale-110 transition-transform"
+                            style={{ background: 'linear-gradient(135deg, #FF6B9D 0%, #FF8FB9 100%)', fontSize: '8rem' }}
                         >
                             게임 시작! 🚀
                         </button>
@@ -208,21 +208,22 @@ export default function BombGamePage() {
                 )}
 
                 {gameState === 'playing' && (
-                    <div className="absolute inset-0 flex flex-col items-center justify-center p-12">
+                    <div className="flex flex-col items-center justify-center p-20">
                         {/* 글자들 표시 */}
-                        <div className="flex flex-wrap justify-center gap-10 mb-16">
+                        <div className="flex flex-wrap justify-center gap-16 mb-20">
                             {currentChars.map(char => (
                                 <div
                                     key={char.id}
-                                    className={`text-9xl font-black px-12 py-10 rounded-3xl shadow-2xl transform hover:scale-110 transition-transform ${
+                                    className={`font-black px-20 py-16 rounded-3xl shadow-2xl transform hover:scale-110 transition-transform ${
                                         char.isBomb 
                                             ? 'bg-gradient-to-br from-red-400 to-orange-400 animate-pulse' 
                                             : 'bg-gradient-to-br from-green-400 to-blue-400'
                                     }`}
                                     style={{ 
                                         color: 'white',
-                                        minWidth: '200px',
-                                        textAlign: 'center'
+                                        minWidth: '350px',
+                                        textAlign: 'center',
+                                        fontSize: '12rem'
                                     }}
                                 >
                                     {char.char}
@@ -232,7 +233,7 @@ export default function BombGamePage() {
 
                         {/* 폭탄 경고 */}
                         {bombHits > 0 && (
-                            <div className="text-5xl font-black text-red-600 mb-8 animate-bounce">
+                            <div className="text-8xl font-black text-red-600 mb-12 animate-bounce">
                                 폭탄 맞춤: {bombHits}회 💥
                             </div>
                         )}
@@ -240,26 +241,26 @@ export default function BombGamePage() {
                 )}
 
                 {gameState === 'gameover' && (
-                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
-                        <h2 className="text-9xl font-black text-orange-600 mb-8">게임 종료! ⏰</h2>
-                        <div className="bg-white p-16 rounded-[40px] shadow-2xl mb-10">
-                            <p className="text-6xl font-black text-gray-800 mb-6">최종 점수: <span className="text-orange-600">{score}</span></p>
-                            <p className="text-5xl font-bold text-gray-700 mb-4">도달 레벨: {level}</p>
-                            <p className="text-5xl font-bold text-gray-700 mb-4">정확도: {totalTyped > 0 ? Math.round((correctTyped / totalTyped) * 100) : 0}%</p>
-                            <p className="text-5xl font-bold text-red-600">폭탄 맞춤: {bombHits}회</p>
+                    <div className="flex flex-col items-center justify-center p-16">
+                        <h2 className="font-black text-orange-600 mb-12" style={{ fontSize: '12rem', lineHeight: '1' }}>게임 종료! ⏰</h2>
+                        <div className="bg-white p-20 rounded-[40px] shadow-2xl mb-16">
+                            <p className="text-9xl font-black text-gray-800 mb-10">최종 점수: <span className="text-orange-600">{score}</span></p>
+                            <p className="text-7xl font-bold text-gray-700 mb-6">도달 레벨: {level}</p>
+                            <p className="text-7xl font-bold text-gray-700 mb-6">정확도: {totalTyped > 0 ? Math.round((correctTyped / totalTyped) * 100) : 0}%</p>
+                            <p className="text-7xl font-bold text-red-600">폭탄 맞춤: {bombHits}회</p>
                         </div>
-                        <div className="flex gap-8">
+                        <div className="flex gap-12">
                             <button
                                 onClick={startGame}
-                                className="px-20 py-6 text-5xl font-black text-white rounded-full shadow-xl hover:scale-110 transition-transform"
-                                style={{ background: 'linear-gradient(135deg, #FF6B9D 0%, #FF8FB9 100%)' }}
+                                className="px-28 py-10 font-black text-white rounded-full shadow-xl hover:scale-110 transition-transform"
+                                style={{ background: 'linear-gradient(135deg, #FF6B9D 0%, #FF8FB9 100%)', fontSize: '7rem' }}
                             >
                                 다시 하기 🔄
                             </button>
                             <button
                                 onClick={() => router.push('/dashboard')}
-                                className="px-20 py-6 text-5xl font-black text-white rounded-full shadow-xl hover:scale-110 transition-transform"
-                                style={{ background: 'linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%)' }}
+                                className="px-28 py-10 font-black text-white rounded-full shadow-xl hover:scale-110 transition-transform"
+                                style={{ background: 'linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%)', fontSize: '7rem' }}
                             >
                                 홈으로 🏠
                             </button>
@@ -270,13 +271,13 @@ export default function BombGamePage() {
 
             {/* 입력 필드 */}
             {gameState === 'playing' && (
-                <div className="mt-8 text-center">
+                <div className="mt-12 text-center">
                     <input
                         type="text"
                         value={inputValue}
                         onChange={handleInput}
-                        className="w-[600px] px-12 py-8 text-7xl text-center border-8 focus:outline-none focus:ring-8 focus:ring-orange-200 font-black rounded-full"
-                        style={{ borderColor: '#FF6B9D' }}
+                        className="px-20 py-12 text-center border-8 focus:outline-none focus:ring-8 focus:ring-orange-200 font-black rounded-full"
+                        style={{ borderColor: '#FF6B9D', width: '900px', fontSize: '10rem' }}
                         placeholder="여기 입력"
                         autoFocus
                     />
