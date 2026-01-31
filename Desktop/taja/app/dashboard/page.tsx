@@ -184,37 +184,36 @@ export default function DashboardPage() {
                         <div
                             key={mode.id}
                             onClick={() => router.push(`/practice/${mode.id}`)}
-                            className="group relative p-6 shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer transform hover:-translate-y-2"
+                            className="group relative bg-white p-6 shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer transform hover:-translate-y-1"
                             style={{
-                                borderRadius: '32px',
-                                background: 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)',
-                                border: '2px solid transparent'
+                                borderRadius: '24px',
+                                border: '2px solid #E0E0E0'
                             }}
                         >
                             {/* 카드 내용 */}
                             <div className="flex flex-col items-center text-center">
                                 {/* 이모지 아이콘 */}
-                                <div className="text-7xl mb-4 transform group-hover:scale-110 transition-transform duration-300">
+                                <div className="text-6xl mb-4 transform group-hover:scale-110 transition-transform duration-300">
                                     {mode.emoji}
                                 </div>
 
                                 {/* 제목 */}
-                                <h3 className="text-2xl font-bold mb-3 text-white">
+                                <h3 className="text-xl font-bold mb-2 text-gray-800">
                                     {mode.title}
                                 </h3>
 
                                 {/* 설명 */}
-                                <p className="text-base text-white/90 mb-4 leading-relaxed">
+                                <p className="text-sm text-gray-600 mb-4 leading-relaxed">
                                     {mode.description}
                                 </p>
 
                                 {/* 카테고리 태그 */}
                                 <div className="mt-auto w-full">
-                                    <div className="px-6 py-3 font-bold text-lg text-white text-center transition-all duration-300 transform group-hover:scale-105 shadow-lg bg-white/20 backdrop-blur-sm"
+                                    <div className="px-4 py-2 font-bold text-base text-white text-center transition-all duration-300 transform group-hover:scale-105 shadow-sm"
                                         style={{
-                                            borderRadius: '24px',
-                                            border: '2px solid rgba(255, 255, 255, 0.3)',
-                                            minHeight: '50px',
+                                            borderRadius: '16px',
+                                            background: 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)',
+                                            minHeight: '40px',
                                             display: 'flex',
                                             alignItems: 'center',
                                             justifyContent: 'center'
@@ -226,9 +225,6 @@ export default function DashboardPage() {
                                     </div>
                                 </div>
                             </div>
-
-                            {/* 호버 효과 */}
-                            <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300 bg-white rounded-[32px]" />
                         </div>
                     ))}
                 </div>
