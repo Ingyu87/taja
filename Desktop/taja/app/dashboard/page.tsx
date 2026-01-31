@@ -179,6 +179,60 @@ export default function DashboardPage() {
                     </div>
                 </div>
 
+                {/* AI 스토리 섹션 */}
+                <div className="mb-24 w-full">
+                    <div className="text-center mb-12">
+                        <div className="flex items-center justify-center gap-8 mb-6">
+                            <span style={{ fontSize: '4.5rem' }}>✨</span>
+                            <h2 style={{ fontSize: '4.05rem' }} className="font-black text-yellow-500 drop-shadow-lg leading-none">
+                                AI 이야기
+                            </h2>
+                            <span style={{ fontSize: '4.5rem' }}>✨</span>
+                        </div>
+                        <p style={{ fontSize: '2.25rem' }} className="font-black text-gray-700">
+                            AI가 만들어주는 신기한 이야기!
+                        </p>
+                    </div>
+
+                    <div className="w-full max-w-[95%] mx-auto">
+                        <div
+                            onClick={() => router.push('/story')}
+                            className="p-10 shadow-2xl hover:shadow-2xl transition-all duration-300 cursor-pointer transform hover:scale-105"
+                            style={{
+                                background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+                                borderRadius: '40px',
+                                border: '6px solid #FFD700',
+                                minHeight: '200px',
+                            }}
+                        >
+                            <div className="flex items-center justify-center gap-10 h-full">
+                                <div className="flex-shrink-0 p-10 rounded-3xl bg-white shadow-lg">
+                                    <div style={{ fontSize: '5.4rem', lineHeight: '1' }}>🤖</div>
+                                </div>
+                                <div className="flex-1 text-center">
+                                    <h3 className="font-black mb-4 drop-shadow-md leading-tight" style={{ fontSize: '3.15rem', color: '#FF8C00' }}>
+                                        마법의 이야기 만들기
+                                    </h3>
+                                    <p style={{ fontSize: '2.25rem' }} className="font-black text-white leading-snug">
+                                        좋아하는 단어로 AI가 이야기를 만들어줘요!
+                                    </p>
+                                </div>
+                                <div className="flex-shrink-0">
+                                    <div
+                                        className="px-12 py-6 font-black text-white text-center rounded-full shadow-xl hover:shadow-2xl transition-all"
+                                        style={{
+                                            background: 'linear-gradient(135deg, #FF8C00 0%, #FF6347 100%)',
+                                            fontSize: '2.25rem',
+                                        }}
+                                    >
+                                        시작! 🚀
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 {/* 게임 모드 섹션 */}
                 <div className="mb-12 w-full">
                     <div className="text-center mb-12">
@@ -443,7 +497,13 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
                                     </td>
                                     <td style={{ padding: '1.25rem' }}>
                                         <span className="px-3 py-1.5 bg-blue-50 text-blue-600 rounded-lg font-bold border border-blue-100" style={{ fontSize: '1.25rem' }}>
-                                            {log.mode}
+                                            {log.mode === 'vowel' ? '모음 연습' :
+                                             log.mode === 'consonant' ? '자음 연습' :
+                                             log.mode === 'word' ? '단어 연습' :
+                                             log.mode === 'sentence' ? '문장 연습' :
+                                             log.mode === 'falling' ? '떨어지는 글자' :
+                                             log.mode === 'timeattack' ? '시간 공격' :
+                                             log.mode}
                                         </span>
                                     </td>
                                     <td style={{ padding: '1.25rem', fontSize: '1.5rem' }}>

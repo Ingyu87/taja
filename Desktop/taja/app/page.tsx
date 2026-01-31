@@ -87,7 +87,18 @@ export default function Home() {
           </div>
 
           {/* 섹션 4: AI 스토리 */}
-          <div className="bg-white p-8">
+          <div
+            onClick={() => {
+              const userStr = localStorage.getItem('current_user');
+              const user = userStr ? JSON.parse(userStr) : null;
+              if (user) {
+                router.push('/story');
+              } else {
+                router.push('/login');
+              }
+            }}
+            className="bg-white p-8 cursor-pointer hover:bg-gray-50 transition-colors"
+          >
             <div className="flex items-start gap-6">
               <span style={{ fontSize: '5rem' }}>🤖</span>
               <div className="flex-1 text-left">
