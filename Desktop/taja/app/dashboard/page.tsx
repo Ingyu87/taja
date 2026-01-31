@@ -294,9 +294,9 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
         <div className="min-h-screen" style={{ backgroundColor: '#FAF9F6' }}>
             {/* 상단 헤더 - 로그아웃 버튼만 */}
             <div className="bg-white shadow-sm sticky top-0 z-10">
-                <div className="max-w-full mx-auto px-12 py-8">
+                <div className="max-w-full mx-auto px-6 py-4">
                     <div className="flex items-center justify-between">
-                        <h1 className="font-black" style={{ fontSize: '6rem', color: '#000000' }}>
+                        <h1 className="font-black" style={{ fontSize: '3rem', color: '#000000' }}>
                             👨‍🏫 교사 대시보드
                         </h1>
                         <button
@@ -304,8 +304,8 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
                             className="font-black text-white hover:opacity-90 transition-all rounded-3xl shadow-lg hover:shadow-xl transform hover:scale-105"
                             style={{ 
                                 background: 'linear-gradient(135deg, #FF6B9D 0%, #FF8FB9 100%)',
-                                padding: '2rem 3rem',
-                                fontSize: '4rem'
+                                padding: '1rem 1.5rem',
+                                fontSize: '2rem'
                             }}
                         >
                             👋 로그아웃
@@ -314,122 +314,122 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
                 </div>
             </div>
 
-            <main className="max-w-full mx-auto px-12 py-16">
+            <main className="max-w-full mx-auto px-6 py-8">
                 {/* 통계 카드 */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-16">
-                    <div className="bg-white shadow-lg" style={{ borderRadius: '40px', padding: '3rem' }}>
-                        <div className="flex items-center justify-between mb-6">
-                            <h3 className="text-gray-600 font-bold" style={{ fontSize: '3rem' }}>총 연습 횟수</h3>
-                            <span style={{ fontSize: '6rem' }}>📊</span>
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-5 mb-8">
+                    <div className="bg-white shadow-lg" style={{ borderRadius: '20px', padding: '1.5rem' }}>
+                        <div className="flex items-center justify-between mb-3">
+                            <h3 className="text-gray-600 font-bold" style={{ fontSize: '1.5rem' }}>총 연습 횟수</h3>
+                            <span style={{ fontSize: '3rem' }}>📊</span>
                         </div>
-                        <p className="font-bold text-blue-600" style={{ fontSize: '6rem' }}>{totalPracticeCount}회</p>
+                        <p className="font-bold text-blue-600" style={{ fontSize: '3rem' }}>{totalPracticeCount}회</p>
                     </div>
-                    <div className="bg-white shadow-lg" style={{ borderRadius: '40px', padding: '3rem' }}>
-                        <div className="flex items-center justify-between mb-6">
-                            <h3 className="text-gray-600 font-bold" style={{ fontSize: '3rem' }}>참여율</h3>
-                            <span style={{ fontSize: '6rem' }}>✅</span>
+                    <div className="bg-white shadow-lg" style={{ borderRadius: '20px', padding: '1.5rem' }}>
+                        <div className="flex items-center justify-between mb-3">
+                            <h3 className="text-gray-600 font-bold" style={{ fontSize: '1.5rem' }}>참여율</h3>
+                            <span style={{ fontSize: '3rem' }}>✅</span>
                         </div>
-                        <p className="font-bold text-green-600" style={{ fontSize: '6rem' }}>{participationRate}%</p>
+                        <p className="font-bold text-green-600" style={{ fontSize: '3rem' }}>{participationRate}%</p>
                     </div>
-                    <div className="bg-white shadow-lg" style={{ borderRadius: '40px', padding: '3rem' }}>
-                        <div className="flex items-center justify-between mb-6">
-                            <h3 className="text-gray-600 font-bold" style={{ fontSize: '3rem' }}>평균 타자 속도</h3>
-                            <span style={{ fontSize: '6rem' }}>⚡</span>
+                    <div className="bg-white shadow-lg" style={{ borderRadius: '20px', padding: '1.5rem' }}>
+                        <div className="flex items-center justify-between mb-3">
+                            <h3 className="text-gray-600 font-bold" style={{ fontSize: '1.5rem' }}>평균 타자 속도</h3>
+                            <span style={{ fontSize: '3rem' }}>⚡</span>
                         </div>
-                        <p className="font-bold text-purple-600" style={{ fontSize: '6rem' }}>{avgCpm} CPM</p>
+                        <p className="font-bold text-purple-600" style={{ fontSize: '3rem' }}>{avgCpm} CPM</p>
                     </div>
-                    <div className="bg-white shadow-lg" style={{ borderRadius: '40px', padding: '3rem' }}>
-                        <div className="flex items-center justify-between mb-6">
-                            <h3 className="text-gray-600 font-bold" style={{ fontSize: '3rem' }}>참여 학생 수</h3>
-                            <span style={{ fontSize: '6rem' }}>👥</span>
+                    <div className="bg-white shadow-lg" style={{ borderRadius: '20px', padding: '1.5rem' }}>
+                        <div className="flex items-center justify-between mb-3">
+                            <h3 className="text-gray-600 font-bold" style={{ fontSize: '1.5rem' }}>참여 학생 수</h3>
+                            <span style={{ fontSize: '3rem' }}>👥</span>
                         </div>
-                        <p className="font-bold text-orange-600" style={{ fontSize: '6rem' }}>{participatingStudents} / 30명</p>
+                        <p className="font-bold text-orange-600" style={{ fontSize: '3rem' }}>{participatingStudents} / 30명</p>
                     </div>
                 </div>
 
                 {/* 학생 현황 테이블 */}
-                <div className="bg-white shadow-lg overflow-hidden" style={{ borderRadius: '40px' }}>
-                        <div className="border-b border-gray-100" style={{ padding: '3rem' }}>
-                            <h2 className="font-bold text-gray-800" style={{ fontSize: '5rem' }}>학생별 현황</h2>
-                            <p className="text-gray-500 mt-2" style={{ fontSize: '2.5rem' }}>개별 학생의 학습 패턴을 확인하세요</p>
-                        </div>
-                        <table className="w-full text-left">
-                            <thead>
-                                <tr style={{
-                                    background: 'linear-gradient(135deg, #9B59B6 0%, #FF6B9D 100%)'
-                                }}>
-                                    <th className="text-white font-bold" style={{ padding: '2.5rem', fontSize: '3.5rem' }}>학생</th>
-                                    <th className="text-white font-bold" style={{ padding: '2.5rem', fontSize: '3.5rem' }}>최근 활동</th>
-                                    <th className="text-white font-bold" style={{ padding: '2.5rem', fontSize: '3.5rem' }}>연습 횟수</th>
-                                    <th className="text-white font-bold" style={{ padding: '2.5rem', fontSize: '3.5rem' }}>평균 속도</th>
-                                    <th className="text-white font-bold" style={{ padding: '2.5rem', fontSize: '3.5rem' }}>총 연습 시간</th>
-                                    <th className="text-white font-bold" style={{ padding: '2.5rem', fontSize: '3.5rem' }}>최근 접속</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-50">
-                                {studentStats.map((student) => (
-                                    <tr key={student.id} className="hover:bg-gray-50 transition-colors">
-                                        <td className="font-bold text-gray-700 flex items-center gap-4" style={{ padding: '2.5rem', fontSize: '3rem' }}>
-                                            <span style={{ fontSize: '4rem' }}>{student.avatar}</span>
-                                            <span>{student.id}</span>
-                                        </td>
-                                        <td style={{ padding: '2.5rem' }}>
-                                            {student.playCount > 0 ? (
-                                                <span className="px-6 py-3 bg-green-100 text-green-700 rounded-full font-bold" style={{ fontSize: '2.5rem' }}>활동중</span>
-                                            ) : (
-                                                <span className="px-6 py-3 bg-gray-100 text-gray-400 rounded-full font-bold" style={{ fontSize: '2.5rem' }}>미접속</span>
-                                            )}
-                                        </td>
-                                        <td className="font-medium" style={{ padding: '2.5rem', fontSize: '3rem' }}>{student.playCount}회</td>
-                                        <td className="font-medium" style={{ padding: '2.5rem', fontSize: '3rem' }}>{student.avgCpm} CPM</td>
-                                        <td className="font-medium" style={{ padding: '2.5rem', fontSize: '3rem' }}>{student.totalTime}초</td>
-                                        <td className="text-gray-500" style={{ padding: '2.5rem', fontSize: '2.5rem' }}>{student.lastLogin}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                <div className="bg-white shadow-lg overflow-hidden" style={{ borderRadius: '20px' }}>
+                    <div className="border-b border-gray-100" style={{ padding: '1.5rem' }}>
+                        <h2 className="font-bold text-gray-800" style={{ fontSize: '2.5rem' }}>학생별 현황</h2>
+                        <p className="text-gray-500 mt-1" style={{ fontSize: '1.25rem' }}>개별 학생의 학습 패턴을 확인하세요</p>
                     </div>
+                    <table className="w-full text-left">
+                        <thead>
+                            <tr style={{
+                                background: 'linear-gradient(135deg, #9B59B6 0%, #FF6B9D 100%)'
+                            }}>
+                                <th className="text-white font-bold" style={{ padding: '1.25rem', fontSize: '1.75rem' }}>학생</th>
+                                <th className="text-white font-bold" style={{ padding: '1.25rem', fontSize: '1.75rem' }}>최근 활동</th>
+                                <th className="text-white font-bold" style={{ padding: '1.25rem', fontSize: '1.75rem' }}>연습 횟수</th>
+                                <th className="text-white font-bold" style={{ padding: '1.25rem', fontSize: '1.75rem' }}>평균 속도</th>
+                                <th className="text-white font-bold" style={{ padding: '1.25rem', fontSize: '1.75rem' }}>총 연습 시간</th>
+                                <th className="text-white font-bold" style={{ padding: '1.25rem', fontSize: '1.75rem' }}>최근 접속</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-50">
+                            {studentStats.map((student) => (
+                                <tr key={student.id} className="hover:bg-gray-50 transition-colors">
+                                    <td className="font-bold text-gray-700 flex items-center gap-2" style={{ padding: '1.25rem', fontSize: '1.5rem' }}>
+                                        <span style={{ fontSize: '2rem' }}>{student.avatar}</span>
+                                        <span>{student.id}</span>
+                                    </td>
+                                    <td style={{ padding: '1.25rem' }}>
+                                        {student.playCount > 0 ? (
+                                            <span className="px-3 py-1.5 bg-green-100 text-green-700 rounded-full font-bold" style={{ fontSize: '1.25rem' }}>활동중</span>
+                                        ) : (
+                                            <span className="px-3 py-1.5 bg-gray-100 text-gray-400 rounded-full font-bold" style={{ fontSize: '1.25rem' }}>미접속</span>
+                                        )}
+                                    </td>
+                                    <td className="font-medium" style={{ padding: '1.25rem', fontSize: '1.5rem' }}>{student.playCount}회</td>
+                                    <td className="font-medium" style={{ padding: '1.25rem', fontSize: '1.5rem' }}>{student.avgCpm} CPM</td>
+                                    <td className="font-medium" style={{ padding: '1.25rem', fontSize: '1.5rem' }}>{student.totalTime}초</td>
+                                    <td className="text-gray-500" style={{ padding: '1.25rem', fontSize: '1.25rem' }}>{student.lastLogin}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
 
                 {/* 최근 활동 로그 */}
-                <div className="bg-white shadow-lg overflow-hidden mt-16" style={{ borderRadius: '40px' }}>
-                        <div className="border-b border-gray-100" style={{ padding: '3rem' }}>
-                            <h2 className="font-bold text-gray-800" style={{ fontSize: '5rem' }}>최근 활동 로그</h2>
-                            <p className="text-gray-500 mt-2" style={{ fontSize: '2.5rem' }}>학생들의 최근 학습 활동 내역</p>
-                        </div>
-                        <table className="w-full text-left">
-                            <thead>
-                                <tr style={{
-                                    background: 'linear-gradient(135deg, #9B59B6 0%, #FF6B9D 100%)'
-                                }}>
-                                    <th className="text-white font-bold" style={{ padding: '2.5rem', fontSize: '3.5rem' }}>시간</th>
-                                    <th className="text-white font-bold" style={{ padding: '2.5rem', fontSize: '3.5rem' }}>학생</th>
-                                    <th className="text-white font-bold" style={{ padding: '2.5rem', fontSize: '3.5rem' }}>활동</th>
-                                    <th className="text-white font-bold" style={{ padding: '2.5rem', fontSize: '3.5rem' }}>결과</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-50">
-                                {results.slice(0, 50).map((log, i) => (
-                                    <tr key={i} className="hover:bg-gray-50 transition-colors">
-                                        <td className="text-gray-500" style={{ padding: '2.5rem', fontSize: '2.5rem' }}>{new Date(log.createdAt).toLocaleString()}</td>
-                                        <td className="font-bold flex items-center gap-3" style={{ padding: '2.5rem', fontSize: '3rem' }}>
-                                            <span style={{ fontSize: '4rem' }}>{log.avatar}</span>
-                                            <span>{log.username}</span>
-                                        </td>
-                                        <td style={{ padding: '2.5rem' }}>
-                                            <span className="px-6 py-3 bg-blue-50 text-blue-600 rounded-lg font-bold border border-blue-100" style={{ fontSize: '2.5rem' }}>
-                                                {log.mode}
-                                            </span>
-                                        </td>
-                                        <td style={{ padding: '2.5rem', fontSize: '3rem' }}>
-                                            <span className="font-medium text-gray-700">{log.cpm} CPM</span>
-                                            <span className="text-gray-400 mx-2">|</span>
-                                            <span className="text-gray-500">{log.accuracy}%</span>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                <div className="bg-white shadow-lg overflow-hidden mt-8" style={{ borderRadius: '20px' }}>
+                    <div className="border-b border-gray-100" style={{ padding: '1.5rem' }}>
+                        <h2 className="font-bold text-gray-800" style={{ fontSize: '2.5rem' }}>최근 활동 로그</h2>
+                        <p className="text-gray-500 mt-1" style={{ fontSize: '1.25rem' }}>학생들의 최근 학습 활동 내역</p>
                     </div>
+                    <table className="w-full text-left">
+                        <thead>
+                            <tr style={{
+                                background: 'linear-gradient(135deg, #9B59B6 0%, #FF6B9D 100%)'
+                            }}>
+                                <th className="text-white font-bold" style={{ padding: '1.25rem', fontSize: '1.75rem' }}>시간</th>
+                                <th className="text-white font-bold" style={{ padding: '1.25rem', fontSize: '1.75rem' }}>학생</th>
+                                <th className="text-white font-bold" style={{ padding: '1.25rem', fontSize: '1.75rem' }}>활동</th>
+                                <th className="text-white font-bold" style={{ padding: '1.25rem', fontSize: '1.75rem' }}>결과</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-50">
+                            {results.slice(0, 50).map((log, i) => (
+                                <tr key={i} className="hover:bg-gray-50 transition-colors">
+                                    <td className="text-gray-500" style={{ padding: '1.25rem', fontSize: '1.25rem' }}>{new Date(log.createdAt).toLocaleString()}</td>
+                                    <td className="font-bold flex items-center gap-1.5" style={{ padding: '1.25rem', fontSize: '1.5rem' }}>
+                                        <span style={{ fontSize: '2rem' }}>{log.avatar}</span>
+                                        <span>{log.username}</span>
+                                    </td>
+                                    <td style={{ padding: '1.25rem' }}>
+                                        <span className="px-3 py-1.5 bg-blue-50 text-blue-600 rounded-lg font-bold border border-blue-100" style={{ fontSize: '1.25rem' }}>
+                                            {log.mode}
+                                        </span>
+                                    </td>
+                                    <td style={{ padding: '1.25rem', fontSize: '1.5rem' }}>
+                                        <span className="font-medium text-gray-700">{log.cpm} CPM</span>
+                                        <span className="text-gray-400 mx-2">|</span>
+                                        <span className="text-gray-500">{log.accuracy}%</span>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </main>
         </div>
     );
