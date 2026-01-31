@@ -85,7 +85,11 @@ export default function FallingGamePage() {
     useEffect(() => {
         if (gameState !== 'playing' || !difficulty) return;
 
-        const spawnInterval = Math.max(800 - level * 50, 300);
+        // 난이도별 생성 간격 설정
+        const getSpawnInterval = () => {
+            const baseInterval = difficulty === '하' ? 1200 : difficulty === '중' ? 800 : 600;
+            return Math.max(baseInterval - level * 50, 300);
+        };
 
         // 난이도별 속도 설정
         const getSpeed = () => {
@@ -101,11 +105,11 @@ export default function FallingGamePage() {
             setFallingChars(prev => {
                 // 겹치지 않는 x 위치 찾기
                 const findNonOverlappingX = (): number => {
-                    const MIN_DISTANCE = 15; // 최소 거리 (%)
-                    const topChars = prev.filter(char => char.y < 30); // 상단 30% 이내의 글자들만 체크
+                    const MIN_DISTANCE = 20; // 최소 거리 (%) - 15에서 20으로 증가
+                    const topChars = prev.filter(char => char.y < 40); // 상단 40% 이내의 글자들 체크 (30에서 40으로 증가)
                     
-                    for (let attempt = 0; attempt < 10; attempt++) {
-                        const newX = Math.random() * 80 + 10;
+                    for (let attempt = 0; attempt < 20; attempt++) { // 시도 횟수 10에서 20으로 증가
+                        const newX = Math.random() * 70 + 15; // 생성 범위 조정 (80+10 -> 70+15)
                         
                         // 기존 글자들과의 거리 체크
                         const isTooClose = topChars.some(char => 
@@ -118,7 +122,7 @@ export default function FallingGamePage() {
                     }
                     
                     // 적절한 위치를 못 찾으면 랜덤 위치 반환
-                    return Math.random() * 80 + 10;
+                    return Math.random() * 70 + 15;
                 };
                 
                 const newChar: FallingChar = {
@@ -131,7 +135,7 @@ export default function FallingGamePage() {
                 
                 return [...prev, newChar];
             });
-        }, spawnInterval);
+        }, getSpawnInterval());
 
         return () => {
             if (spawnTimerRef.current) clearInterval(spawnTimerRef.current);
