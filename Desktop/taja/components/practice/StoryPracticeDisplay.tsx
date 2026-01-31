@@ -6,38 +6,18 @@ interface StoryPracticeDisplayProps {
 }
 
 export const StoryPracticeDisplay = ({ targetText, inputText }: StoryPracticeDisplayProps) => {
-    // 문장 단위로 분리 (마침표, 느낌표, 물음표 기준)
-    const sentences = targetText.split(/([.!?]\s*)/g).filter(s => s.trim().length > 0);
-    
     // 현재 입력 진행률 계산
     const progress = Math.round((inputText.length / targetText.length) * 100);
     
-    // 현재 어느 문장을 치고 있는지 계산
-    let currentSentenceIndex = 0;
-    let accumulatedLength = 0;
-    
-    for (let i = 0; i < sentences.length; i++) {
-        accumulatedLength += sentences[i].length;
-        if (inputText.length < accumulatedLength) {
-            currentSentenceIndex = i;
-            break;
-        }
-        if (i === sentences.length - 1) {
-            currentSentenceIndex = i;
-        }
-    }
-    
-    // 현재 문장 시작 위치
-    let sentenceStartPos = 0;
-    for (let i = 0; i < currentSentenceIndex; i++) {
-        sentenceStartPos += sentences[i].length;
-    }
-    
-    const currentSentence = sentences[currentSentenceIndex] || '';
-    const relativeInputPos = inputText.length - sentenceStartPos;
+    // 현재 어느 부분을 치고 있는지 (한 줄에 최대 20글자씩 표시)
+    const CHARS_PER_LINE = 20;
+    const currentLineIndex = Math.floor(inputText.length / CHARS_PER_LINE);
+    const lineStartPos = currentLineIndex * CHARS_PER_LINE;
+    const lineEndPos = Math.min(lineStartPos + CHARS_PER_LINE, targetText.length);
+    const currentLine = targetText.substring(lineStartPos, lineEndPos);
 
     return (
-        <div className="w-full max-w-4xl mx-auto">
+        <div className="w-full max-w-5xl mx-auto">
             {/* 진행률 표시 */}
             <div className="mb-6">
                 <div className="flex justify-between items-center mb-2">
@@ -56,7 +36,7 @@ export const StoryPracticeDisplay = ({ targetText, inputText }: StoryPracticeDis
                 </div>
             </div>
 
-            {/* 현재 문장 표시 */}
+            {/* 현재 줄 표시 */}
             <div className="bg-white p-10 shadow-2xl mb-6" style={{ borderRadius: '30px' }}>
                 <div className="text-center mb-6">
                     <h2 className="font-bold text-gray-800" style={{ fontSize: '2.5rem' }}>
@@ -64,59 +44,52 @@ export const StoryPracticeDisplay = ({ targetText, inputText }: StoryPracticeDis
                     </h2>
                 </div>
 
-                {/* 현재 문장을 단어 단위로 표시 */}
-                <div className="flex flex-wrap justify-center gap-8">
-                    {currentSentence.split(' ').map((word, wordIdx) => {
-                        // 각 단어의 시작 위치 계산
-                        const wordsBeforeCurrent = currentSentence.split(' ').slice(0, wordIdx);
-                        const wordStartPos = wordsBeforeCurrent.reduce((acc, w) => acc + w.length + 1, 0);
-                        
+                {/* 현재 줄을 글자별로 표시 (띄어쓰기 포함) */}
+                <div className="flex flex-wrap justify-center gap-3">
+                    {currentLine.split('').map((char, index) => {
+                        const absolutePos = lineStartPos + index;
+                        const isCompleted = absolutePos < inputText.length && inputText[absolutePos] === char;
+                        const isCurrent = absolutePos === inputText.length;
+                        const isWrong = absolutePos < inputText.length && inputText[absolutePos] !== char;
+
+                        let bgColor = 'transparent';
+                        let textColor = '#000000';
+                        let borderColor = '#E0E0E0';
+
+                        if (isCompleted) {
+                            bgColor = '#4ADE80'; // 초록
+                            textColor = 'white';
+                            borderColor = '#4ADE80';
+                        } else if (isCurrent) {
+                            bgColor = '#FCD34D'; // 노랑
+                            borderColor = '#9B59B6';
+                            textColor = '#000000';
+                        } else if (isWrong) {
+                            bgColor = '#EF4444'; // 빨강
+                            textColor = 'white';
+                            borderColor = '#EF4444';
+                        }
+
+                        // 띄어쓰기는 특별하게 표시
+                        const isSpace = char === ' ';
+
                         return (
-                            <div key={wordIdx} className="flex gap-2">
-                                {word.split('').map((char, charIdx) => {
-                                    const absoluteCharPos = wordStartPos + charIdx;
-                                    const isCompleted = absoluteCharPos < relativeInputPos && inputText[sentenceStartPos + absoluteCharPos] === char;
-                                    const isCurrent = absoluteCharPos === relativeInputPos;
-                                    const isWrong = absoluteCharPos < relativeInputPos && inputText[sentenceStartPos + absoluteCharPos] !== char;
-
-                                    let bgColor = 'transparent';
-                                    let textColor = '#000000';
-                                    let borderColor = '#E0E0E0';
-
-                                    if (isCompleted) {
-                                        bgColor = '#4ADE80'; // 초록
-                                        textColor = 'white';
-                                        borderColor = '#4ADE80';
-                                    } else if (isCurrent) {
-                                        bgColor = '#FCD34D'; // 노랑
-                                        borderColor = '#9B59B6';
-                                        textColor = '#000000';
-                                    } else if (isWrong) {
-                                        bgColor = '#EF4444'; // 빨강
-                                        textColor = 'white';
-                                        borderColor = '#EF4444';
-                                    }
-
-                                    return (
-                                        <div
-                                            key={charIdx}
-                                            className="flex items-center justify-center font-black transition-all duration-200"
-                                            style={{
-                                                width: '5rem',
-                                                height: '5rem',
-                                                borderRadius: '12px',
-                                                backgroundColor: bgColor,
-                                                color: textColor,
-                                                border: `3px solid ${borderColor}`,
-                                                transform: isCurrent ? 'scale(1.15)' : 'scale(1)',
-                                                fontSize: '3.5rem',
-                                                boxShadow: isCurrent ? '0 4px 20px rgba(155, 89, 182, 0.4)' : 'none'
-                                            }}
-                                        >
-                                            {char}
-                                        </div>
-                                    );
-                                })}
+                            <div
+                                key={index}
+                                className="flex items-center justify-center font-black transition-all duration-200"
+                                style={{
+                                    width: isSpace ? '4rem' : '5rem',
+                                    height: '5rem',
+                                    borderRadius: '12px',
+                                    backgroundColor: isSpace && !isCompleted && !isWrong ? '#F0F0F0' : bgColor,
+                                    color: textColor,
+                                    border: `3px solid ${borderColor}`,
+                                    transform: isCurrent ? 'scale(1.15)' : 'scale(1)',
+                                    fontSize: isSpace ? '2rem' : '3.5rem',
+                                    boxShadow: isCurrent ? '0 4px 20px rgba(155, 89, 182, 0.4)' : 'none'
+                                }}
+                            >
+                                {isSpace ? '␣' : char}
                             </div>
                         );
                     })}
