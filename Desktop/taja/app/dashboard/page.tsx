@@ -32,10 +32,20 @@ const PRACTICE_MODES = [
     },
 ];
 
+const NAV_TABS = [
+    { id: 'changche', label: '창체', icon: '🎭', active: true },
+    { id: 'math', label: '수학', icon: '1234' },
+    { id: 'korean', label: '국어', icon: '📖' },
+    { id: 'social', label: '사회', icon: '🌍' },
+    { id: 'class', label: '학급운영', icon: '🏠' },
+    { id: 'manage', label: '관리', icon: '⚙️' },
+];
+
 export default function DashboardPage() {
     const router = useRouter();
     const [user, setUser] = useState<User | null>(null);
     const [selectedCategory, setSelectedCategory] = useState<string>('all');
+    const [activeTab, setActiveTab] = useState<string>('changche');
 
     useEffect(() => {
         const currentUser = getCurrentUser();
@@ -68,167 +78,129 @@ export default function DashboardPage() {
             {/* 상단 네비게이션 바 */}
             <div className="bg-white shadow-sm sticky top-0 z-10">
                 <div className="max-w-7xl mx-auto">
-                    {/* 상단 헤더 */}
-                    <div className="px-8 py-4 flex justify-between items-center border-b border-gray-100">
-                        <div className="flex items-center gap-4">
-                            <span className="text-4xl">{user.avatar}</span>
-                            <div>
-                                <p className="text-xl font-bold text-gray-800">{user.username}</p>
-                                <p className="text-sm text-gray-500">🎓 학생</p>
+                    <nav className="px-8 py-4">
+                        <div className="flex items-center justify-between">
+                            {/* 왼쪽 탭들 */}
+                            <div className="flex items-center gap-2">
+                                {NAV_TABS.map((tab) => (
+                                    <button
+                                        key={tab.id}
+                                        onClick={() => setActiveTab(tab.id)}
+                                        className={`px-6 py-3 font-bold text-lg whitespace-nowrap transition-all rounded-2xl ${
+                                            activeTab === tab.id
+                                                ? 'text-white'
+                                                : 'text-gray-600 bg-white hover:bg-gray-50'
+                                        }`}
+                                        style={
+                                            activeTab === tab.id
+                                                ? {
+                                                      background: 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)',
+                                                  }
+                                                : {}
+                                        }
+                                    >
+                                        <span className="mr-2">{tab.icon}</span>
+                                        {tab.label}
+                                    </button>
+                                ))}
                             </div>
-                        </div>
-                        <div className="flex items-center gap-4">
-                            <button
-                                onClick={() => router.push('/ranking')}
-                                className="px-8 py-4 font-bold text-xl bg-white text-gray-600 hover:bg-gray-50 transition-all"
-                                style={{ borderRadius: '24px', border: '3px solid #E0E0E0', minHeight: '56px' }}
-                            >
-                                랭킹
-                            </button>
-                            <button
-                                onClick={handleLogout}
-                                className="px-8 py-4 font-bold text-xl bg-white text-gray-600 hover:bg-gray-50 transition-all"
-                                style={{ borderRadius: '24px', border: '3px solid #E0E0E0', minHeight: '56px' }}
-                            >
-                                로그아웃
-                            </button>
-                        </div>
-                    </div>
-                    {/* 네비게이션 메뉴 바 */}
-                    <nav className="px-8">
-                        <div className="flex gap-2 border-b-2 border-gray-200">
-                            <button
-                                onClick={() => setSelectedCategory('all')}
-                                className={`px-8 py-5 font-bold text-xl whitespace-nowrap transition-all relative ${
-                                    selectedCategory === 'all'
-                                        ? 'text-pink-600'
-                                        : 'text-gray-600 hover:text-gray-800'
-                                }`}
-                                style={{ minHeight: '64px' }}
-                            >
-                                전체
-                                {selectedCategory === 'all' && (
-                                    <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-pink-400 to-cyan-400" style={{ transform: 'translateY(2px)' }}></div>
-                                )}
-                            </button>
-                            <button
-                                onClick={() => setSelectedCategory('vowel')}
-                                className={`px-8 py-5 font-bold text-xl whitespace-nowrap transition-all relative ${
-                                    selectedCategory === 'vowel'
-                                        ? 'text-pink-600'
-                                        : 'text-gray-600 hover:text-gray-800'
-                                }`}
-                                style={{ minHeight: '64px' }}
-                            >
-                                🎨 모음
-                                {selectedCategory === 'vowel' && (
-                                    <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-pink-400 to-cyan-400" style={{ transform: 'translateY(2px)' }}></div>
-                                )}
-                            </button>
-                            <button
-                                onClick={() => setSelectedCategory('consonant')}
-                                className={`px-8 py-5 font-bold text-xl whitespace-nowrap transition-all relative ${
-                                    selectedCategory === 'consonant'
-                                        ? 'text-pink-600'
-                                        : 'text-gray-600 hover:text-gray-800'
-                                }`}
-                                style={{ minHeight: '64px' }}
-                            >
-                                📚 자음
-                                {selectedCategory === 'consonant' && (
-                                    <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-pink-400 to-cyan-400" style={{ transform: 'translateY(2px)' }}></div>
-                                )}
-                            </button>
-                            <button
-                                onClick={() => setSelectedCategory('word')}
-                                className={`px-8 py-5 font-bold text-xl whitespace-nowrap transition-all relative ${
-                                    selectedCategory === 'word'
-                                        ? 'text-pink-600'
-                                        : 'text-gray-600 hover:text-gray-800'
-                                }`}
-                                style={{ minHeight: '64px' }}
-                            >
-                                🎁 단어
-                                {selectedCategory === 'word' && (
-                                    <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-pink-400 to-cyan-400" style={{ transform: 'translateY(2px)' }}></div>
-                                )}
-                            </button>
-                            <button
-                                onClick={() => setSelectedCategory('sentence')}
-                                className={`px-8 py-5 font-bold text-xl whitespace-nowrap transition-all relative ${
-                                    selectedCategory === 'sentence'
-                                        ? 'text-pink-600'
-                                        : 'text-gray-600 hover:text-gray-800'
-                                }`}
-                                style={{ minHeight: '64px' }}
-                            >
-                                📖 문장
-                                {selectedCategory === 'sentence' && (
-                                    <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-pink-400 to-cyan-400" style={{ transform: 'translateY(2px)' }}></div>
-                                )}
-                            </button>
+                            {/* 오른쪽 버튼들 */}
+                            <div className="flex items-center gap-3">
+                                <button
+                                    className="px-6 py-3 font-bold text-lg bg-white text-gray-600 hover:bg-gray-50 transition-all rounded-2xl"
+                                    style={{ border: '2px solid #E0E0E0' }}
+                                >
+                                    👤 선생님
+                                </button>
+                                <button
+                                    onClick={handleLogout}
+                                    className="px-6 py-3 font-bold text-lg bg-white text-gray-600 hover:bg-gray-50 transition-all rounded-2xl"
+                                    style={{ border: '2px solid #E0E0E0' }}
+                                >
+                                    로그아웃
+                                </button>
+                            </div>
                         </div>
                     </nav>
                 </div>
             </div>
 
             {/* 메인 콘텐츠 */}
-            <div className="max-w-5xl mx-auto px-8 py-12">
-                <h2 className="text-4xl font-bold mb-8 text-center text-gray-800">
-                    {selectedCategory === 'all' ? `${PRACTICE_MODES.length}개의 앱` : 
-                     selectedCategory === 'vowel' ? '모음 연습 앱' :
-                     selectedCategory === 'consonant' ? '자음 연습 앱' :
-                     selectedCategory === 'word' ? '단어 연습 앱' : '문장 연습 앱'}
-                </h2>
+            <div className="max-w-6xl mx-auto px-8 py-12">
+                <div className="text-center mb-8">
+                    <h1 className="text-5xl font-bold mb-2 text-gray-800">창체 웹앱</h1>
+                    <p className="text-2xl text-gray-600">{PRACTICE_MODES.length}개의 앱</p>
+                </div>
 
-                {/* 연습 모드 카드 그리드 */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 justify-items-center">
-                    {PRACTICE_MODES
-                        .filter(mode => selectedCategory === 'all' || mode.id === selectedCategory)
-                        .map((mode) => (
+                {/* 앱 카드 그리드 - 3개 위, 2개 아래 */}
+                <div className="grid grid-cols-3 gap-6 mb-6">
+                    {PRACTICE_MODES.slice(0, 3).map((mode) => (
                         <div
                             key={mode.id}
                             onClick={() => router.push(`/practice/${mode.id}`)}
-                            className="group relative bg-white p-6 shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer transform hover:-translate-y-1"
+                            className="bg-white p-6 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-1 rounded-3xl"
                             style={{
-                                borderRadius: '24px',
-                                border: '2px solid #E0E0E0',
-                                width: '100%',
-                                maxWidth: '380px'
+                                border: '1px solid #E0E0E0',
                             }}
                         >
-                            {/* 카드 내용 */}
                             <div className="flex flex-col items-center text-center">
-                                {/* 이모지 아이콘 */}
-                                <div className="text-6xl mb-4 transform group-hover:scale-110 transition-transform duration-300">
-                                    {mode.emoji}
-                                </div>
-
+                                {/* 아이콘 */}
+                                <div className="text-7xl mb-4">{mode.emoji}</div>
                                 {/* 제목 */}
-                                <h3 className="text-xl font-bold mb-2 text-gray-800">
-                                    {mode.title}
-                                </h3>
-
+                                <h3 className="text-2xl font-bold mb-3 text-gray-800">{mode.title}</h3>
                                 {/* 설명 */}
-                                <p className="text-base text-gray-600 mb-4 leading-relaxed">
-                                    {mode.description}
-                                </p>
-
-                                {/* 카테고리 태그 */}
+                                <p className="text-lg text-gray-600 mb-4 leading-relaxed">{mode.description}</p>
+                                {/* 하단 태그 버튼 */}
                                 <div className="mt-auto w-full">
-                                    <div className="px-4 py-2 font-bold text-base text-white text-center transition-all duration-300 transform group-hover:scale-105 shadow-sm"
+                                    <div
+                                        className="px-4 py-2 font-bold text-base text-white text-center rounded-2xl"
                                         style={{
-                                            borderRadius: '16px',
                                             background: 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)',
                                             minHeight: '40px',
                                             display: 'flex',
                                             alignItems: 'center',
-                                            justifyContent: 'center'
+                                            justifyContent: 'center',
                                         }}
                                     >
-                                        {mode.id === 'vowel' ? '🎨 모음' :
-                                         mode.id === 'consonant' ? '📚 자음' :
-                                         mode.id === 'word' ? '🎁 단어' : '📖 문장'}
+                                        창체
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+
+                {/* 아래 2개 카드 */}
+                <div className="grid grid-cols-2 gap-6 max-w-4xl mx-auto">
+                    {PRACTICE_MODES.slice(3, 5).map((mode) => (
+                        <div
+                            key={mode.id}
+                            onClick={() => router.push(`/practice/${mode.id}`)}
+                            className="bg-white p-6 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-1 rounded-3xl"
+                            style={{
+                                border: '1px solid #E0E0E0',
+                            }}
+                        >
+                            <div className="flex flex-col items-center text-center">
+                                {/* 아이콘 */}
+                                <div className="text-7xl mb-4">{mode.emoji}</div>
+                                {/* 제목 */}
+                                <h3 className="text-2xl font-bold mb-3 text-gray-800">{mode.title}</h3>
+                                {/* 설명 */}
+                                <p className="text-lg text-gray-600 mb-4 leading-relaxed">{mode.description}</p>
+                                {/* 하단 태그 버튼 */}
+                                <div className="mt-auto w-full">
+                                    <div
+                                        className="px-4 py-2 font-bold text-base text-white text-center rounded-2xl"
+                                        style={{
+                                            background: 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)',
+                                            minHeight: '40px',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                        }}
+                                    >
+                                        창체
                                     </div>
                                 </div>
                             </div>
@@ -245,10 +217,10 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
     const [results, setResults] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [view, setView] = useState<'students' | 'recent' | 'stats'>('students');
+    const [activeTab, setActiveTab] = useState<string>('changche');
 
     useEffect(() => {
         const fetchData = async () => {
-            // 동적 임포트로 순환 참조 방지 및 클라이언트 전용 로드
             const { getAllResultsFromFirestore } = await import('@/lib/firestore');
             const data = await getAllResultsFromFirestore();
             setResults(data);
@@ -257,10 +229,9 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
         fetchData();
     }, []);
 
-    // 데이터 가공
     const studentStats = Array.from({ length: 30 }, (_, i) => `a${i + 1}`).map(studentId => {
         const studentLogs = results.filter(r => r.userId === studentId);
-        const lastLog = studentLogs.length > 0 ? studentLogs[0] : null; // 최신순 정렬되어 있음
+        const lastLog = studentLogs.length > 0 ? studentLogs[0] : null;
         const totalTime = studentLogs.reduce((acc, curr) => acc + (curr.time || 0), 0);
         const avgCpm = studentLogs.length > 0
             ? Math.round(studentLogs.reduce((acc, curr) => acc + (curr.cpm || 0), 0) / studentLogs.length)
@@ -290,63 +261,49 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
         <div className="min-h-screen" style={{ backgroundColor: '#FAF9F6' }}>
             {/* 상단 네비게이션 바 */}
             <div className="bg-white shadow-sm sticky top-0 z-10">
-                <div className="max-w-7xl mx-auto px-8 py-4">
-                    <div className="flex justify-between items-center mb-4">
-                        <div className="flex items-center gap-4">
-                            <span className="text-4xl">👨‍🏫</span>
-                            <div>
-                                <h1 className="text-2xl font-bold text-gray-800">교사 대시보드</h1>
-                                <p className="text-sm text-gray-500">학생들의 학습 현황을 확인하세요</p>
+                <div className="max-w-7xl mx-auto">
+                    <nav className="px-8 py-4">
+                        <div className="flex items-center justify-between">
+                            {/* 왼쪽 탭들 */}
+                            <div className="flex items-center gap-2">
+                                {NAV_TABS.map((tab) => (
+                                    <button
+                                        key={tab.id}
+                                        onClick={() => setActiveTab(tab.id)}
+                                        className={`px-6 py-3 font-bold text-lg whitespace-nowrap transition-all rounded-2xl ${
+                                            activeTab === tab.id
+                                                ? 'text-white'
+                                                : 'text-gray-600 bg-white hover:bg-gray-50'
+                                        }`}
+                                        style={
+                                            activeTab === tab.id
+                                                ? {
+                                                      background: 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)',
+                                                  }
+                                                : {}
+                                        }
+                                    >
+                                        <span className="mr-2">{tab.icon}</span>
+                                        {tab.label}
+                                    </button>
+                                ))}
                             </div>
-                        </div>
-                        <div className="flex items-center gap-4">
-                            <button
-                                onClick={() => router.push('/ranking')}
-                                className="px-8 py-4 font-bold text-xl bg-white text-gray-600 hover:bg-gray-50 transition-all"
-                                style={{ borderRadius: '24px', border: '3px solid #E0E0E0', minHeight: '56px' }}
-                            >
-                                랭킹
-                            </button>
-                            <button
-                                onClick={onLogout}
-                                className="px-8 py-4 font-bold text-xl bg-white text-gray-600 hover:bg-gray-50 transition-all"
-                                style={{ borderRadius: '24px', border: '3px solid #E0E0E0', minHeight: '56px' }}
-                            >
-                                로그아웃
-                            </button>
-                        </div>
-                    </div>
-                    {/* 탭 네비게이션 */}
-                    <nav className="px-8">
-                        <div className="flex gap-2 border-b-2 border-gray-200">
-                            <button
-                                onClick={() => setView('students')}
-                                className={`px-8 py-5 font-bold text-xl whitespace-nowrap transition-all relative ${
-                                    view === 'students'
-                                        ? 'text-pink-600'
-                                        : 'text-gray-600 hover:text-gray-800'
-                                }`}
-                                style={{ minHeight: '64px' }}
-                            >
-                                학생별 현황
-                                {view === 'students' && (
-                                    <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-pink-400 to-cyan-400" style={{ transform: 'translateY(2px)' }}></div>
-                                )}
-                            </button>
-                            <button
-                                onClick={() => setView('recent')}
-                                className={`px-8 py-5 font-bold text-xl whitespace-nowrap transition-all relative ${
-                                    view === 'recent'
-                                        ? 'text-pink-600'
-                                        : 'text-gray-600 hover:text-gray-800'
-                                }`}
-                                style={{ minHeight: '64px' }}
-                            >
-                                최근 활동 로그
-                                {view === 'recent' && (
-                                    <div className="absolute bottom-0 left-0 right-0 h-2 bg-gradient-to-r from-pink-400 to-cyan-400" style={{ transform: 'translateY(2px)' }}></div>
-                                )}
-                            </button>
+                            {/* 오른쪽 버튼들 */}
+                            <div className="flex items-center gap-3">
+                                <button
+                                    className="px-6 py-3 font-bold text-lg bg-white text-gray-600 hover:bg-gray-50 transition-all rounded-2xl"
+                                    style={{ border: '2px solid #E0E0E0' }}
+                                >
+                                    👤 선생님
+                                </button>
+                                <button
+                                    onClick={onLogout}
+                                    className="px-6 py-3 font-bold text-lg bg-white text-gray-600 hover:bg-gray-50 transition-all rounded-2xl"
+                                    style={{ border: '2px solid #E0E0E0' }}
+                                >
+                                    로그아웃
+                                </button>
+                            </div>
                         </div>
                     </nav>
                 </div>
@@ -476,4 +433,3 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
         </div>
     );
 }
-
