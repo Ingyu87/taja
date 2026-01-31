@@ -47,12 +47,11 @@ export const useTyping = ({ targetText, onFinish }: UseTypingProps) => {
         if (value === targetText && value.length === targetText.length && value.length > 0) {
             // 완료 상태로 변경 (한 번만 실행)
             if (status !== 'finished') {
-                setStatus('finished');
-                // 입력 필드 즉시 리셋
-                setInputText('');
-                
                 const endTime = Date.now();
                 const actualStartTime = startTime || Date.now();
+                
+                // 즉시 상태 변경
+                setStatus('finished');
                 
                 if (onFinish) {
                     // 완료 콜백 호출 (startTime이 없어도 최소 시간으로 처리)
@@ -62,6 +61,11 @@ export const useTyping = ({ targetText, onFinish }: UseTypingProps) => {
                         time: (endTime - actualStartTime) / 1000
                     });
                 }
+                
+                // onFinish 이후 입력 필드 비우기 (약간 지연)
+                setTimeout(() => {
+                    setInputText('');
+                }, 50);
             }
         }
     }, [status, startTime, targetText, onFinish]);
