@@ -153,26 +153,26 @@ export default function PracticePage() {
                             <StoryGenerator keywords={practiceTexts} />
                         )}
 
-                        <div className="flex gap-6 justify-center mt-12">
+                        <div className="flex gap-4 justify-center mt-12">
                             <button
                                 onClick={handleRestart}
-                                className="px-16 py-8 font-black text-4xl text-white transition-all duration-200 hover:opacity-90 shadow-xl transform hover:scale-105"
+                                className="px-8 py-4 font-bold text-xl text-white transition-all duration-200 hover:opacity-90 shadow-lg transform hover:scale-105"
                                 style={{
-                                    borderRadius: '48px',
+                                    borderRadius: '24px',
                                     background: 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)',
-                                    minHeight: '100px'
+                                    minHeight: '60px'
                                 }}
                             >
                                 다시 하기 🔄
                             </button>
                             <button
-                                onClick={() => router.push('/')}
-                                className="px-16 py-8 font-black text-4xl bg-white transition-all duration-200 hover:shadow-xl transform hover:scale-105"
+                                onClick={() => router.push('/dashboard')}
+                                className="px-8 py-4 font-bold text-xl bg-white transition-all duration-200 hover:shadow-lg transform hover:scale-105"
                                 style={{
-                                    borderRadius: '48px',
+                                    borderRadius: '24px',
                                     color: '#666',
-                                    border: '4px solid #E0E0E0',
-                                    minHeight: '100px'
+                                    border: '2px solid #E0E0E0',
+                                    minHeight: '60px'
                                 }}
                             >
                                 홈으로 🏠

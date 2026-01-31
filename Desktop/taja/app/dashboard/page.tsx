@@ -177,7 +177,7 @@ export default function DashboardPage() {
                 </h2>
 
                 {/* 연습 모드 카드 그리드 */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 justify-items-center">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 justify-items-center">
                     {PRACTICE_MODES
                         .filter(mode => selectedCategory === 'all' || mode.id === selectedCategory)
                         .map((mode) => (
@@ -189,7 +189,7 @@ export default function DashboardPage() {
                                 borderRadius: '24px',
                                 border: '2px solid #E0E0E0',
                                 width: '100%',
-                                maxWidth: '400px'
+                                maxWidth: '380px'
                             }}
                         >
                             {/* 카드 내용 */}
@@ -312,30 +312,36 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
                         </div>
                     </div>
                     {/* 탭 네비게이션 */}
-                    <div className="flex gap-3">
-                        <button
-                            onClick={() => setView('students')}
-                            className={`px-6 py-3 font-bold text-lg transition-all ${
-                                view === 'students'
-                                    ? 'bg-gradient-to-r from-pink-400 to-cyan-400 text-white shadow-md'
-                                    : 'bg-white text-gray-600 hover:bg-gray-50'
-                            }`}
-                            style={{ borderRadius: '20px' }}
-                        >
-                            학생별 현황
-                        </button>
-                        <button
-                            onClick={() => setView('recent')}
-                            className={`px-6 py-3 font-bold text-lg transition-all ${
-                                view === 'recent'
-                                    ? 'bg-gradient-to-r from-pink-400 to-cyan-400 text-white shadow-md'
-                                    : 'bg-white text-gray-600 hover:bg-gray-50'
-                            }`}
-                            style={{ borderRadius: '20px' }}
-                        >
-                            최근 활동 로그
-                        </button>
-                    </div>
+                    <nav className="px-8">
+                        <div className="flex gap-1 border-b-2 border-gray-200">
+                            <button
+                                onClick={() => setView('students')}
+                                className={`px-6 py-4 font-bold text-lg whitespace-nowrap transition-all relative ${
+                                    view === 'students'
+                                        ? 'text-pink-600'
+                                        : 'text-gray-600 hover:text-gray-800'
+                                }`}
+                            >
+                                학생별 현황
+                                {view === 'students' && (
+                                    <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-pink-400 to-cyan-400" style={{ transform: 'translateY(2px)' }}></div>
+                                )}
+                            </button>
+                            <button
+                                onClick={() => setView('recent')}
+                                className={`px-6 py-4 font-bold text-lg whitespace-nowrap transition-all relative ${
+                                    view === 'recent'
+                                        ? 'text-pink-600'
+                                        : 'text-gray-600 hover:text-gray-800'
+                                }`}
+                            >
+                                최근 활동 로그
+                                {view === 'recent' && (
+                                    <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-pink-400 to-cyan-400" style={{ transform: 'translateY(2px)' }}></div>
+                                )}
+                            </button>
+                        </div>
+                    </nav>
                 </div>
             </div>
 

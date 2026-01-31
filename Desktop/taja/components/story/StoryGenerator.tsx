@@ -82,9 +82,13 @@ export default function StoryGenerator({ keywords }: StoryGeneratorProps) {
                     </button>
 
                     {error && (
-                        <p className="mt-4 text-red-500 font-medium animate-pulse">
-                            {error}
-                        </p>
+                        <div className="mt-4 p-4 bg-red-50 border-2 border-red-200 rounded-lg">
+                            <p className="text-red-600 font-medium text-sm">
+                                {error.includes('gemini-pro') || error.includes('404') 
+                                    ? 'AI 서비스에 일시적인 문제가 발생했습니다. 잠시 후 다시 시도해주세요.' 
+                                    : error}
+                            </p>
+                        </div>
                     )}
                 </div>
             ) : (
