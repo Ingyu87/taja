@@ -305,7 +305,7 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
     const router = useRouter();
     const [results, setResults] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
-    const [activeTab, setActiveTab] = useState<'all' | 'practice' | 'game' | 'story'>('all');
+    const [activeTab, setActiveTab] = useState<'practice' | 'game' | 'story'>('practice');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -354,11 +354,10 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
 
     // 탭별 필터링
     const filteredResults = results.filter(r => {
-        if (activeTab === 'all') return true;
         if (activeTab === 'practice') return ['vowel', 'consonant', 'word', 'sentence'].includes(r.mode);
         if (activeTab === 'game') return ['falling', 'timeattack'].includes(r.mode);
         if (activeTab === 'story') return r.mode === 'story';
-        return true;
+        return false;
     });
 
     const totalPracticeCount = filteredResults.length;
@@ -411,17 +410,6 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
                 <div className="bg-white shadow-lg mb-8 p-3" style={{ borderRadius: '25px' }}>
                     <div className="flex gap-3">
                         <button
-                            onClick={() => setActiveTab('all')}
-                            className={`flex-1 py-6 px-6 font-black rounded-2xl transition-all transform ${
-                                activeTab === 'all' 
-                                    ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-2xl scale-105 border-4 border-purple-300' 
-                                    : 'text-gray-400 hover:bg-gray-50 hover:text-gray-600 bg-gray-100'
-                            }`}
-                            style={{ fontSize: activeTab === 'all' ? '2.5rem' : '2rem' }}
-                        >
-                            📊 전체
-                        </button>
-                        <button
                             onClick={() => setActiveTab('practice')}
                             className={`flex-1 py-6 px-6 font-black rounded-2xl transition-all transform ${
                                 activeTab === 'practice' 
@@ -454,38 +442,6 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
                         >
                             🤖 AI 스토리
                         </button>
-                    </div>
-                </div>
-
-                {/* 통계 카드 */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-5 mb-8">
-                    <div className="bg-white shadow-lg" style={{ borderRadius: '20px', padding: '1.5rem' }}>
-                        <div className="flex items-center justify-between mb-3">
-                            <h3 className="text-gray-600 font-bold" style={{ fontSize: '1.5rem' }}>총 연습 횟수</h3>
-                            <span style={{ fontSize: '3rem' }}>📊</span>
-                        </div>
-                        <p className="font-bold text-blue-600" style={{ fontSize: '3rem' }}>{totalPracticeCount}회</p>
-                    </div>
-                    <div className="bg-white shadow-lg" style={{ borderRadius: '20px', padding: '1.5rem' }}>
-                        <div className="flex items-center justify-between mb-3">
-                            <h3 className="text-gray-600 font-bold" style={{ fontSize: '1.5rem' }}>도움 필요</h3>
-                            <span style={{ fontSize: '3rem' }}>🚨</span>
-                        </div>
-                        <p className="font-bold text-red-600" style={{ fontSize: '3rem' }}>{studentsNeedHelp.length}명</p>
-                    </div>
-                    <div className="bg-white shadow-lg" style={{ borderRadius: '20px', padding: '1.5rem' }}>
-                        <div className="flex items-center justify-between mb-3">
-                            <h3 className="text-gray-600 font-bold" style={{ fontSize: '1.5rem' }}>평균 타자 속도</h3>
-                            <span style={{ fontSize: '3rem' }}>⚡</span>
-                        </div>
-                        <p className="font-bold text-purple-600" style={{ fontSize: '3rem' }}>{avgCpm} CPM</p>
-                    </div>
-                    <div className="bg-white shadow-lg" style={{ borderRadius: '20px', padding: '1.5rem' }}>
-                        <div className="flex items-center justify-between mb-3">
-                            <h3 className="text-gray-600 font-bold" style={{ fontSize: '1.5rem' }}>활동 학생 수</h3>
-                            <span style={{ fontSize: '3rem' }}>👥</span>
-                        </div>
-                        <p className="font-bold text-orange-600" style={{ fontSize: '3rem' }}>{recentlyActiveStudents}명</p>
                     </div>
                 </div>
 
