@@ -33,6 +33,7 @@ export default function PracticePage() {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [showResult, setShowResult] = useState(false);
     const [finalStats, setFinalStats] = useState({ cpm: 0, accuracy: 0, time: 0 });
+    const [inputKey, setInputKey] = useState(0); // 입력 필드 강제 리마운트용
 
     useEffect(() => {
         const currentUser = getCurrentUser();
@@ -103,7 +104,11 @@ export default function PracticePage() {
             }
 
             // 다음 문제로 이동 또는 결과 표시
-            // 즉시 다음 문제로 이동 (입력 필드는 key 변경으로 자동 리셋됨)
+            // 입력 필드 즉시 리셋 및 강제 리마운트
+            reset();
+            setInputKey(prev => prev + 1);
+            
+            // 다음 문제로 즉시 이동
             if (currentIndex < practiceTexts.length - 1) {
                 setCurrentIndex(prev => prev + 1);
             } else {
@@ -219,7 +224,7 @@ export default function PracticePage() {
                 {/* 숨겨진 입력 필드 - 초등학생 저학년용 큰 크기 */}
                 <div className="text-center mt-12">
                     <input
-                        key={currentIndex}
+                        key={`${currentIndex}-${inputKey}`}
                         {...inputProps}
                         className="w-full max-w-4xl px-12 py-10 text-7xl text-center border-8 focus:outline-none focus:ring-8 focus:ring-pink-200 font-bold"
                         style={{ 
