@@ -124,15 +124,15 @@ export default function DashboardPage() {
             <div className="flex-1 w-full px-8 py-8 overflow-y-auto">
                 {/* 연습 모드 섹션 */}
                 <div className="mb-16 w-full">
-                    <div className="text-center mb-8">
-                        <div className="flex items-center justify-center gap-4 mb-3">
-                            <span className="text-6xl">📚</span>
-                            <h2 className="text-5xl font-black text-pink-500 drop-shadow-lg">
+                    <div className="text-center mb-10">
+                        <div className="flex items-center justify-center gap-6 mb-4">
+                            <span className="text-8xl">📚</span>
+                            <h2 className="text-7xl font-black text-pink-500 drop-shadow-lg">
                                 타자 연습
                             </h2>
-                            <span className="text-6xl">📚</span>
+                            <span className="text-8xl">📚</span>
                         </div>
-                        <p className="text-2xl font-black text-gray-700">
+                        <p className="text-4xl font-black text-gray-700">
                             기본부터 차근차근 배워요!
                         </p>
                     </div>
@@ -148,30 +148,30 @@ export default function DashboardPage() {
                                     borderRadius: '40px',
                                     border: '6px solid',
                                     borderColor: mode.color,
-                                    minHeight: '200px',
+                                    minHeight: '240px',
                                 }}
                             >
                                 <div className="flex flex-col h-full justify-between">
                                     {/* 상단: 아이콘 + 텍스트 */}
-                                    <div className="flex items-center gap-6">
+                                    <div className="flex items-center gap-8">
                                         {/* 아이콘 왼쪽 */}
-                                        <div className="flex-shrink-0 p-6 rounded-3xl bg-white shadow-lg">
-                                            <div className="text-7xl leading-none">{mode.emoji}</div>
+                                        <div className="flex-shrink-0 p-8 rounded-3xl bg-white shadow-lg">
+                                            <div className="text-9xl leading-none">{mode.emoji}</div>
                                         </div>
                                         {/* 텍스트 오른쪽 */}
                                         <div className="flex-1 text-left">
-                                            <h3 className="text-4xl font-black mb-2 drop-shadow-md leading-tight" style={{ color: mode.color }}>
+                                            <h3 className="text-6xl font-black mb-3 drop-shadow-md leading-tight" style={{ color: mode.color }}>
                                                 {mode.title}
                                             </h3>
-                                            <p className="text-2xl font-black text-gray-800 leading-snug">
+                                            <p className="text-4xl font-black text-gray-800 leading-snug">
                                                 {mode.description}
                                             </p>
                                         </div>
                                     </div>
                                     {/* 하단: 시작 버튼 */}
-                                    <div className="mt-6">
+                                    <div className="mt-8">
                                         <div
-                                            className="px-8 py-4 font-black text-2xl text-white text-center rounded-full shadow-xl hover:shadow-2xl transition-all"
+                                            className="px-10 py-5 font-black text-4xl text-white text-center rounded-full shadow-xl hover:shadow-2xl transition-all"
                                             style={{
                                                 background: `linear-gradient(135deg, ${mode.color} 0%, ${mode.color}DD 100%)`,
                                             }}
@@ -187,15 +187,15 @@ export default function DashboardPage() {
 
                 {/* 게임 모드 섹션 */}
                 <div className="mb-8 w-full">
-                    <div className="text-center mb-8">
-                        <div className="flex items-center justify-center gap-4 mb-3">
-                            <span className="text-6xl">🎮</span>
-                            <h2 className="text-5xl font-black text-purple-500 drop-shadow-lg">
+                    <div className="text-center mb-10">
+                        <div className="flex items-center justify-center gap-6 mb-4">
+                            <span className="text-8xl">🎮</span>
+                            <h2 className="text-7xl font-black text-purple-500 drop-shadow-lg">
                                 재미있는 게임
                             </h2>
-                            <span className="text-6xl">🎮</span>
+                            <span className="text-8xl">🎮</span>
                         </div>
-                        <p className="text-2xl font-black text-gray-700">
+                        <p className="text-4xl font-black text-gray-700">
                             신나는 타자 게임에 도전하세요!
                         </p>
                     </div>
@@ -205,36 +205,36 @@ export default function DashboardPage() {
                             <div
                                 key={game.id}
                                 onClick={() => router.push(`/game/${game.id}`)}
-                                className="p-8 shadow-2xl hover:shadow-2xl transition-all duration-300 cursor-pointer transform hover:scale-105"
+                                className="p-10 shadow-2xl hover:shadow-2xl transition-all duration-300 cursor-pointer transform hover:scale-105"
                                 style={{
                                     background: game.bgGradient,
                                     borderRadius: '40px',
                                     border: '6px solid',
                                     borderColor: game.color,
-                                    minHeight: '320px',
+                                    minHeight: '380px',
                                 }}
                             >
                                 <div className="flex flex-col h-full justify-between">
                                     {/* 상단: 아이콘 + 텍스트 */}
                                     <div className="flex flex-col items-center text-center">
                                         {/* 아이콘 */}
-                                        <div className="mb-4 p-6 rounded-3xl bg-white shadow-lg">
-                                            <div className="text-7xl leading-none">{game.emoji}</div>
+                                        <div className="mb-6 p-8 rounded-3xl bg-white shadow-lg">
+                                            <div className="text-9xl leading-none">{game.emoji}</div>
                                         </div>
                                         {/* 텍스트 */}
                                         <div>
-                                            <h3 className="text-3xl font-black mb-2 drop-shadow-md leading-tight" style={{ color: game.color }}>
+                                            <h3 className="text-5xl font-black mb-3 drop-shadow-md leading-tight" style={{ color: game.color }}>
                                                 {game.title}
                                             </h3>
-                                            <p className="text-xl font-black text-gray-800 leading-snug">
+                                            <p className="text-3xl font-black text-gray-800 leading-snug">
                                                 {game.description}
                                             </p>
                                         </div>
                                     </div>
                                     {/* 하단: 게임하기 버튼 */}
-                                    <div className="mt-6">
+                                    <div className="mt-8">
                                         <div
-                                            className="px-6 py-3 font-black text-2xl text-white text-center rounded-full shadow-xl hover:shadow-2xl transition-all"
+                                            className="px-8 py-4 font-black text-3xl text-white text-center rounded-full shadow-xl hover:shadow-2xl transition-all"
                                             style={{
                                                 background: `linear-gradient(135deg, ${game.color} 0%, ${game.color}DD 100%)`,
                                             }}
