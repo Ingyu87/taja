@@ -14,7 +14,7 @@ export const PracticeDisplay = ({ targetText, inputText }: PracticeDisplayProps)
 
     return (
         <div className="w-full max-w-5xl mx-auto p-12">
-            <div className="bg-white rounded-3xl p-16 shadow-2xl">
+            <div className="bg-white p-16 shadow-2xl" style={{ borderRadius: '48px' }}>
                 <div className="text-center mb-8">
                     <h2 className="text-3xl font-bold mb-4" style={{ color: 'var(--color-text)' }}>
                         아래 글자를 따라 쳐보세요
@@ -48,7 +48,8 @@ export const PracticeDisplay = ({ targetText, inputText }: PracticeDisplayProps)
                         return (
                             <div
                                 key={index}
-                                className="w-20 h-20 flex items-center justify-center rounded-2xl text-5xl font-bold transition-all duration-200"
+                                className="w-20 h-20 flex items-center justify-center text-5xl font-bold transition-all duration-200"
+                                style={{ borderRadius: '24px' }}
                                 style={{
                                     backgroundColor: bgColor,
                                     color: textColor,

@@ -135,7 +135,7 @@ export default function PracticePage() {
         return (
             <div className="min-h-screen flex items-center justify-center p-8" style={{ backgroundColor: 'var(--color-bg)' }}>
                 <div className="w-full max-w-2xl">
-                    <div className="bg-white rounded-3xl p-16 shadow-2xl text-center">
+                    <div className="bg-white p-16 shadow-2xl text-center" style={{ borderRadius: '48px' }}>
                         <div className="text-8xl mb-8">🎉</div>
                         <h1 className="text-6xl font-bold mb-8" style={{ color: 'var(--color-primary)' }}>
                             완료!
@@ -160,8 +160,9 @@ export default function PracticePage() {
                         <div className="flex gap-6 justify-center mt-12">
                             <button
                                 onClick={handleRestart}
-                                className="px-16 py-8 rounded-3xl font-black text-4xl text-white transition-all duration-200 hover:opacity-90 shadow-xl transform hover:scale-105"
+                                className="px-16 py-8 font-black text-4xl text-white transition-all duration-200 hover:opacity-90 shadow-xl transform hover:scale-105"
                                 style={{
+                                    borderRadius: '48px',
                                     background: 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)',
                                     minHeight: '100px'
                                 }}
@@ -170,8 +171,9 @@ export default function PracticePage() {
                             </button>
                             <button
                                 onClick={() => router.push('/')}
-                                className="px-16 py-8 rounded-3xl font-black text-4xl bg-white transition-all duration-200 hover:shadow-xl transform hover:scale-105"
+                                className="px-16 py-8 font-black text-4xl bg-white transition-all duration-200 hover:shadow-xl transform hover:scale-105"
                                 style={{
+                                    borderRadius: '48px',
                                     color: '#666',
                                     border: '4px solid #E0E0E0',
                                     minHeight: '100px'
@@ -194,8 +196,9 @@ export default function PracticePage() {
                 <div className="max-w-7xl mx-auto flex justify-between items-center">
                     <button
                         onClick={() => router.push('/')}
-                        className="px-10 py-5 rounded-2xl font-bold text-2xl bg-white transition-all duration-200 hover:shadow-lg"
+                        className="px-10 py-5 font-bold text-2xl bg-white transition-all duration-200 hover:shadow-lg"
                         style={{
+                            borderRadius: '32px',
                             color: '#666',
                             border: '4px solid #E0E0E0',
                             minHeight: '70px'
@@ -222,7 +225,8 @@ export default function PracticePage() {
                     <input
                         key={currentIndex}
                         {...inputProps}
-                        className="w-full max-w-4xl px-12 py-10 text-7xl text-center rounded-3xl border-8 focus:outline-none focus:ring-8 focus:ring-pink-200 font-bold"
+                        className="w-full max-w-4xl px-12 py-10 text-7xl text-center border-8 focus:outline-none focus:ring-8 focus:ring-pink-200 font-bold"
+                        style={{ borderRadius: '48px' }}
                         style={{ 
                             borderColor: 'var(--color-primary)',
                             fontSize: '4rem',

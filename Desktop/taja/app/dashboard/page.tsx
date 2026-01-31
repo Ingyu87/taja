@@ -80,7 +80,8 @@ export default function DashboardPage() {
                     </div>
                     <button
                         onClick={handleLogout}
-                        className="px-10 py-5 rounded-2xl font-bold text-2xl transition-all duration-200 hover:opacity-80 shadow-lg"
+                        className="px-10 py-5 font-bold text-2xl transition-all duration-200 hover:opacity-80 shadow-lg"
+                        style={{ borderRadius: '32px' }}
                         style={{
                             backgroundColor: '#FF6B9D',
                             color: 'white',
@@ -105,8 +106,9 @@ export default function DashboardPage() {
                         <div
                             key={mode.id}
                             onClick={() => router.push(`/practice/${mode.id}`)}
-                            className="group relative bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer transform hover:-translate-y-2 border-2 border-transparent hover:border-pink-200"
+                            className="group relative bg-white p-8 shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer transform hover:-translate-y-2 border-2 border-transparent hover:border-pink-200"
                             style={{
+                                borderRadius: '48px',
                                 background: 'linear-gradient(135deg, #ffffff 0%, #fff5f8 100%)'
                             }}
                         >
@@ -129,8 +131,9 @@ export default function DashboardPage() {
 
                                 {/* 입장 버튼 스타일 */}
                                 <div className="mt-auto w-full">
-                                    <div className="px-12 py-6 rounded-3xl font-black text-3xl text-white text-center transition-all duration-300 transform group-hover:scale-105 shadow-lg"
+                                    <div className="px-12 py-6 font-black text-3xl text-white text-center transition-all duration-300 transform group-hover:scale-105 shadow-lg"
                                         style={{
+                                            borderRadius: '40px',
                                             background: 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)',
                                             minHeight: '80px',
                                             display: 'flex',
@@ -144,7 +147,8 @@ export default function DashboardPage() {
                             </div>
 
                             {/* 호버 효과 - 그라데이션 오버레이 */}
-                            <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-10 transition-opacity duration-300"
+                            <div className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300"
+                                style={{ borderRadius: '48px' }}
                                 style={{
                                     background: 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)'
                                 }}
@@ -158,7 +162,8 @@ export default function DashboardPage() {
             <div className="text-center pb-16">
                 <button
                     onClick={() => router.push('/')}
-                    className="px-16 py-6 text-3xl font-bold rounded-2xl bg-white shadow-lg hover:shadow-xl transition-all duration-200"
+                    className="px-16 py-6 text-3xl font-bold bg-white shadow-lg hover:shadow-xl transition-all duration-200"
+                    style={{ borderRadius: '40px' }}
                     style={{ 
                         color: '#666', 
                         border: '4px solid #E0E0E0',

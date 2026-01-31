@@ -55,7 +55,7 @@ export default function Home() {
 
         {/* 기능 소개 카드 */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8 w-full">
-          <div className="bg-white/80 backdrop-blur rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all hover:-translate-y-2 border border-white/50">
+          <div className="bg-white/80 backdrop-blur p-8 shadow-xl hover:shadow-2xl transition-all hover:-translate-y-2 border border-white/50" style={{ borderRadius: '40px' }}>
             <div className="text-6xl mb-6 bg-green-100 w-24 h-24 rounded-full flex items-center justify-center mx-auto">📚</div>
             <h3 className="font-bold text-2xl mb-4 text-gray-800">
               단계별 연습
@@ -66,7 +66,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="bg-white/80 backdrop-blur rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all hover:-translate-y-2 border border-white/50">
+          <div className="bg-white/80 backdrop-blur p-8 shadow-xl hover:shadow-2xl transition-all hover:-translate-y-2 border border-white/50" style={{ borderRadius: '40px' }}>
             <div className="text-6xl mb-6 bg-blue-100 w-24 h-24 rounded-full flex items-center justify-center mx-auto">🎮</div>
             <h3 className="font-bold text-2xl mb-4 text-gray-800">
               재미있는 게임
@@ -77,7 +77,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="bg-white/80 backdrop-blur rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all hover:-translate-y-2 border border-white/50">
+          <div className="bg-white/80 backdrop-blur p-8 shadow-xl hover:shadow-2xl transition-all hover:-translate-y-2 border border-white/50" style={{ borderRadius: '40px' }}>
             <div className="text-6xl mb-6 bg-purple-100 w-24 h-24 rounded-full flex items-center justify-center mx-auto">🤖</div>
             <h3 className="font-bold text-2xl mb-4 text-gray-800">
               AI 스토리

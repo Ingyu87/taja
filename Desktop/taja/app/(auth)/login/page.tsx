@@ -79,7 +79,7 @@ function LoginContent() {
     return (
         <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: '#F5F0EB' }}>
             <div className="w-full max-w-6xl mx-auto px-8">
-                <div className="bg-white rounded-3xl shadow-2xl overflow-hidden" style={{ display: 'flex' }}>
+                <div className="bg-white shadow-2xl overflow-hidden" style={{ display: 'flex', borderRadius: '48px' }}>
                     {/* 왼쪽: 로그인 폼 */}
                     <div style={{ flex: '1', padding: '4rem' }}>
                         <div className="max-w-md mx-auto">
@@ -101,7 +101,8 @@ function LoginContent() {
                             <div className="flex gap-4 mb-8">
                                 <div
                                     onClick={() => setUserType('student')}
-                                    className="flex-1 py-3 rounded-xl text-center font-bold text-lg cursor-pointer"
+                                    className="flex-1 py-3 text-center font-bold text-lg cursor-pointer"
+                                    style={{ borderRadius: '20px' }}
                                     style={{
                                         background: userType === 'student' ? 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)' : 'transparent',
                                         color: userType === 'student' ? 'white' : '#666',
@@ -112,7 +113,8 @@ function LoginContent() {
                                 </div>
                                 <div
                                     onClick={() => setUserType('teacher')}
-                                    className="flex-1 py-3 rounded-xl text-center font-bold text-lg cursor-pointer"
+                                    className="flex-1 py-3 text-center font-bold text-lg cursor-pointer"
+                                    style={{ borderRadius: '20px' }}
                                     style={{
                                         background: userType === 'teacher' ? 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)' : 'transparent',
                                         color: userType === 'teacher' ? 'white' : '#666',

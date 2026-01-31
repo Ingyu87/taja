@@ -75,7 +75,7 @@ export default function RankingPage() {
 
             {/* 랭킹 리스트 */}
             <div className="max-w-4xl mx-auto px-8 pb-20">
-                <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
+                <div className="bg-white shadow-xl overflow-hidden" style={{ borderRadius: '48px' }}>
                     {/* 헤더 */}
                     <div className="grid grid-cols-5 gap-4 p-6 font-bold text-xl text-gray-700 border-b-2">
                         <div className="text-center">순위</div>
@@ -145,7 +145,8 @@ export default function RankingPage() {
                 <div className="mt-8 text-center">
                     <button
                         onClick={() => router.push('/dashboard')}
-                        className="px-12 py-4 text-xl font-medium rounded-xl bg-white shadow-md hover:shadow-lg transition-all duration-200"
+                        className="px-12 py-4 text-xl font-medium bg-white shadow-md hover:shadow-lg transition-all duration-200"
+                        style={{ borderRadius: '32px' }}
                         style={{ color: '#666', border: '2px solid #E0E0E0' }}
                     >
                         ← 대시보드로 돌아가기
