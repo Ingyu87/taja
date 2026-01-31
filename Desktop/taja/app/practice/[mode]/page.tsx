@@ -299,12 +299,13 @@ export default function PracticePage() {
                         key={`${currentIndex}-${inputKey}`}
                         {...inputProps}
                         disabled={status === 'finished'}
-                        className="w-full max-w-full px-12 py-8 text-center border-4 focus:outline-none focus:ring-4 focus:ring-pink-200 font-bold disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full max-w-full px-12 py-8 text-center border-4 focus:outline-none focus:ring-4 focus:ring-pink-200 font-bold disabled:opacity-50 disabled:cursor-not-allowed placeholder-gray-800"
                         style={{ 
                             borderRadius: '30px',
                             borderColor: 'var(--color-primary)',
                             fontSize: '5rem',
-                            minHeight: '150px'
+                            minHeight: '150px',
+                            color: '#000000'
                         }}
                         placeholder="여기에 입력하세요"
                         autoFocus
