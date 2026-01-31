@@ -262,24 +262,31 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
         fetchData();
     }, []);
 
-    const studentStats = Array.from({ length: 30 }, (_, i) => `a${i + 1}`).map(studentId => {
-        const studentLogs = results.filter(r => r.userId === studentId);
-        const lastLog = studentLogs.length > 0 ? studentLogs[0] : null;
-        const totalTime = studentLogs.reduce((acc, curr) => acc + (curr.time || 0), 0);
-        const avgCpm = studentLogs.length > 0
-            ? Math.round(studentLogs.reduce((acc, curr) => acc + (curr.cpm || 0), 0) / studentLogs.length)
-            : 0;
+    const studentStats = Array.from({ length: 30 }, (_, i) => `a${i + 1}`)
+        .map(studentId => {
+            const studentLogs = results.filter(r => r.userId === studentId);
+            const lastLog = studentLogs.length > 0 ? studentLogs[0] : null;
+            const totalTime = studentLogs.reduce((acc, curr) => acc + (curr.time || 0), 0);
+            const avgCpm = studentLogs.length > 0
+                ? Math.round(studentLogs.reduce((acc, curr) => acc + (curr.cpm || 0), 0) / studentLogs.length)
+                : 0;
 
-        return {
-            id: studentId,
-            name: lastLog?.username || studentId,
-            avatar: lastLog?.avatar || '👤',
-            playCount: studentLogs.length,
-            lastLogin: lastLog ? new Date(lastLog.createdAt).toLocaleString() : '-',
-            totalTime: Math.round(totalTime),
-            avgCpm,
-        };
-    });
+            return {
+                id: studentId,
+                name: lastLog?.username || studentId,
+                avatar: lastLog?.avatar || '👤',
+                playCount: studentLogs.length,
+                lastLogin: lastLog ? new Date(lastLog.createdAt).toLocaleString() : '-',
+                totalTime: Math.round(totalTime),
+                avgCpm,
+            };
+        })
+        .sort((a, b) => {
+            // 평균 CPM으로 내림차순 정렬 (높은 순)
+            if (b.avgCpm !== a.avgCpm) return b.avgCpm - a.avgCpm;
+            // CPM이 같으면 연습 횟수로 정렬
+            return b.playCount - a.playCount;
+        });
 
     const totalPracticeCount = results.length;
     const avgCpm = results.length > 0
@@ -358,34 +365,53 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
                             <tr style={{
                                 background: 'linear-gradient(135deg, #9B59B6 0%, #FF6B9D 100%)'
                             }}>
+                                <th className="text-white font-bold text-center" style={{ padding: '1.25rem', fontSize: '1.75rem' }}>순위</th>
                                 <th className="text-white font-bold" style={{ padding: '1.25rem', fontSize: '1.75rem' }}>학생</th>
-                                <th className="text-white font-bold" style={{ padding: '1.25rem', fontSize: '1.75rem' }}>최근 활동</th>
-                                <th className="text-white font-bold" style={{ padding: '1.25rem', fontSize: '1.75rem' }}>연습 횟수</th>
-                                <th className="text-white font-bold" style={{ padding: '1.25rem', fontSize: '1.75rem' }}>평균 속도</th>
-                                <th className="text-white font-bold" style={{ padding: '1.25rem', fontSize: '1.75rem' }}>총 연습 시간</th>
-                                <th className="text-white font-bold" style={{ padding: '1.25rem', fontSize: '1.75rem' }}>최근 접속</th>
+                                <th className="text-white font-bold text-center" style={{ padding: '1.25rem', fontSize: '1.75rem' }}>평균 속도</th>
+                                <th className="text-white font-bold text-center" style={{ padding: '1.25rem', fontSize: '1.75rem' }}>연습 횟수</th>
+                                <th className="text-white font-bold text-center" style={{ padding: '1.25rem', fontSize: '1.75rem' }}>총 연습 시간</th>
+                                <th className="text-white font-bold text-center" style={{ padding: '1.25rem', fontSize: '1.75rem' }}>최근 활동</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-50">
-                            {studentStats.map((student) => (
-                                <tr key={student.id} className="hover:bg-gray-50 transition-colors">
-                                    <td className="font-bold text-gray-700 flex items-center gap-2" style={{ padding: '1.25rem', fontSize: '1.5rem' }}>
-                                        <span style={{ fontSize: '2rem' }}>{student.avatar}</span>
-                                        <span>{student.id}</span>
-                                    </td>
-                                    <td style={{ padding: '1.25rem' }}>
-                                        {student.playCount > 0 ? (
-                                            <span className="px-3 py-1.5 bg-green-100 text-green-700 rounded-full font-bold" style={{ fontSize: '1.25rem' }}>활동중</span>
-                                        ) : (
-                                            <span className="px-3 py-1.5 bg-gray-100 text-gray-400 rounded-full font-bold" style={{ fontSize: '1.25rem' }}>미접속</span>
-                                        )}
-                                    </td>
-                                    <td className="font-medium" style={{ padding: '1.25rem', fontSize: '1.5rem' }}>{student.playCount}회</td>
-                                    <td className="font-medium" style={{ padding: '1.25rem', fontSize: '1.5rem' }}>{student.avgCpm} CPM</td>
-                                    <td className="font-medium" style={{ padding: '1.25rem', fontSize: '1.5rem' }}>{student.totalTime}초</td>
-                                    <td className="text-gray-500" style={{ padding: '1.25rem', fontSize: '1.25rem' }}>{student.lastLogin}</td>
-                                </tr>
-                            ))}
+                            {studentStats.map((student, index) => {
+                                let rankBg = '';
+                                let rankText = '';
+                                if (index === 0 && student.avgCpm > 0) {
+                                    rankBg = 'bg-yellow-100';
+                                    rankText = '🥇';
+                                } else if (index === 1 && student.avgCpm > 0) {
+                                    rankBg = 'bg-gray-100';
+                                    rankText = '🥈';
+                                } else if (index === 2 && student.avgCpm > 0) {
+                                    rankBg = 'bg-orange-100';
+                                    rankText = '🥉';
+                                }
+                                
+                                return (
+                                    <tr key={student.id} className={`hover:bg-gray-50 transition-colors ${rankBg}`}>
+                                        <td className="font-black text-center" style={{ padding: '1.25rem', fontSize: '2rem' }}>
+                                            {rankText || (index + 1)}
+                                        </td>
+                                        <td className="font-bold text-gray-700 flex items-center gap-2" style={{ padding: '1.25rem', fontSize: '1.5rem' }}>
+                                            <span style={{ fontSize: '2rem' }}>{student.avatar}</span>
+                                            <span>{student.id}</span>
+                                        </td>
+                                        <td className="font-black text-center" style={{ padding: '1.25rem', fontSize: '1.75rem', color: student.avgCpm > 0 ? '#9B59B6' : '#999' }}>
+                                            {student.avgCpm} CPM
+                                        </td>
+                                        <td className="font-medium text-center" style={{ padding: '1.25rem', fontSize: '1.5rem' }}>{student.playCount}회</td>
+                                        <td className="font-medium text-center" style={{ padding: '1.25rem', fontSize: '1.5rem' }}>{student.totalTime}초</td>
+                                        <td className="text-center" style={{ padding: '1.25rem' }}>
+                                            {student.playCount > 0 ? (
+                                                <span className="px-3 py-1.5 bg-green-100 text-green-700 rounded-full font-bold" style={{ fontSize: '1.25rem' }}>활동중</span>
+                                            ) : (
+                                                <span className="px-3 py-1.5 bg-gray-100 text-gray-400 rounded-full font-bold" style={{ fontSize: '1.25rem' }}>미접속</span>
+                                            )}
+                                        </td>
+                                    </tr>
+                                );
+                            })}
                         </tbody>
                     </table>
                 </div>
