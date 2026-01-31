@@ -612,6 +612,233 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
                         </div>
                     )}
                 </div>
+
+                {/* 탭별 상세 정보 */}
+                {activeTab === 'practice' && (
+                    <div className="bg-white shadow-lg overflow-hidden mt-8" style={{ borderRadius: '20px' }}>
+                        <div className="border-b border-gray-100" style={{ padding: '1.5rem', background: 'linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%)' }}>
+                            <h2 className="font-black text-white" style={{ fontSize: '2.5rem' }}>📝 연습 모드 상세</h2>
+                            <p className="text-white mt-1" style={{ fontSize: '1.25rem' }}>학생별 연습 유형과 횟수</p>
+                        </div>
+                        <div className="p-6">
+                            {uniqueStudents.map(studentId => {
+                                const studentLogs = results.filter(r => r.userId === studentId && ['vowel', 'consonant', 'word', 'sentence'].includes(r.mode));
+                                if (studentLogs.length === 0) return null;
+
+                                const vowelCount = studentLogs.filter(l => l.mode === 'vowel').length;
+                                const consonantCount = studentLogs.filter(l => l.mode === 'consonant').length;
+                                const wordCount = studentLogs.filter(l => l.mode === 'word').length;
+                                const sentenceCount = studentLogs.filter(l => l.mode === 'sentence').length;
+
+                                const avgCpm = Math.round(studentLogs.reduce((acc, curr) => acc + curr.cpm, 0) / studentLogs.length);
+                                const avgAccuracy = Math.round(studentLogs.reduce((acc, curr) => acc + curr.accuracy, 0) / studentLogs.length);
+
+                                return (
+                                    <div key={studentId} className="mb-4 p-5 bg-blue-50 rounded-2xl border-2 border-blue-200">
+                                        <div className="flex items-center justify-between mb-4">
+                                            <div className="flex items-center gap-3">
+                                                <span style={{ fontSize: '2.5rem' }}>{studentLogs[0]?.avatar || '👤'}</span>
+                                                <div>
+                                                    <p className="font-black text-gray-800" style={{ fontSize: '1.8rem' }}>{studentId}</p>
+                                                    <p className="text-gray-600" style={{ fontSize: '1.3rem' }}>평균 {avgCpm} CPM · {avgAccuracy}% 정확도</p>
+                                                </div>
+                                            </div>
+                                            <div className="text-right">
+                                                <p className="font-black text-blue-600" style={{ fontSize: '2rem' }}>총 {studentLogs.length}회</p>
+                                            </div>
+                                        </div>
+                                        <div className="grid grid-cols-4 gap-3">
+                                            <div className="bg-white p-3 rounded-xl text-center border-2 border-blue-100">
+                                                <p className="text-gray-600 font-bold mb-1" style={{ fontSize: '1.2rem' }}>📚 모음</p>
+                                                <p className="font-black text-blue-600" style={{ fontSize: '1.8rem' }}>{vowelCount}회</p>
+                                            </div>
+                                            <div className="bg-white p-3 rounded-xl text-center border-2 border-blue-100">
+                                                <p className="text-gray-600 font-bold mb-1" style={{ fontSize: '1.2rem' }}>🔤 자음</p>
+                                                <p className="font-black text-blue-600" style={{ fontSize: '1.8rem' }}>{consonantCount}회</p>
+                                            </div>
+                                            <div className="bg-white p-3 rounded-xl text-center border-2 border-blue-100">
+                                                <p className="text-gray-600 font-bold mb-1" style={{ fontSize: '1.2rem' }}>📖 단어</p>
+                                                <p className="font-black text-blue-600" style={{ fontSize: '1.8rem' }}>{wordCount}회</p>
+                                            </div>
+                                            <div className="bg-white p-3 rounded-xl text-center border-2 border-blue-100">
+                                                <p className="text-gray-600 font-bold mb-1" style={{ fontSize: '1.2rem' }}>📄 문장</p>
+                                                <p className="font-black text-blue-600" style={{ fontSize: '1.8rem' }}>{sentenceCount}회</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                )}
+
+                {activeTab === 'game' && (
+                    <div className="bg-white shadow-lg overflow-hidden mt-8" style={{ borderRadius: '20px' }}>
+                        <div className="border-b border-gray-100" style={{ padding: '1.5rem', background: 'linear-gradient(135deg, #10B981 0%, #06B6D4 100%)' }}>
+                            <h2 className="font-black text-white" style={{ fontSize: '2.5rem' }}>🎮 게임 모드 상세</h2>
+                            <p className="text-white mt-1" style={{ fontSize: '1.25rem' }}>학생별 게임 기록과 순위</p>
+                        </div>
+                        <div className="p-6">
+                            {uniqueStudents.map(studentId => {
+                                const studentLogs = results.filter(r => r.userId === studentId && ['falling', 'timeattack'].includes(r.mode));
+                                if (studentLogs.length === 0) return null;
+
+                                const fallingLogs = studentLogs.filter(l => l.mode === 'falling');
+                                const timeattackLogs = studentLogs.filter(l => l.mode === 'timeattack');
+
+                                const fallingBestScore = fallingLogs.length > 0 ? Math.max(...fallingLogs.map(l => l.cpm)) : 0;
+                                const timeattackBestScore = timeattackLogs.length > 0 ? Math.max(...timeattackLogs.map(l => l.cpm)) : 0;
+
+                                // 각 게임별 순위 계산
+                                const allFallingScores = results.filter(r => r.mode === 'falling')
+                                    .reduce((acc, curr) => {
+                                        if (!acc[curr.userId]) acc[curr.userId] = [];
+                                        acc[curr.userId].push(curr.cpm);
+                                        return acc;
+                                    }, {} as Record<string, number[]>);
+                                
+                                const fallingRankings = Object.entries(allFallingScores)
+                                    .map(([userId, scores]) => ({ userId, bestScore: Math.max(...(scores as number[])) }))
+                                    .sort((a, b) => b.bestScore - a.bestScore);
+                                
+                                const fallingRank = fallingRankings.findIndex(r => r.userId === studentId) + 1;
+
+                                const allTimeattackScores = results.filter(r => r.mode === 'timeattack')
+                                    .reduce((acc, curr) => {
+                                        if (!acc[curr.userId]) acc[curr.userId] = [];
+                                        acc[curr.userId].push(curr.cpm);
+                                        return acc;
+                                    }, {} as Record<string, number[]>);
+                                
+                                const timeattackRankings = Object.entries(allTimeattackScores)
+                                    .map(([userId, scores]) => ({ userId, bestScore: Math.max(...(scores as number[])) }))
+                                    .sort((a, b) => b.bestScore - a.bestScore);
+                                
+                                const timeattackRank = timeattackRankings.findIndex(r => r.userId === studentId) + 1;
+
+                                return (
+                                    <div key={studentId} className="mb-4 p-5 bg-green-50 rounded-2xl border-2 border-green-200">
+                                        <div className="flex items-center gap-3 mb-4">
+                                            <span style={{ fontSize: '2.5rem' }}>{studentLogs[0]?.avatar || '👤'}</span>
+                                            <div>
+                                                <p className="font-black text-gray-800" style={{ fontSize: '1.8rem' }}>{studentId}</p>
+                                                <p className="text-gray-600" style={{ fontSize: '1.3rem' }}>총 {studentLogs.length}회 플레이</p>
+                                            </div>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-4">
+                                            {/* 떨어지는 글자 */}
+                                            <div className="bg-white p-4 rounded-xl border-2 border-green-200">
+                                                <div className="flex items-center gap-2 mb-3">
+                                                    <span style={{ fontSize: '2rem' }}>⬇️</span>
+                                                    <p className="font-black text-gray-800" style={{ fontSize: '1.5rem' }}>떨어지는 글자</p>
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <div className="flex justify-between items-center">
+                                                        <span className="text-gray-600 font-bold" style={{ fontSize: '1.2rem' }}>플레이 횟수</span>
+                                                        <span className="font-black text-green-600" style={{ fontSize: '1.5rem' }}>{fallingLogs.length}회</span>
+                                                    </div>
+                                                    <div className="flex justify-between items-center">
+                                                        <span className="text-gray-600 font-bold" style={{ fontSize: '1.2rem' }}>최고 점수</span>
+                                                        <span className="font-black text-green-600" style={{ fontSize: '1.5rem' }}>{fallingBestScore} CPM</span>
+                                                    </div>
+                                                    {fallingRank > 0 && (
+                                                        <div className="flex justify-between items-center pt-2 border-t border-green-100">
+                                                            <span className="text-gray-600 font-bold" style={{ fontSize: '1.2rem' }}>순위</span>
+                                                            <span className="font-black text-yellow-600" style={{ fontSize: '1.8rem' }}>
+                                                                {fallingRank === 1 ? '🥇' : fallingRank === 2 ? '🥈' : fallingRank === 3 ? '🥉' : `${fallingRank}등`}
+                                                            </span>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+
+                                            {/* 시간 공격 */}
+                                            <div className="bg-white p-4 rounded-xl border-2 border-green-200">
+                                                <div className="flex items-center gap-2 mb-3">
+                                                    <span style={{ fontSize: '2rem' }}>⏱️</span>
+                                                    <p className="font-black text-gray-800" style={{ fontSize: '1.5rem' }}>시간 공격</p>
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <div className="flex justify-between items-center">
+                                                        <span className="text-gray-600 font-bold" style={{ fontSize: '1.2rem' }}>플레이 횟수</span>
+                                                        <span className="font-black text-green-600" style={{ fontSize: '1.5rem' }}>{timeattackLogs.length}회</span>
+                                                    </div>
+                                                    <div className="flex justify-between items-center">
+                                                        <span className="text-gray-600 font-bold" style={{ fontSize: '1.2rem' }}>최고 점수</span>
+                                                        <span className="font-black text-green-600" style={{ fontSize: '1.5rem' }}>{timeattackBestScore} CPM</span>
+                                                    </div>
+                                                    {timeattackRank > 0 && (
+                                                        <div className="flex justify-between items-center pt-2 border-t border-green-100">
+                                                            <span className="text-gray-600 font-bold" style={{ fontSize: '1.2rem' }}>순위</span>
+                                                            <span className="font-black text-yellow-600" style={{ fontSize: '1.8rem' }}>
+                                                                {timeattackRank === 1 ? '🥇' : timeattackRank === 2 ? '🥈' : timeattackRank === 3 ? '🥉' : `${timeattackRank}등`}
+                                                            </span>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                )}
+
+                {activeTab === 'story' && (
+                    <div className="bg-white shadow-lg overflow-hidden mt-8" style={{ borderRadius: '20px' }}>
+                        <div className="border-b border-gray-100" style={{ padding: '1.5rem', background: 'linear-gradient(135deg, #F97316 0%, #EC4899 100%)' }}>
+                            <h2 className="font-black text-white" style={{ fontSize: '2.5rem' }}>🤖 AI 스토리 상세</h2>
+                            <p className="text-white mt-1" style={{ fontSize: '1.25rem' }}>학생별 작성 주제와 기록</p>
+                        </div>
+                        <div className="p-6">
+                            {uniqueStudents.map(studentId => {
+                                const studentLogs = results.filter(r => r.userId === studentId && r.mode === 'story');
+                                if (studentLogs.length === 0) return null;
+
+                                const avgCpm = Math.round(studentLogs.reduce((acc, curr) => acc + curr.cpm, 0) / studentLogs.length);
+                                const avgAccuracy = Math.round(studentLogs.reduce((acc, curr) => acc + curr.accuracy, 0) / studentLogs.length);
+
+                                return (
+                                    <div key={studentId} className="mb-4 p-5 bg-orange-50 rounded-2xl border-2 border-orange-200">
+                                        <div className="flex items-center justify-between mb-4">
+                                            <div className="flex items-center gap-3">
+                                                <span style={{ fontSize: '2.5rem' }}>{studentLogs[0]?.avatar || '👤'}</span>
+                                                <div>
+                                                    <p className="font-black text-gray-800" style={{ fontSize: '1.8rem' }}>{studentId}</p>
+                                                    <p className="text-gray-600" style={{ fontSize: '1.3rem' }}>평균 {avgCpm} CPM · {avgAccuracy}% 정확도</p>
+                                                </div>
+                                            </div>
+                                            <div className="text-right">
+                                                <p className="font-black text-orange-600" style={{ fontSize: '2rem' }}>총 {studentLogs.length}회</p>
+                                            </div>
+                                        </div>
+                                        <div className="space-y-3">
+                                            <p className="font-black text-gray-700" style={{ fontSize: '1.4rem' }}>💡 작성한 주제들</p>
+                                            {studentLogs.map((log, i) => (
+                                                <div key={i} className="bg-white p-4 rounded-xl border-2 border-orange-200">
+                                                    <div className="flex items-start justify-between">
+                                                        <div className="flex-1">
+                                                            <p className="font-black text-orange-600 mb-2" style={{ fontSize: '1.5rem' }}>{log.keywords || '주제 없음'}</p>
+                                                            <div className="flex gap-4 text-gray-600" style={{ fontSize: '1.2rem' }}>
+                                                                <span>⚡ {log.cpm} CPM</span>
+                                                                <span>🎯 {log.accuracy}%</span>
+                                                                <span>⏱️ {log.time}초</span>
+                                                            </div>
+                                                        </div>
+                                                        <span className="text-gray-400" style={{ fontSize: '1rem' }}>
+                                                            {new Date(log.createdAt).toLocaleDateString()}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                )}
             </main>
         </div>
     );
