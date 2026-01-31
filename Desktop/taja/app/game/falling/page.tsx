@@ -98,14 +98,39 @@ export default function FallingGamePage() {
         };
 
         spawnTimerRef.current = setInterval(() => {
-            const newChar: FallingChar = {
-                id: nextIdRef.current++,
-                char: GAME_CHARS[Math.floor(Math.random() * GAME_CHARS.length)],
-                x: Math.random() * 80 + 10,
-                y: 0,
-                speed: getSpeed()
-            };
-            setFallingChars(prev => [...prev, newChar]);
+            setFallingChars(prev => {
+                // 겹치지 않는 x 위치 찾기
+                const findNonOverlappingX = (): number => {
+                    const MIN_DISTANCE = 15; // 최소 거리 (%)
+                    const topChars = prev.filter(char => char.y < 30); // 상단 30% 이내의 글자들만 체크
+                    
+                    for (let attempt = 0; attempt < 10; attempt++) {
+                        const newX = Math.random() * 80 + 10;
+                        
+                        // 기존 글자들과의 거리 체크
+                        const isTooClose = topChars.some(char => 
+                            Math.abs(char.x - newX) < MIN_DISTANCE
+                        );
+                        
+                        if (!isTooClose) {
+                            return newX;
+                        }
+                    }
+                    
+                    // 적절한 위치를 못 찾으면 랜덤 위치 반환
+                    return Math.random() * 80 + 10;
+                };
+                
+                const newChar: FallingChar = {
+                    id: nextIdRef.current++,
+                    char: GAME_CHARS[Math.floor(Math.random() * GAME_CHARS.length)],
+                    x: findNonOverlappingX(),
+                    y: 0,
+                    speed: getSpeed()
+                };
+                
+                return [...prev, newChar];
+            });
         }, spawnInterval);
 
         return () => {
