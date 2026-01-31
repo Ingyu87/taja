@@ -331,10 +331,29 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
                 ? Math.round(studentLogs.reduce((acc, curr) => acc + (curr.cpm || 0), 0) / studentLogs.length)
                 : 0;
 
-            // 최근 활동 확인 (24시간 이내)
+            // 최근 활동 시간 계산
             const now = new Date();
             const lastActiveTime = lastLog ? new Date(lastLog.createdAt) : null;
-            const isRecentlyActive = lastActiveTime && (now.getTime() - lastActiveTime.getTime()) < 24 * 60 * 60 * 1000;
+            let lastActiveText = '-';
+            
+            if (lastActiveTime) {
+                const diffMs = now.getTime() - lastActiveTime.getTime();
+                const diffMins = Math.floor(diffMs / (1000 * 60));
+                const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+                const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+                
+                if (diffMins < 1) {
+                    lastActiveText = '방금 전';
+                } else if (diffMins < 60) {
+                    lastActiveText = `${diffMins}분 전`;
+                } else if (diffHours < 24) {
+                    lastActiveText = `${diffHours}시간 전`;
+                } else if (diffDays < 7) {
+                    lastActiveText = `${diffDays}일 전`;
+                } else {
+                    lastActiveText = lastActiveTime.toLocaleDateString('ko-KR', { month: 'short', day: 'numeric' });
+                }
+            }
 
             return {
                 id: studentId,
@@ -344,7 +363,7 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
                 lastLogin: lastLog ? new Date(lastLog.createdAt).toLocaleString() : '-',
                 totalTime: Math.round(totalTime),
                 avgCpm,
-                isRecentlyActive,
+                lastActiveText,
             };
         })
         .sort((a, b) => {
@@ -367,7 +386,6 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
         ? Math.round(filteredResults.reduce((acc, curr) => acc + curr.cpm, 0) / filteredResults.length)
         : 0;
     const participatingStudents = studentStats.length;
-    const recentlyActiveStudents = studentStats.filter(s => s.isRecentlyActive).length;
     
     // 주의 필요 학생 (정확도 낮거나 CPM 낮음)
     const studentsNeedHelp = studentStats.filter(s => {
@@ -462,7 +480,7 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
                                 <th className="text-white font-bold" style={{ padding: '1.5rem', fontSize: '2rem' }}>학생</th>
                                 <th className="text-white font-bold text-center" style={{ padding: '1.5rem', fontSize: '2rem' }}>평균 CPM</th>
                                 <th className="text-white font-bold text-center" style={{ padding: '1.5rem', fontSize: '2rem' }}>연습 횟수</th>
-                                <th className="text-white font-bold text-center" style={{ padding: '1.5rem', fontSize: '2rem' }}>상태</th>
+                                <th className="text-white font-bold text-center" style={{ padding: '1.5rem', fontSize: '2rem' }}>최근 접속</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-50">
@@ -495,12 +513,8 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
                                         <td className="font-bold text-center" style={{ padding: '1.5rem', fontSize: '1.8rem', color: '#4B5563' }}>
                                             {student.playCount}회
                                         </td>
-                                        <td className="text-center" style={{ padding: '1.5rem' }}>
-                                            {student.isRecentlyActive ? (
-                                                <span className="px-4 py-2 bg-green-100 text-green-700 rounded-full font-black border-2 border-green-300" style={{ fontSize: '1.4rem' }}>✅ 활동중</span>
-                                            ) : (
-                                                <span className="px-4 py-2 bg-gray-100 text-gray-400 rounded-full font-black border-2 border-gray-300" style={{ fontSize: '1.4rem' }}>💤 미접속</span>
-                                            )}
+                                        <td className="text-center font-bold text-gray-600" style={{ padding: '1.5rem', fontSize: '1.4rem' }}>
+                                            {student.lastActiveText}
                                         </td>
                                     </tr>
                                 );
