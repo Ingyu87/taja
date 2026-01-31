@@ -2,20 +2,25 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { getRankingsFromFirestore } from '@/lib/firestore';
+import { getRankingsFromFirestore, getGameRankingsFromFirestore } from '@/lib/firestore';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
+
+type ViewMode = 'practice' | 'game';
+type GameType = 'falling' | 'bomb' | 'timeattack' | 'all';
 
 export default function RankingPage() {
     const router = useRouter();
+    const [viewMode, setViewMode] = useState<ViewMode>('practice');
+    const [gameType, setGameType] = useState<GameType>('all');
     const [rankings, setRankings] = useState<any[]>([]);
+    const [gameRankings, setGameRankings] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchRankings = async () => {
             try {
-                const results = await getRankingsFromFirestore(500); // 최근 500개 기록 가져오기
-
-                // 사용자별 통계 집계
+                // 연습 랭킹
+                const results = await getRankingsFromFirestore(500);
                 const userStats = new Map<string, { username: string; avatar: string; totalCpm: number; count: number }>();
 
                 results.forEach(result => {
@@ -33,7 +38,6 @@ export default function RankingPage() {
                     }
                 });
 
-                // 평균 CPM 계산 및 정렬
                 const aggregatedRankings = Array.from(userStats.entries())
                     .map(([userId, stats]) => ({
                         userId,
@@ -43,12 +47,45 @@ export default function RankingPage() {
                         totalPractices: stats.count,
                     }))
                     .sort((a, b) => b.avgCpm - a.avgCpm)
-                    .slice(0, 10); // 상위 10명
+                    .slice(0, 10);
 
                 setRankings(aggregatedRankings);
+
+                // 게임 랭킹
+                const gameResults = await getGameRankingsFromFirestore(undefined, 200);
+                const gameUserStats = new Map<string, { username: string; avatar: string; totalScore: number; count: number; maxScore: number }>();
+
+                gameResults.forEach(result => {
+                    const existing = gameUserStats.get(result.userId);
+                    if (existing) {
+                        existing.totalScore += result.score;
+                        existing.count += 1;
+                        existing.maxScore = Math.max(existing.maxScore, result.score);
+                    } else {
+                        gameUserStats.set(result.userId, {
+                            username: result.username,
+                            avatar: result.avatar,
+                            totalScore: result.score,
+                            count: 1,
+                            maxScore: result.score,
+                        });
+                    }
+                });
+
+                const aggregatedGameRankings = Array.from(gameUserStats.entries())
+                    .map(([userId, stats]) => ({
+                        userId,
+                        username: stats.username,
+                        avatar: stats.avatar,
+                        maxScore: stats.maxScore,
+                        totalGames: stats.count,
+                    }))
+                    .sort((a, b) => b.maxScore - a.maxScore)
+                    .slice(0, 10);
+
+                setGameRankings(aggregatedGameRankings);
             } catch (error) {
                 console.error("Failed to fetch rankings:", error);
-                // 에러 발생 시 로컬 데이터 폴백은 생략 (또는 추가 가능)
             } finally {
                 setLoading(false);
             }
@@ -56,6 +93,8 @@ export default function RankingPage() {
 
         fetchRankings();
     }, []);
+
+    const currentRankings = viewMode === 'practice' ? rankings : gameRankings;
 
     return (
         <div className="min-h-screen" style={{ backgroundColor: '#FAF9F6' }}>
@@ -71,31 +110,75 @@ export default function RankingPage() {
                 <p className="text-2xl text-gray-600">
                     최고의 타자 실력자들
                 </p>
+
+                {/* 탭 전환 */}
+                <div className="flex justify-center gap-4 mt-8">
+                    <button
+                        onClick={() => setViewMode('practice')}
+                        className={`px-10 py-4 text-2xl font-black rounded-full transition-all shadow-md ${
+                            viewMode === 'practice'
+                                ? 'text-white'
+                                : 'bg-white text-gray-600 hover:bg-gray-50'
+                        }`}
+                        style={
+                            viewMode === 'practice'
+                                ? { background: 'linear-gradient(135deg, #FF6B9D 0%, #FF8FB9 100%)' }
+                                : {}
+                        }
+                    >
+                        📚 연습 랭킹
+                    </button>
+                    <button
+                        onClick={() => setViewMode('game')}
+                        className={`px-10 py-4 text-2xl font-black rounded-full transition-all shadow-md ${
+                            viewMode === 'game'
+                                ? 'text-white'
+                                : 'bg-white text-gray-600 hover:bg-gray-50'
+                        }`}
+                        style={
+                            viewMode === 'game'
+                                ? { background: 'linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%)' }
+                                : {}
+                        }
+                    >
+                        🎮 게임 랭킹
+                    </button>
+                </div>
             </div>
 
             {/* 랭킹 리스트 */}
             <div className="max-w-4xl mx-auto px-8 pb-20">
                 <div className="bg-white shadow-xl overflow-hidden" style={{ borderRadius: '48px' }}>
                     {/* 헤더 */}
-                    <div className="grid grid-cols-5 gap-4 p-6 font-bold text-xl text-gray-700 border-b-2">
-                        <div className="text-center">순위</div>
-                        <div>이름</div>
-                        <div className="text-center">평균 속도</div>
-                        <div className="text-center">연습 횟수</div>
-                        <div className="text-center">등급</div>
-                    </div>
+                    {viewMode === 'practice' ? (
+                        <div className="grid grid-cols-5 gap-4 p-6 font-bold text-xl text-gray-700 border-b-2">
+                            <div className="text-center">순위</div>
+                            <div>이름</div>
+                            <div className="text-center">평균 속도</div>
+                            <div className="text-center">연습 횟수</div>
+                            <div className="text-center">등급</div>
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-5 gap-4 p-6 font-bold text-xl text-gray-700 border-b-2">
+                            <div className="text-center">순위</div>
+                            <div>이름</div>
+                            <div className="text-center">최고 점수</div>
+                            <div className="text-center">게임 횟수</div>
+                            <div className="text-center">등급</div>
+                        </div>
+                    )}
 
                     {/* 랭킹 데이터 */}
                     {loading ? (
                         <div className="p-12">
                             <LoadingSpinner />
                         </div>
-                    ) : rankings.length === 0 ? (
+                    ) : currentRankings.length === 0 ? (
                         <div className="p-12 text-center text-2xl text-gray-500">
-                            아직 연습 기록이 없습니다 📝
+                            {viewMode === 'practice' ? '아직 연습 기록이 없습니다 📝' : '아직 게임 기록이 없습니다 🎮'}
                         </div>
                     ) : (
-                        rankings.map((rank, index) => {
+                        currentRankings.map((rank, index) => {
                             let medal = '';
                             let bgColor = '';
 
@@ -123,18 +206,37 @@ export default function RankingPage() {
                                         <span className="text-4xl">{rank.avatar}</span>
                                         <span className="text-xl font-bold">{rank.username}</span>
                                     </div>
-                                    <div className="text-center text-2xl font-bold" style={{ color: '#FF6B9D' }}>
-                                        {rank.avgCpm} CPM
-                                    </div>
-                                    <div className="text-center text-xl text-gray-600">
-                                        {rank.totalPractices}회
-                                    </div>
-                                    <div className="text-center text-2xl">
-                                        {rank.avgCpm >= 200 ? '👑 마스터' :
-                                            rank.avgCpm >= 150 ? '⭐ 고수' :
-                                                rank.avgCpm >= 100 ? '💪 중수' :
-                                                    '🌱 초보'}
-                                    </div>
+                                    {viewMode === 'practice' ? (
+                                        <>
+                                            <div className="text-center text-2xl font-bold" style={{ color: '#FF6B9D' }}>
+                                                {rank.avgCpm} CPM
+                                            </div>
+                                            <div className="text-center text-xl text-gray-600">
+                                                {rank.totalPractices}회
+                                            </div>
+                                            <div className="text-center text-2xl">
+                                                {rank.avgCpm >= 200 ? '👑 마스터' :
+                                                    rank.avgCpm >= 150 ? '⭐ 고수' :
+                                                        rank.avgCpm >= 100 ? '💪 중수' :
+                                                            '🌱 초보'}
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <div className="text-center text-2xl font-bold" style={{ color: '#4ECDC4' }}>
+                                                {rank.maxScore}점
+                                            </div>
+                                            <div className="text-center text-xl text-gray-600">
+                                                {rank.totalGames}회
+                                            </div>
+                                            <div className="text-center text-2xl">
+                                                {rank.maxScore >= 500 ? '👑 전설' :
+                                                    rank.maxScore >= 300 ? '⭐ 고수' :
+                                                        rank.maxScore >= 150 ? '💪 숙련' :
+                                                            '🌱 초보'}
+                                            </div>
+                                        </>
+                                    )}
                                 </div>
                             );
                         })

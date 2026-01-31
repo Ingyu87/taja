@@ -38,11 +38,9 @@ export type PracticeCategory =
 
 // 게임 타입
 export type GameType =
-    | 'falling-letters'
-    | 'word-bomb'
-    | 'racing'
-    | 'maze'
-    | 'adventure';
+    | 'falling'
+    | 'bomb'
+    | 'timeattack';
 
 // 난이도
 export type Difficulty = 1 | 2 | 3;
@@ -143,4 +141,16 @@ export interface Leaderboard {
     category: 'speed' | 'accuracy' | GameType;
     rankings: LeaderboardEntry[];
     updatedAt: Date;
+}
+
+// 게임 결과
+export interface GameResult {
+    userId: string;
+    username: string;
+    avatar: string;
+    gameType: GameType;
+    score: number;
+    level: number;
+    accuracy: number;
+    createdAt: Date;
 }

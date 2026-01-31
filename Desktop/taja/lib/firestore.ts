@@ -1,5 +1,6 @@
 import { db } from './firebase';
 import { collection, addDoc, query, orderBy, limit, getDocs, Timestamp, where } from 'firebase/firestore';
+import { GameResult } from '@/types';
 
 // 연습 결과 타입 정의
 export interface PracticeResult {
@@ -15,6 +16,7 @@ export interface PracticeResult {
 
 // 컬렉션 이름
 const RESULTS_COLLECTION = 'practice_results';
+const GAME_RESULTS_COLLECTION = 'game_results';
 
 /**
  * 연습 결과를 Firestore에 저장합니다.
@@ -151,6 +153,76 @@ export const getAllResultsFromFirestore = async (limitCount = 1000) => {
         return results;
     } catch (e) {
         console.error("Error getting all documents: ", e);
+        return [];
+    }
+};
+
+/**
+ * 게임 결과를 Firestore에 저장합니다.
+ */
+export const saveGameResultToFirestore = async (result: Omit<GameResult, 'createdAt'>) => {
+    if (!db) {
+        console.warn("Firestore is not initialized. Skipping save.");
+        return { success: true, id: 'offline' };
+    }
+    try {
+        const docRef = await addDoc(collection(db, GAME_RESULTS_COLLECTION), {
+            ...result,
+            createdAt: Timestamp.now(),
+        });
+        console.log("Game result written with ID: ", docRef.id);
+        return { success: true, id: docRef.id };
+    } catch (e) {
+        console.error("Error adding game result: ", e);
+        return { success: false, error: e };
+    }
+};
+
+/**
+ * 게임별 랭킹을 가져옵니다.
+ */
+export const getGameRankingsFromFirestore = async (gameType?: string, limitCount = 100) => {
+    if (!db) {
+        console.warn("Firestore is not initialized. Returning empty rankings.");
+        return [];
+    }
+    try {
+        let q;
+        if (gameType) {
+            q = query(
+                collection(db, GAME_RESULTS_COLLECTION),
+                where('gameType', '==', gameType),
+                orderBy('score', 'desc'),
+                limit(limitCount)
+            );
+        } else {
+            q = query(
+                collection(db, GAME_RESULTS_COLLECTION),
+                orderBy('score', 'desc'),
+                limit(limitCount)
+            );
+        }
+
+        const querySnapshot = await getDocs(q);
+        const rankings: GameResult[] = [];
+
+        querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            rankings.push({
+                userId: data.userId,
+                username: data.username,
+                avatar: data.avatar,
+                gameType: data.gameType,
+                score: data.score,
+                level: data.level,
+                accuracy: data.accuracy,
+                createdAt: data.createdAt.toDate(),
+            });
+        });
+
+        return rankings;
+    } catch (e) {
+        console.error("Error getting game rankings: ", e);
         return [];
     }
 };
