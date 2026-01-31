@@ -264,24 +264,25 @@ export default function PracticePage() {
     return (
         <div className="min-h-screen flex flex-col" style={{ backgroundColor: 'var(--color-bg)' }}>
             {/* 상단 헤더 */}
-            <div className="p-8">
-                <div className="max-w-7xl mx-auto flex justify-between items-center">
+            <div className="p-12">
+                <div className="max-w-full mx-auto flex justify-between items-center">
                     <button
                         onClick={() => router.push('/dashboard')}
-                        className="px-10 py-5 font-bold text-3xl bg-white transition-all duration-200 hover:shadow-lg"
+                        className="px-16 py-8 font-bold bg-white transition-all duration-200 hover:shadow-lg"
                         style={{
-                            borderRadius: '32px',
-                            color: '#666',
-                            border: '4px solid #E0E0E0',
-                            minHeight: '80px'
+                            borderRadius: '40px',
+                            color: '#000000',
+                            border: '6px solid #E0E0E0',
+                            minHeight: '120px',
+                            fontSize: '6rem'
                         }}
                     >
                         ← 뒤로가기
                     </button>
-                    <div className="text-4xl font-bold" style={{ color: 'var(--color-text)' }}>
+                    <div className="font-bold" style={{ color: '#000000', fontSize: '8rem' }}>
                         {currentIndex + 1} / {practiceTexts.length}
                     </div>
-                    <div className="flex gap-6 text-2xl">
+                    <div className="flex gap-8" style={{ fontSize: '4rem' }}>
                         <div><span className="font-bold">속도:</span> {cpm} CPM</div>
                         <div><span className="font-bold">정확도:</span> {accuracy}%</div>
                     </div>
@@ -293,17 +294,17 @@ export default function PracticePage() {
                 <PracticeDisplay targetText={currentText} inputText={inputText} />
 
                 {/* 숨겨진 입력 필드 - 초등학생 저학년용 큰 크기 */}
-                <div className="text-center mt-20">
+                <div className="text-center mt-32">
                     <input
                         key={`${currentIndex}-${inputKey}`}
                         {...inputProps}
                         disabled={status === 'finished'}
-                        className="w-full max-w-5xl px-16 py-12 text-7xl text-center border-8 focus:outline-none focus:ring-8 focus:ring-pink-200 font-bold disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full max-w-full px-24 py-16 text-center border-8 focus:outline-none focus:ring-8 focus:ring-pink-200 font-bold disabled:opacity-50 disabled:cursor-not-allowed"
                         style={{ 
-                            borderRadius: '48px',
+                            borderRadius: '60px',
                             borderColor: 'var(--color-primary)',
-                            fontSize: '5rem',
-                            minHeight: '150px'
+                            fontSize: '10rem',
+                            minHeight: '300px'
                         }}
                         placeholder="여기에 입력하세요"
                         autoFocus

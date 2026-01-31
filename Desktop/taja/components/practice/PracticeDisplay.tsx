@@ -13,16 +13,16 @@ export const PracticeDisplay = ({ targetText, inputText }: PracticeDisplayProps)
     const inputJaso = Hangul.disassemble(inputText);
 
     return (
-        <div className="w-full max-w-7xl mx-auto p-12">
-            <div className="bg-white p-20 shadow-2xl" style={{ borderRadius: '48px' }}>
-                <div className="text-center mb-16">
-                    <h2 className="text-6xl font-bold mb-8" style={{ color: 'var(--color-text)' }}>
+        <div className="w-full max-w-full mx-auto p-16">
+            <div className="bg-white p-24 shadow-2xl" style={{ borderRadius: '60px' }}>
+                <div className="text-center mb-20">
+                    <h2 className="font-bold mb-12" style={{ color: '#000000', fontSize: '12rem' }}>
                         아래 글자를 따라 쳐보세요
                     </h2>
                 </div>
 
                 {/* 목표 텍스트 표시 */}
-                <div className="flex flex-wrap justify-center gap-8 mb-24">
+                <div className="flex flex-wrap justify-center gap-12 mb-32">
                     {targetText.split('').map((char, index) => {
                         // 현재 입력 진행 상황 확인
                         const inputChars = inputText.split('');
@@ -31,7 +31,7 @@ export const PracticeDisplay = ({ targetText, inputText }: PracticeDisplayProps)
                         const isWrong = index < inputChars.length && inputChars[index] !== char;
 
                         let bgColor = 'transparent';
-                        let textColor = 'var(--color-text)';
+                        let textColor = '#000000';
                         let borderColor = '#E0E0E0';
 
                         if (isCompleted) {
@@ -48,13 +48,16 @@ export const PracticeDisplay = ({ targetText, inputText }: PracticeDisplayProps)
                         return (
                             <div
                                 key={index}
-                                className="w-40 h-40 flex items-center justify-center text-9xl font-bold transition-all duration-200"
+                                className="flex items-center justify-center font-bold transition-all duration-200"
                                 style={{
-                                    borderRadius: '32px',
+                                    width: '20rem',
+                                    height: '20rem',
+                                    borderRadius: '48px',
                                     backgroundColor: bgColor,
                                     color: textColor,
-                                    border: `6px solid ${borderColor}`,
+                                    border: `8px solid ${borderColor}`,
                                     transform: isCurrent ? 'scale(1.1)' : 'scale(1)',
+                                    fontSize: '16rem'
                                 }}
                             >
                                 {char}
@@ -64,7 +67,7 @@ export const PracticeDisplay = ({ targetText, inputText }: PracticeDisplayProps)
                 </div>
 
                 {/* 사용자 입력 표시 (숨김 처리, 실제로는 input에서 처리) */}
-                <div className="text-center text-4xl text-gray-500 font-bold">
+                <div className="text-center text-gray-500 font-bold" style={{ fontSize: '8rem' }}>
                     {inputText.length} / {targetText.length} 글자
                 </div>
             </div>
