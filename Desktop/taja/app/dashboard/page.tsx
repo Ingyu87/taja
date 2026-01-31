@@ -105,7 +105,7 @@ export default function DashboardPage() {
                         className="px-16 py-8 font-black text-white hover:opacity-90 transition-all rounded-full shadow-lg hover:shadow-xl transform hover:scale-105"
                         style={{ 
                             background: 'linear-gradient(135deg, #FF6B9D 0%, #FF8FB9 100%)',
-                            fontSize: '4rem',
+                            fontSize: '3.6rem',
                         }}
                     >
                         👋 로그아웃
@@ -119,13 +119,13 @@ export default function DashboardPage() {
                 <div className="mb-24 w-full">
                     <div className="text-center mb-12">
                         <div className="flex items-center justify-center gap-8 mb-6">
-                            <span style={{ fontSize: '5rem' }}>📚</span>
-                            <h2 style={{ fontSize: '4.5rem' }} className="font-black text-pink-500 drop-shadow-lg leading-none">
+                            <span style={{ fontSize: '4.5rem' }}>📚</span>
+                            <h2 style={{ fontSize: '4.05rem' }} className="font-black text-pink-500 drop-shadow-lg leading-none">
                                 타자 연습
                             </h2>
-                            <span style={{ fontSize: '5rem' }}>📚</span>
+                            <span style={{ fontSize: '4.5rem' }}>📚</span>
                         </div>
-                        <p style={{ fontSize: '2.5rem' }} className="font-black text-gray-700">
+                        <p style={{ fontSize: '2.25rem' }} className="font-black text-gray-700">
                             기본부터 차근차근 배워요!
                         </p>
                     </div>
@@ -149,14 +149,14 @@ export default function DashboardPage() {
                                     <div className="flex items-center gap-10">
                                         {/* 아이콘 왼쪽 */}
                                         <div className="flex-shrink-0 p-10 rounded-3xl bg-white shadow-lg">
-                                            <div style={{ fontSize: '6rem', lineHeight: '1' }}>{mode.emoji}</div>
+                                            <div style={{ fontSize: '5.4rem', lineHeight: '1' }}>{mode.emoji}</div>
                                         </div>
                                         {/* 텍스트 오른쪽 */}
                                         <div className="flex-1 text-left">
-                                            <h3 className="font-black mb-4 drop-shadow-md leading-tight" style={{ fontSize: '3.5rem', color: mode.color }}>
+                                            <h3 className="font-black mb-4 drop-shadow-md leading-tight" style={{ fontSize: '3.15rem', color: mode.color }}>
                                                 {mode.title}
                                             </h3>
-                                            <p style={{ fontSize: '2.5rem' }} className="font-black text-gray-800 leading-snug">
+                                            <p style={{ fontSize: '2.25rem' }} className="font-black text-gray-800 leading-snug">
                                                 {mode.description}
                                             </p>
                                         </div>
@@ -167,7 +167,7 @@ export default function DashboardPage() {
                                             className="px-12 py-6 font-black text-white text-center rounded-full shadow-xl hover:shadow-2xl transition-all"
                                             style={{
                                                 background: `linear-gradient(135deg, ${mode.color} 0%, ${mode.color}DD 100%)`,
-                                                fontSize: '2.5rem',
+                                                fontSize: '2.25rem',
                                             }}
                                         >
                                             시작! ✨
@@ -183,13 +183,13 @@ export default function DashboardPage() {
                 <div className="mb-12 w-full">
                     <div className="text-center mb-12">
                         <div className="flex items-center justify-center gap-8 mb-6">
-                            <span style={{ fontSize: '5rem' }}>🎮</span>
-                            <h2 style={{ fontSize: '4.5rem' }} className="font-black text-purple-500 drop-shadow-lg leading-none">
+                            <span style={{ fontSize: '4.5rem' }}>🎮</span>
+                            <h2 style={{ fontSize: '4.05rem' }} className="font-black text-purple-500 drop-shadow-lg leading-none">
                                 재미있는 게임
                             </h2>
-                            <span style={{ fontSize: '5rem' }}>🎮</span>
+                            <span style={{ fontSize: '4.5rem' }}>🎮</span>
                         </div>
-                        <p style={{ fontSize: '2.5rem' }} className="font-black text-gray-700">
+                        <p style={{ fontSize: '2.25rem' }} className="font-black text-gray-700">
                             신나는 타자 게임에 도전하세요!
                         </p>
                     </div>
@@ -213,14 +213,14 @@ export default function DashboardPage() {
                                     <div className="flex flex-col items-center text-center">
                                         {/* 아이콘 */}
                                         <div className="mb-8 p-10 rounded-3xl bg-white shadow-lg">
-                                            <div style={{ fontSize: '6rem', lineHeight: '1' }}>{game.emoji}</div>
+                                            <div style={{ fontSize: '5.4rem', lineHeight: '1' }}>{game.emoji}</div>
                                         </div>
                                         {/* 텍스트 */}
                                         <div>
-                                            <h3 className="font-black mb-4 drop-shadow-md leading-tight" style={{ fontSize: '3rem', color: game.color }}>
+                                            <h3 className="font-black mb-4 drop-shadow-md leading-tight" style={{ fontSize: '2.7rem', color: game.color }}>
                                                 {game.title}
                                             </h3>
-                                            <p style={{ fontSize: '2rem' }} className="font-black text-gray-800 leading-snug">
+                                            <p style={{ fontSize: '1.8rem' }} className="font-black text-gray-800 leading-snug">
                                                 {game.description}
                                             </p>
                                         </div>
@@ -231,7 +231,7 @@ export default function DashboardPage() {
                                             className="px-10 py-5 font-black text-white text-center rounded-full shadow-xl hover:shadow-2xl transition-all"
                                             style={{
                                                 background: `linear-gradient(135deg, ${game.color} 0%, ${game.color}DD 100%)`,
-                                                fontSize: '2rem',
+                                                fontSize: '1.8rem',
                                             }}
                                         >
                                             게임하기! 🚀
