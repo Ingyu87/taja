@@ -58,11 +58,11 @@ export default function DashboardPage() {
         );
     }
 
+    const [selectedCategory, setSelectedCategory] = useState<string>('all');
+
     if (user.role === 'teacher') {
         return <TeacherDashboard user={user} onLogout={handleLogout} />;
     }
-
-    const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
     return (
         <div className="min-h-screen" style={{ backgroundColor: '#FAF9F6' }}>
