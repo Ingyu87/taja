@@ -32,20 +32,11 @@ const PRACTICE_MODES = [
     },
 ];
 
-const NAV_TABS = [
-    { id: 'changche', label: '창체', icon: '🎭', active: true },
-    { id: 'math', label: '수학', icon: '1234' },
-    { id: 'korean', label: '국어', icon: '📖' },
-    { id: 'social', label: '사회', icon: '🌍' },
-    { id: 'class', label: '학급운영', icon: '🏠' },
-    { id: 'manage', label: '관리', icon: '⚙️' },
-];
+// 학생용에서는 네비게이션 탭 불필요
 
 export default function DashboardPage() {
     const router = useRouter();
     const [user, setUser] = useState<User | null>(null);
-    const [selectedCategory, setSelectedCategory] = useState<string>('all');
-    const [activeTab, setActiveTab] = useState<string>('changche');
 
     useEffect(() => {
         const currentUser = getCurrentUser();
@@ -74,65 +65,32 @@ export default function DashboardPage() {
     }
 
     return (
-        <div className="min-h-screen" style={{ backgroundColor: '#FAF9F6' }}>
-            {/* 상단 네비게이션 바 */}
-            <div className="bg-white shadow-sm sticky top-0 z-10">
-                <div className="max-w-7xl mx-auto">
-                    <nav className="px-8 py-5">
-                        <div className="flex items-center justify-between">
-                            {/* 왼쪽 탭들 */}
-                            <div className="flex items-center gap-4">
-                                {NAV_TABS.map((tab) => (
-                                    <button
-                                        key={tab.id}
-                                        onClick={() => setActiveTab(tab.id)}
-                                        className={`px-8 py-4 font-black text-2xl whitespace-nowrap transition-all rounded-3xl shadow-lg hover:shadow-xl transform hover:scale-105 ${
-                                            activeTab === tab.id
-                                                ? 'text-white'
-                                                : 'text-gray-700 bg-white hover:bg-gray-50'
-                                        }`}
-                                        style={
-                                            activeTab === tab.id
-                                                ? {
-                                                      background: 'linear-gradient(135deg, #FF6B9D 0%, #9B59B6 50%, #4ECDC4 100%)',
-                                                  }
-                                                : { border: '3px solid #E0E0E0' }
-                                        }
-                                    >
-                                        <span className="mr-2 text-2xl">{tab.icon}</span>
-                                        {tab.label}
-                                    </button>
-                                ))}
-                            </div>
-                            {/* 오른쪽 버튼들 */}
-                            <div className="flex items-center gap-4">
-                                <button
-                                    className="px-8 py-4 font-black text-2xl bg-white text-gray-700 hover:bg-gray-50 transition-all rounded-3xl shadow-lg hover:shadow-xl transform hover:scale-105"
-                                    style={{ border: '3px solid #FF6B9D' }}
-                                >
-                                    👤 {user.username}
-                                </button>
-                                <button
-                                    onClick={handleLogout}
-                                    className="px-8 py-4 font-black text-2xl text-white hover:opacity-90 transition-all rounded-3xl shadow-lg hover:shadow-xl transform hover:scale-105"
-                                    style={{ 
-                                        background: 'linear-gradient(135deg, #FF6B9D 0%, #FF8FB9 100%)',
-                                    }}
-                                >
-                                    👋 로그아웃
-                                </button>
-                            </div>
-                        </div>
-                    </nav>
+        <div className="min-h-screen flex flex-col" style={{ backgroundColor: '#FAF9F6' }}>
+            {/* 상단 간단한 헤더 */}
+            <div className="bg-white shadow-md py-4 px-8">
+                <div className="max-w-7xl mx-auto flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                        <span className="text-4xl">👤</span>
+                        <span className="text-2xl font-black text-gray-800">{user.username}</span>
+                    </div>
+                    <button
+                        onClick={handleLogout}
+                        className="px-8 py-4 font-black text-2xl text-white hover:opacity-90 transition-all rounded-full shadow-lg hover:shadow-xl transform hover:scale-105"
+                        style={{ 
+                            background: 'linear-gradient(135deg, #FF6B9D 0%, #FF8FB9 100%)',
+                        }}
+                    >
+                        👋 로그아웃
+                    </button>
                 </div>
             </div>
 
-            {/* 메인 콘텐츠 */}
-            <div className="max-w-7xl mx-auto px-8 py-12">
-                <div className="text-center mb-12">
-                    <div className="flex items-center justify-center gap-4 mb-4">
-                        <span className="text-6xl animate-bounce">✨</span>
-                        <h1 className="text-6xl font-black mb-0" style={{ 
+            {/* 메인 콘텐츠 - 화면 중앙 배치 */}
+            <div className="flex-1 flex flex-col justify-center max-w-7xl mx-auto px-8 py-8">
+                <div className="text-center mb-16">
+                    <div className="flex items-center justify-center gap-6 mb-6">
+                        <span className="text-8xl animate-bounce">✨</span>
+                        <h1 className="text-8xl font-black mb-0" style={{ 
                             background: 'linear-gradient(135deg, #FF6B9D 0%, #9B59B6 50%, #4ECDC4 100%)',
                             WebkitBackgroundClip: 'text',
                             WebkitTextFillColor: 'transparent',
@@ -140,9 +98,9 @@ export default function DashboardPage() {
                         }}>
                             한글 타자 연습
                         </h1>
-                        <span className="text-6xl animate-bounce" style={{ animationDelay: '0.2s' }}>✨</span>
+                        <span className="text-8xl animate-bounce" style={{ animationDelay: '0.2s' }}>✨</span>
                     </div>
-                    <p className="text-3xl font-bold text-gray-700 mt-4">
+                    <p className="text-4xl font-black text-gray-800 mt-6">
                         🎮 {PRACTICE_MODES.length}개의 재미있는 연습 모드 🎮
                     </p>
                 </div>
@@ -238,6 +196,15 @@ export default function DashboardPage() {
         </div>
     );
 }
+
+const NAV_TABS = [
+    { id: 'changche', label: '창체', icon: '🎭', active: true },
+    { id: 'math', label: '수학', icon: '1234' },
+    { id: 'korean', label: '국어', icon: '📖' },
+    { id: 'social', label: '사회', icon: '🌍' },
+    { id: 'class', label: '학급운영', icon: '🏠' },
+    { id: 'manage', label: '관리', icon: '⚙️' },
+];
 
 function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void }) {
     const router = useRouter();
