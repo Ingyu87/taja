@@ -185,20 +185,20 @@ export default function FallingGamePage() {
             <div className="flex justify-between items-center mb-6">
                 <button
                     onClick={() => router.push('/dashboard')}
-                    className="px-8 py-4 text-xl font-black bg-white text-gray-600 hover:bg-gray-50 transition-all rounded-3xl shadow-md"
-                    style={{ border: '3px solid #4ECDC4' }}
+                    className="px-10 py-5 text-3xl font-black bg-white text-gray-600 hover:bg-gray-50 transition-all rounded-3xl shadow-md"
+                    style={{ border: '4px solid #4ECDC4' }}
                 >
                     ← 뒤로가기
                 </button>
                 
-                <div className="flex gap-8 text-2xl font-black">
-                    <div className="bg-white px-6 py-3 rounded-2xl shadow-md">
+                <div className="flex gap-8 text-4xl font-black">
+                    <div className="bg-white px-8 py-4 rounded-2xl shadow-md">
                         점수: <span className="text-blue-600">{score}</span>
                     </div>
-                    <div className="bg-white px-6 py-3 rounded-2xl shadow-md">
+                    <div className="bg-white px-8 py-4 rounded-2xl shadow-md">
                         레벨: <span className="text-purple-600">{level}</span>
                     </div>
-                    <div className="bg-white px-6 py-3 rounded-2xl shadow-md">
+                    <div className="bg-white px-8 py-4 rounded-2xl shadow-md">
                         생명: <span className="text-red-600">{'❤️'.repeat(lives)}</span>
                     </div>
                 </div>
@@ -208,12 +208,12 @@ export default function FallingGamePage() {
             <div className="flex-1 relative bg-white rounded-[40px] shadow-2xl overflow-hidden" style={{ minHeight: '600px' }}>
                 {gameState === 'ready' && (
                     <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-blue-200 to-purple-200">
-                        <h1 className="text-7xl font-black text-purple-600 mb-6">⬇️ 떨어지는 글자 게임</h1>
-                        <p className="text-3xl font-bold text-gray-700 mb-4">떨어지는 글자를 빨리 쳐서 없애세요!</p>
-                        <p className="text-2xl text-gray-600 mb-12">바닥에 닿으면 생명이 줄어듭니다</p>
+                        <h1 className="text-9xl font-black text-purple-600 mb-8">⬇️ 떨어지는 글자 게임</h1>
+                        <p className="text-5xl font-bold text-gray-700 mb-6">떨어지는 글자를 빨리 쳐서 없애세요!</p>
+                        <p className="text-4xl text-gray-600 mb-16">바닥에 닿으면 생명이 줄어듭니다</p>
                         <button
                             onClick={startGame}
-                            className="px-20 py-6 text-4xl font-black text-white rounded-full shadow-2xl hover:scale-110 transition-transform"
+                            className="px-24 py-8 text-6xl font-black text-white rounded-full shadow-2xl hover:scale-110 transition-transform"
                             style={{ background: 'linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%)' }}
                         >
                             게임 시작! 🚀
@@ -227,7 +227,7 @@ export default function FallingGamePage() {
                         {fallingChars.map(char => (
                             <div
                                 key={char.id}
-                                className="absolute text-6xl font-black bg-gradient-to-br from-pink-400 to-purple-400 text-white rounded-3xl px-6 py-3 shadow-lg"
+                                className="absolute text-9xl font-black bg-gradient-to-br from-pink-400 to-purple-400 text-white rounded-3xl px-8 py-4 shadow-lg"
                                 style={{
                                     left: `${char.x}%`,
                                     top: `${char.y}%`,
@@ -245,23 +245,23 @@ export default function FallingGamePage() {
 
                 {gameState === 'gameover' && (
                     <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
-                        <h2 className="text-7xl font-black text-red-600 mb-6">게임 오버! 😢</h2>
-                        <div className="bg-white p-12 rounded-[40px] shadow-2xl mb-8">
-                            <p className="text-4xl font-black text-gray-800 mb-4">최종 점수: <span className="text-blue-600">{score}</span></p>
-                            <p className="text-3xl font-bold text-gray-700 mb-2">도달 레벨: {level}</p>
-                            <p className="text-3xl font-bold text-gray-700">정확도: {totalTyped > 0 ? Math.round((correctTyped / totalTyped) * 100) : 0}%</p>
+                        <h2 className="text-9xl font-black text-red-600 mb-8">게임 오버! 😢</h2>
+                        <div className="bg-white p-16 rounded-[40px] shadow-2xl mb-10">
+                            <p className="text-6xl font-black text-gray-800 mb-6">최종 점수: <span className="text-blue-600">{score}</span></p>
+                            <p className="text-5xl font-bold text-gray-700 mb-4">도달 레벨: {level}</p>
+                            <p className="text-5xl font-bold text-gray-700">정확도: {totalTyped > 0 ? Math.round((correctTyped / totalTyped) * 100) : 0}%</p>
                         </div>
-                        <div className="flex gap-6">
+                        <div className="flex gap-8">
                             <button
                                 onClick={startGame}
-                                className="px-16 py-5 text-3xl font-black text-white rounded-full shadow-xl hover:scale-110 transition-transform"
+                                className="px-20 py-6 text-5xl font-black text-white rounded-full shadow-xl hover:scale-110 transition-transform"
                                 style={{ background: 'linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%)' }}
                             >
                                 다시 하기 🔄
                             </button>
                             <button
                                 onClick={() => router.push('/dashboard')}
-                                className="px-16 py-5 text-3xl font-black text-white rounded-full shadow-xl hover:scale-110 transition-transform"
+                                className="px-20 py-6 text-5xl font-black text-white rounded-full shadow-xl hover:scale-110 transition-transform"
                                 style={{ background: 'linear-gradient(135deg, #FF6B9D 0%, #FF8FB9 100%)' }}
                             >
                                 홈으로 🏠
@@ -273,12 +273,12 @@ export default function FallingGamePage() {
 
             {/* 입력 필드 */}
             {gameState === 'playing' && (
-                <div className="mt-6 text-center">
+                <div className="mt-8 text-center">
                     <input
                         type="text"
                         value={inputValue}
                         onChange={handleInput}
-                        className="w-96 px-8 py-6 text-5xl text-center border-8 focus:outline-none focus:ring-8 focus:ring-blue-200 font-black rounded-full"
+                        className="w-[600px] px-12 py-8 text-7xl text-center border-8 focus:outline-none focus:ring-8 focus:ring-blue-200 font-black rounded-full"
                         style={{ borderColor: '#4ECDC4' }}
                         placeholder="여기 입력"
                         autoFocus
