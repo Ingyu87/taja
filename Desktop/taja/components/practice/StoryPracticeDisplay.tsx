@@ -64,48 +64,59 @@ export const StoryPracticeDisplay = ({ targetText, inputText }: StoryPracticeDis
                     </h2>
                 </div>
 
-                {/* 현재 문장을 글자별로 표시 */}
-                <div className="flex flex-wrap justify-center gap-3">
-                    {currentSentence.split('').map((char, index) => {
-                        const isCompleted = index < relativeInputPos && inputText[sentenceStartPos + index] === char;
-                        const isCurrent = index === relativeInputPos;
-                        const isWrong = index < relativeInputPos && inputText[sentenceStartPos + index] !== char;
-
-                        let bgColor = 'transparent';
-                        let textColor = '#000000';
-                        let borderColor = '#E0E0E0';
-
-                        if (isCompleted) {
-                            bgColor = '#4ADE80'; // 초록
-                            textColor = 'white';
-                            borderColor = '#4ADE80';
-                        } else if (isCurrent) {
-                            bgColor = '#FCD34D'; // 노랑
-                            borderColor = '#9B59B6';
-                            textColor = '#000000';
-                        } else if (isWrong) {
-                            bgColor = '#EF4444'; // 빨강
-                            textColor = 'white';
-                            borderColor = '#EF4444';
-                        }
-
+                {/* 현재 문장을 단어 단위로 표시 */}
+                <div className="flex flex-wrap justify-center gap-8">
+                    {currentSentence.split(' ').map((word, wordIdx) => {
+                        // 각 단어의 시작 위치 계산
+                        const wordsBeforeCurrent = currentSentence.split(' ').slice(0, wordIdx);
+                        const wordStartPos = wordsBeforeCurrent.reduce((acc, w) => acc + w.length + 1, 0);
+                        
                         return (
-                            <div
-                                key={index}
-                                className="flex items-center justify-center font-black transition-all duration-200"
-                                style={{
-                                    width: char === ' ' ? '3rem' : '5rem',
-                                    height: '5rem',
-                                    borderRadius: '12px',
-                                    backgroundColor: bgColor,
-                                    color: textColor,
-                                    border: `3px solid ${borderColor}`,
-                                    transform: isCurrent ? 'scale(1.15)' : 'scale(1)',
-                                    fontSize: char === ' ' ? '2rem' : '3.5rem',
-                                    boxShadow: isCurrent ? '0 4px 20px rgba(155, 89, 182, 0.4)' : 'none'
-                                }}
-                            >
-                                {char === ' ' ? '␣' : char}
+                            <div key={wordIdx} className="flex gap-2">
+                                {word.split('').map((char, charIdx) => {
+                                    const absoluteCharPos = wordStartPos + charIdx;
+                                    const isCompleted = absoluteCharPos < relativeInputPos && inputText[sentenceStartPos + absoluteCharPos] === char;
+                                    const isCurrent = absoluteCharPos === relativeInputPos;
+                                    const isWrong = absoluteCharPos < relativeInputPos && inputText[sentenceStartPos + absoluteCharPos] !== char;
+
+                                    let bgColor = 'transparent';
+                                    let textColor = '#000000';
+                                    let borderColor = '#E0E0E0';
+
+                                    if (isCompleted) {
+                                        bgColor = '#4ADE80'; // 초록
+                                        textColor = 'white';
+                                        borderColor = '#4ADE80';
+                                    } else if (isCurrent) {
+                                        bgColor = '#FCD34D'; // 노랑
+                                        borderColor = '#9B59B6';
+                                        textColor = '#000000';
+                                    } else if (isWrong) {
+                                        bgColor = '#EF4444'; // 빨강
+                                        textColor = 'white';
+                                        borderColor = '#EF4444';
+                                    }
+
+                                    return (
+                                        <div
+                                            key={charIdx}
+                                            className="flex items-center justify-center font-black transition-all duration-200"
+                                            style={{
+                                                width: '5rem',
+                                                height: '5rem',
+                                                borderRadius: '12px',
+                                                backgroundColor: bgColor,
+                                                color: textColor,
+                                                border: `3px solid ${borderColor}`,
+                                                transform: isCurrent ? 'scale(1.15)' : 'scale(1)',
+                                                fontSize: '3.5rem',
+                                                boxShadow: isCurrent ? '0 4px 20px rgba(155, 89, 182, 0.4)' : 'none'
+                                            }}
+                                        >
+                                            {char}
+                                        </div>
+                                    );
+                                })}
                             </div>
                         );
                     })}
