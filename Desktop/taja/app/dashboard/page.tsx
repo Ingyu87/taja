@@ -317,7 +317,10 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
         fetchData();
     }, []);
 
-    const studentStats = Array.from({ length: 30 }, (_, i) => `a${i + 1}`)
+    // 실제 활동한 학생들만 추출
+    const uniqueStudents = Array.from(new Set(results.map(r => r.userId)));
+    
+    const studentStats = uniqueStudents
         .map(studentId => {
             const studentLogs = results.filter(r => r.userId === studentId);
             const lastLog = studentLogs.length > 0 ? studentLogs[0] : null;
@@ -325,6 +328,11 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
             const avgCpm = studentLogs.length > 0
                 ? Math.round(studentLogs.reduce((acc, curr) => acc + (curr.cpm || 0), 0) / studentLogs.length)
                 : 0;
+
+            // 최근 활동 확인 (24시간 이내)
+            const now = new Date();
+            const lastActiveTime = lastLog ? new Date(lastLog.createdAt) : null;
+            const isRecentlyActive = lastActiveTime && (now.getTime() - lastActiveTime.getTime()) < 24 * 60 * 60 * 1000;
 
             return {
                 id: studentId,
@@ -334,6 +342,7 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
                 lastLogin: lastLog ? new Date(lastLog.createdAt).toLocaleString() : '-',
                 totalTime: Math.round(totalTime),
                 avgCpm,
+                isRecentlyActive,
             };
         })
         .sort((a, b) => {
@@ -356,8 +365,20 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
     const avgCpm = filteredResults.length > 0
         ? Math.round(filteredResults.reduce((acc, curr) => acc + curr.cpm, 0) / filteredResults.length)
         : 0;
-    const participatingStudents = studentStats.filter(s => s.playCount > 0).length;
-    const participationRate = Math.round((participatingStudents / 30) * 100);
+    const participatingStudents = studentStats.length;
+    const recentlyActiveStudents = studentStats.filter(s => s.isRecentlyActive).length;
+    
+    // 주의 필요 학생 (정확도 낮거나 CPM 낮음)
+    const studentsNeedHelp = studentStats.filter(s => {
+        const recentLogs = results.filter(r => r.userId === s.id).slice(0, 5);
+        const avgAccuracy = recentLogs.length > 0 
+            ? recentLogs.reduce((acc, curr) => acc + curr.accuracy, 0) / recentLogs.length 
+            : 100;
+        return s.avgCpm < 100 || avgAccuracy < 80;
+    });
+    
+    // 우수 학생 (CPM 높고 꾸준함)
+    const topStudents = studentStats.filter(s => s.avgCpm >= 200 && s.playCount >= 10).slice(0, 5);
 
     if (loading) return <LoadingSpinner />;
 
@@ -447,10 +468,10 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
                     </div>
                     <div className="bg-white shadow-lg" style={{ borderRadius: '20px', padding: '1.5rem' }}>
                         <div className="flex items-center justify-between mb-3">
-                            <h3 className="text-gray-600 font-bold" style={{ fontSize: '1.5rem' }}>참여율</h3>
-                            <span style={{ fontSize: '3rem' }}>✅</span>
+                            <h3 className="text-gray-600 font-bold" style={{ fontSize: '1.5rem' }}>도움 필요</h3>
+                            <span style={{ fontSize: '3rem' }}>🚨</span>
                         </div>
-                        <p className="font-bold text-green-600" style={{ fontSize: '3rem' }}>{participationRate}%</p>
+                        <p className="font-bold text-red-600" style={{ fontSize: '3rem' }}>{studentsNeedHelp.length}명</p>
                     </div>
                     <div className="bg-white shadow-lg" style={{ borderRadius: '20px', padding: '1.5rem' }}>
                         <div className="flex items-center justify-between mb-3">
@@ -461,10 +482,10 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
                     </div>
                     <div className="bg-white shadow-lg" style={{ borderRadius: '20px', padding: '1.5rem' }}>
                         <div className="flex items-center justify-between mb-3">
-                            <h3 className="text-gray-600 font-bold" style={{ fontSize: '1.5rem' }}>참여 학생 수</h3>
+                            <h3 className="text-gray-600 font-bold" style={{ fontSize: '1.5rem' }}>활동 학생 수</h3>
                             <span style={{ fontSize: '3rem' }}>👥</span>
                         </div>
-                        <p className="font-bold text-orange-600" style={{ fontSize: '3rem' }}>{participatingStudents} / 30명</p>
+                        <p className="font-bold text-orange-600" style={{ fontSize: '3rem' }}>{recentlyActiveStudents}명</p>
                     </div>
                 </div>
 
@@ -517,7 +538,7 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
                                             {student.playCount}회
                                         </td>
                                         <td className="text-center" style={{ padding: '1.5rem' }}>
-                                            {student.playCount > 0 ? (
+                                            {student.isRecentlyActive ? (
                                                 <span className="px-4 py-2 bg-green-100 text-green-700 rounded-full font-black border-2 border-green-300" style={{ fontSize: '1.4rem' }}>✅ 활동중</span>
                                             ) : (
                                                 <span className="px-4 py-2 bg-gray-100 text-gray-400 rounded-full font-black border-2 border-gray-300" style={{ fontSize: '1.4rem' }}>💤 미접속</span>
@@ -530,82 +551,66 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
                     </table>
                 </div>
 
-                {/* 최근 활동 로그 */}
-                <div className="bg-white shadow-lg overflow-hidden mt-8" style={{ borderRadius: '20px' }}>
-                    <div className="border-b border-gray-100" style={{ padding: '1.5rem' }}>
-                        <h2 className="font-bold text-gray-800" style={{ fontSize: '2.5rem' }}>최근 활동 로그 (최근 20개)</h2>
-                        <p className="text-gray-500 mt-1" style={{ fontSize: '1.25rem' }}>학생들의 최근 학습 활동 내역</p>
-                    </div>
-                    <table className="w-full text-left">
-                        <thead>
-                            <tr style={{
-                                background: 'linear-gradient(135deg, #9B59B6 0%, #FF6B9D 100%)'
-                            }}>
-                                <th className="text-white font-bold" style={{ padding: '1.25rem', fontSize: '1.75rem' }}>시간</th>
-                                <th className="text-white font-bold" style={{ padding: '1.25rem', fontSize: '1.75rem' }}>학생</th>
-                                <th className="text-white font-bold" style={{ padding: '1.25rem', fontSize: '1.75rem' }}>활동</th>
-                                <th className="text-white font-bold" style={{ padding: '1.25rem', fontSize: '1.75rem' }}>결과</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-gray-50">
-                            {filteredResults.slice(0, 20).map((log, i) => (
-                                <tr key={i} className="hover:bg-gray-50 transition-colors">
-                                    <td className="text-gray-500" style={{ padding: '1.25rem', fontSize: '1.25rem' }}>{new Date(log.createdAt).toLocaleString()}</td>
-                                    <td className="font-bold flex items-center gap-1.5" style={{ padding: '1.25rem', fontSize: '1.5rem' }}>
-                                        <span style={{ fontSize: '2rem' }}>{log.avatar}</span>
-                                        <span>{log.username}</span>
-                                    </td>
-                                    <td style={{ padding: '1.25rem' }}>
-                                        <div className="flex flex-col gap-1">
-                                            <span className="px-4 py-2 rounded-xl font-black border-2" style={{ 
-                                                fontSize: '1.5rem',
-                                                backgroundColor: log.mode === 'vowel' || log.mode === 'consonant' || log.mode === 'word' || log.mode === 'sentence' ? '#DBEAFE' :
-                                                                 log.mode === 'falling' || log.mode === 'timeattack' ? '#D1FAE5' :
-                                                                 log.mode === 'story' ? '#FED7AA' : '#F3F4F6',
-                                                borderColor: log.mode === 'vowel' || log.mode === 'consonant' || log.mode === 'word' || log.mode === 'sentence' ? '#3B82F6' :
-                                                            log.mode === 'falling' || log.mode === 'timeattack' ? '#10B981' :
-                                                            log.mode === 'story' ? '#F97316' : '#D1D5DB',
-                                                color: log.mode === 'vowel' || log.mode === 'consonant' || log.mode === 'word' || log.mode === 'sentence' ? '#1E40AF' :
-                                                       log.mode === 'falling' || log.mode === 'timeattack' ? '#065F46' :
-                                                       log.mode === 'story' ? '#9A3412' : '#6B7280'
-                                            }}>
-                                                {log.mode === 'vowel' ? '📝 모음' :
-                                                 log.mode === 'consonant' ? '📝 자음' :
-                                                 log.mode === 'word' ? '📝 단어' :
-                                                 log.mode === 'sentence' ? '📝 문장' :
-                                                 log.mode === 'falling' ? '⬇️ 떨어지는 글자' :
-                                                 log.mode === 'timeattack' ? '⏱️ 시간 공격' :
-                                                 log.mode === 'story' ? '🤖 AI 스토리' :
-                                                 log.mode}
-                                            </span>
-                                            {log.mode === 'story' && log.keywords && (
-                                                <div className="mt-2 px-3 py-1.5 bg-orange-50 border-2 border-orange-200 rounded-lg">
-                                                    <span className="text-orange-700 font-black" style={{ fontSize: '1.4rem' }}>
-                                                        💡 주제: {log.keywords}
-                                                    </span>
+                {/* 인사이트 대시보드 */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                    {/* 주의 필요 학생 */}
+                    {studentsNeedHelp.length > 0 && (
+                        <div className="bg-white shadow-lg overflow-hidden" style={{ borderRadius: '20px' }}>
+                            <div className="border-b border-gray-100" style={{ padding: '1.5rem', background: 'linear-gradient(135deg, #EF4444 0%, #F97316 100%)' }}>
+                                <h2 className="font-black text-white" style={{ fontSize: '2.5rem' }}>🚨 주의 필요</h2>
+                                <p className="text-white mt-1" style={{ fontSize: '1.25rem' }}>도움이 필요한 학생</p>
+                            </div>
+                            <div className="p-6">
+                                {studentsNeedHelp.slice(0, 5).map((student, i) => {
+                                    const recentLogs = results.filter(r => r.userId === student.id).slice(0, 5);
+                                    const avgAccuracy = recentLogs.length > 0 
+                                        ? Math.round(recentLogs.reduce((acc, curr) => acc + curr.accuracy, 0) / recentLogs.length)
+                                        : 0;
+                                    
+                                    return (
+                                        <div key={i} className="flex items-center justify-between p-4 mb-3 bg-red-50 rounded-2xl border-2 border-red-200">
+                                            <div className="flex items-center gap-3">
+                                                <span style={{ fontSize: '2rem' }}>{student.avatar}</span>
+                                                <div>
+                                                    <p className="font-black text-gray-800" style={{ fontSize: '1.6rem' }}>{student.id}</p>
+                                                    <p className="text-gray-600" style={{ fontSize: '1.2rem' }}>
+                                                        {student.avgCpm < 100 && `CPM ${student.avgCpm} (낮음)`}
+                                                        {student.avgCpm >= 100 && avgAccuracy < 80 && `정확도 ${avgAccuracy}% (낮음)`}
+                                                    </p>
                                                 </div>
-                                            )}
-                                            {log.mode === 'falling' && (
-                                                <span className="text-gray-500 font-medium" style={{ fontSize: '1.1rem' }}>
-                                                    자음/모음 연습
-                                                </span>
-                                            )}
-                                            {log.mode === 'timeattack' && (
-                                                <span className="text-gray-500 font-medium" style={{ fontSize: '1.1rem' }}>
-                                                    단어 타자 속도
-                                                </span>
-                                            )}
+                                            </div>
                                         </div>
-                                    </td>
-                                    <td style={{ padding: '1.25rem', fontSize: '1.5rem' }}>
-                                        <span className="font-medium text-gray-700">{log.cpm} CPM</span>
-                                        <span className="text-gray-400 mx-2">|</span>
-                                        <span className="text-gray-500">{log.accuracy}%</span>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* 우수 학생 */}
+                    {topStudents.length > 0 && (
+                        <div className="bg-white shadow-lg overflow-hidden" style={{ borderRadius: '20px' }}>
+                            <div className="border-b border-gray-100" style={{ padding: '1.5rem', background: 'linear-gradient(135deg, #10B981 0%, #3B82F6 100%)' }}>
+                                <h2 className="font-black text-white" style={{ fontSize: '2.5rem' }}>⭐ 우수 학생</h2>
+                                <p className="text-white mt-1" style={{ fontSize: '1.25rem' }}>칭찬해주세요!</p>
+                            </div>
+                            <div className="p-6">
+                                {topStudents.map((student, i) => (
+                                    <div key={i} className="flex items-center justify-between p-4 mb-3 bg-green-50 rounded-2xl border-2 border-green-200">
+                                        <div className="flex items-center gap-3">
+                                            <span style={{ fontSize: '2rem' }}>{student.avatar}</span>
+                                            <div>
+                                                <p className="font-black text-gray-800" style={{ fontSize: '1.6rem' }}>{student.id}</p>
+                                                <p className="text-gray-600" style={{ fontSize: '1.2rem' }}>
+                                                    {student.playCount}회 연습, 평균 {student.avgCpm} CPM
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div className="text-3xl">🏆</div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
                 </div>
             </main>
         </div>
