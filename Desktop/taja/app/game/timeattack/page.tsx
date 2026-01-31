@@ -168,12 +168,12 @@ export default function TimeAttackGamePage() {
                 <button
                     onClick={() => router.push('/dashboard')}
                     className="px-8 py-4 font-black bg-white text-gray-600 hover:bg-gray-50 transition-all rounded-3xl shadow-md"
-                    style={{ border: '3px solid #4ECDC4', fontSize: '6rem' }}
+                    style={{ border: '3px solid #4ECDC4', fontSize: '3rem' }}
                 >
                     ← 뒤로가기
                 </button>
                 
-                <div className="flex gap-6 font-black" style={{ fontSize: '8rem' }}>
+                <div className="flex gap-6 font-black" style={{ fontSize: '4rem' }}>
                     <div className="bg-white px-6 py-3 rounded-3xl shadow-md">
                         점수: <span className="text-green-600">{score}</span>
                     </div>
@@ -213,10 +213,10 @@ export default function TimeAttackGamePage() {
                         )}
 
                         {/* 목표 단어 */}
-                        <div className="bg-gradient-to-br from-blue-400 to-purple-400 text-white px-16 py-10 rounded-[40px] shadow-2xl mb-12">
+                        <div className="bg-gradient-to-br from-blue-400 to-purple-400 px-16 py-10 rounded-[40px] shadow-2xl mb-12">
                             <div className="font-black text-center" style={{ letterSpacing: '0.1em', fontSize: '7rem' }}>
                                 {currentWord.split('').map((char, index) => {
-                                    let color = 'white';
+                                    let color = '#000000';
                                     if (index < inputValue.length) {
                                         color = inputValue[index] === char ? '#4ADE80' : '#EF4444';
                                     }
