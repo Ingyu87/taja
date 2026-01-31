@@ -205,21 +205,21 @@ export default function PracticePage() {
     // 결과 화면
     if (showResult) {
         return (
-            <div className="min-h-screen flex items-center justify-center p-8" style={{ backgroundColor: 'var(--color-bg)' }}>
+            <div className="min-h-screen flex items-center justify-center p-4" style={{ backgroundColor: 'var(--color-bg)' }}>
                 <div className="w-full max-w-2xl">
-                    <div className="bg-white p-16 shadow-2xl text-center" style={{ borderRadius: '48px' }}>
-                        <div className="text-8xl mb-8">🎉</div>
-                        <h1 className="text-6xl font-bold mb-8" style={{ color: 'var(--color-primary)' }}>
+                    <div className="bg-white p-8 shadow-2xl text-center" style={{ borderRadius: '24px' }}>
+                        <div className="text-4xl mb-4">🎉</div>
+                        <h1 className="text-3xl font-bold mb-4" style={{ color: 'var(--color-primary)' }}>
                             완료!
                         </h1>
-                        <div className="space-y-6 mb-12">
-                            <div className="text-3xl">
+                        <div className="space-y-3 mb-6">
+                            <div className="text-xl">
                                 <span className="font-bold">타자 속도:</span> {finalStats.cpm} CPM
                             </div>
-                            <div className="text-3xl">
+                            <div className="text-xl">
                                 <span className="font-bold">정확도:</span> {finalStats.accuracy}%
                             </div>
-                            <div className="text-3xl">
+                            <div className="text-xl">
                                 <span className="font-bold">소요 시간:</span> {finalStats.time.toFixed(1)}초
                             </div>
                         </div>
@@ -229,26 +229,26 @@ export default function PracticePage() {
                             <StoryGenerator keywords={practiceTexts} />
                         )}
 
-                        <div className="flex gap-4 justify-center mt-12">
+                        <div className="flex gap-2 justify-center mt-6">
                             <button
                                 onClick={handleRestart}
-                                className="px-8 py-4 font-bold text-xl text-white transition-all duration-200 hover:opacity-90 shadow-lg transform hover:scale-105"
+                                className="px-4 py-2 font-bold text-sm text-white transition-all duration-200 hover:opacity-90 shadow-lg transform hover:scale-105"
                                 style={{
-                                    borderRadius: '24px',
+                                    borderRadius: '12px',
                                     background: 'linear-gradient(135deg, #FF6B9D 0%, #4ECDC4 100%)',
-                                    minHeight: '60px'
+                                    minHeight: '30px'
                                 }}
                             >
                                 다시 하기 🔄
                             </button>
                             <button
                                 onClick={() => router.push('/dashboard')}
-                                className="px-8 py-4 font-bold text-xl bg-white transition-all duration-200 hover:shadow-lg transform hover:scale-105"
+                                className="px-4 py-2 font-bold text-sm bg-white transition-all duration-200 hover:shadow-lg transform hover:scale-105"
                                 style={{
-                                    borderRadius: '24px',
+                                    borderRadius: '12px',
                                     color: '#666',
-                                    border: '2px solid #E0E0E0',
-                                    minHeight: '60px'
+                                    border: '1px solid #E0E0E0',
+                                    minHeight: '30px'
                                 }}
                             >
                                 홈으로 🏠
@@ -264,25 +264,25 @@ export default function PracticePage() {
     return (
         <div className="min-h-screen flex flex-col" style={{ backgroundColor: 'var(--color-bg)' }}>
             {/* 상단 헤더 */}
-            <div className="p-12">
+            <div className="p-6">
                 <div className="max-w-full mx-auto flex justify-between items-center">
                     <button
                         onClick={() => router.push('/dashboard')}
-                        className="px-16 py-8 font-bold bg-white transition-all duration-200 hover:shadow-lg"
+                        className="px-8 py-4 font-bold bg-white transition-all duration-200 hover:shadow-lg"
                         style={{
-                            borderRadius: '40px',
+                            borderRadius: '20px',
                             color: '#000000',
-                            border: '6px solid #E0E0E0',
-                            minHeight: '120px',
-                            fontSize: '6rem'
+                            border: '3px solid #E0E0E0',
+                            minHeight: '60px',
+                            fontSize: '3rem'
                         }}
                     >
                         ← 뒤로가기
                     </button>
-                    <div className="font-bold" style={{ color: '#000000', fontSize: '8rem' }}>
+                    <div className="font-bold" style={{ color: '#000000', fontSize: '4rem' }}>
                         {currentIndex + 1} / {practiceTexts.length}
                     </div>
-                    <div className="flex gap-8" style={{ fontSize: '4rem' }}>
+                    <div className="flex gap-4" style={{ fontSize: '2rem' }}>
                         <div><span className="font-bold">속도:</span> {cpm} CPM</div>
                         <div><span className="font-bold">정확도:</span> {accuracy}%</div>
                     </div>
@@ -294,17 +294,17 @@ export default function PracticePage() {
                 <PracticeDisplay targetText={currentText} inputText={inputText} />
 
                 {/* 숨겨진 입력 필드 - 초등학생 저학년용 큰 크기 */}
-                <div className="text-center mt-32">
+                <div className="text-center mt-16">
                     <input
                         key={`${currentIndex}-${inputKey}`}
                         {...inputProps}
                         disabled={status === 'finished'}
-                        className="w-full max-w-full px-24 py-16 text-center border-8 focus:outline-none focus:ring-8 focus:ring-pink-200 font-bold disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full max-w-full px-12 py-8 text-center border-4 focus:outline-none focus:ring-4 focus:ring-pink-200 font-bold disabled:opacity-50 disabled:cursor-not-allowed"
                         style={{ 
-                            borderRadius: '60px',
+                            borderRadius: '30px',
                             borderColor: 'var(--color-primary)',
-                            fontSize: '10rem',
-                            minHeight: '300px'
+                            fontSize: '5rem',
+                            minHeight: '150px'
                         }}
                         placeholder="여기에 입력하세요"
                         autoFocus
@@ -313,7 +313,7 @@ export default function PracticePage() {
             </div>
 
             {/* 하단 가상 키보드 */}
-            <div className="pb-8">
+            <div className="pb-4">
                 <VirtualKeyboard currentKey={currentText[inputText.length]} />
             </div>
         </div>

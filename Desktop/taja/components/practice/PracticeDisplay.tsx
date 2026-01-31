@@ -13,16 +13,16 @@ export const PracticeDisplay = ({ targetText, inputText }: PracticeDisplayProps)
     const inputJaso = Hangul.disassemble(inputText);
 
     return (
-        <div className="w-full max-w-full mx-auto p-16">
-            <div className="bg-white p-24 shadow-2xl" style={{ borderRadius: '60px' }}>
-                <div className="text-center mb-20">
-                    <h2 className="font-bold mb-12" style={{ color: '#000000', fontSize: '12rem' }}>
+        <div className="w-full max-w-full mx-auto p-8">
+            <div className="bg-white p-12 shadow-2xl" style={{ borderRadius: '30px' }}>
+                <div className="text-center mb-10">
+                    <h2 className="font-bold mb-6" style={{ color: '#000000', fontSize: '6rem' }}>
                         아래 글자를 따라 쳐보세요
                     </h2>
                 </div>
 
                 {/* 목표 텍스트 표시 */}
-                <div className="flex flex-wrap justify-center gap-12 mb-32">
+                <div className="flex flex-wrap justify-center gap-6 mb-16">
                     {targetText.split('').map((char, index) => {
                         // 현재 입력 진행 상황 확인
                         const inputChars = inputText.split('');
@@ -50,14 +50,14 @@ export const PracticeDisplay = ({ targetText, inputText }: PracticeDisplayProps)
                                 key={index}
                                 className="flex items-center justify-center font-bold transition-all duration-200"
                                 style={{
-                                    width: '20rem',
-                                    height: '20rem',
-                                    borderRadius: '48px',
+                                    width: '10rem',
+                                    height: '10rem',
+                                    borderRadius: '24px',
                                     backgroundColor: bgColor,
                                     color: textColor,
-                                    border: `8px solid ${borderColor}`,
+                                    border: `4px solid ${borderColor}`,
                                     transform: isCurrent ? 'scale(1.1)' : 'scale(1)',
-                                    fontSize: '16rem'
+                                    fontSize: '8rem'
                                 }}
                             >
                                 {char}
@@ -67,7 +67,7 @@ export const PracticeDisplay = ({ targetText, inputText }: PracticeDisplayProps)
                 </div>
 
                 {/* 사용자 입력 표시 (숨김 처리, 실제로는 input에서 처리) */}
-                <div className="text-center text-gray-500 font-bold" style={{ fontSize: '8rem' }}>
+                <div className="text-center text-gray-500 font-bold" style={{ fontSize: '4rem' }}>
                     {inputText.length} / {targetText.length} 글자
                 </div>
             </div>
