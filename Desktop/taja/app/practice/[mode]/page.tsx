@@ -228,7 +228,8 @@ export default function PracticePage() {
                     <input
                         key={`${currentIndex}-${inputKey}`}
                         {...inputProps}
-                        className="w-full max-w-4xl px-12 py-10 text-7xl text-center border-8 focus:outline-none focus:ring-8 focus:ring-pink-200 font-bold"
+                        disabled={status === 'finished'}
+                        className="w-full max-w-4xl px-12 py-10 text-7xl text-center border-8 focus:outline-none focus:ring-8 focus:ring-pink-200 font-bold disabled:opacity-50 disabled:cursor-not-allowed"
                         style={{ 
                             borderRadius: '48px',
                             borderColor: 'var(--color-primary)',

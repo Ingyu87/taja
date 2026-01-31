@@ -10,25 +10,33 @@ const PRACTICE_MODES = [
         id: 'vowel',
         title: '모음 연습',
         emoji: '🎨',
-        description: '모음(ㅏ,ㅓ,ㅗ,ㅜ,ㅡ,ㅣ 등)을 연습해요',
+        description: '모음을 배워요!',
+        color: '#FFB3D9',
+        bgGradient: 'linear-gradient(135deg, #FFE5F0 0%, #FFF0F5 100%)',
     },
     {
         id: 'consonant',
         title: '자음 연습',
         emoji: '📚',
-        description: '자음(ㄱ,ㄴ,ㄷ,ㄹ,ㅁ,ㅂ 등)을 연습해요',
+        description: '자음을 배워요!',
+        color: '#4ECDC4',
+        bgGradient: 'linear-gradient(135deg, #E0F7FA 0%, #E8F5E9 100%)',
     },
     {
         id: 'word',
         title: '단어 연습',
         emoji: '🎁',
-        description: '단어 타자를 연습해요',
+        description: '단어를 배워요!',
+        color: '#FFB347',
+        bgGradient: 'linear-gradient(135deg, #FFF9E6 0%, #FFECB3 100%)',
     },
     {
         id: 'sentence',
         title: '문장 연습',
         emoji: '📖',
-        description: '문장 타자를 연습해요',
+        description: '문장을 배워요!',
+        color: '#9B59B6',
+        bgGradient: 'linear-gradient(135deg, #F3E5F5 0%, #E1BEE7 100%)',
     },
 ];
 
@@ -86,106 +94,57 @@ export default function DashboardPage() {
             </div>
 
             {/* 메인 콘텐츠 - 화면 중앙 배치 */}
-            <div className="flex-1 flex flex-col justify-center max-w-7xl mx-auto px-8 py-8">
-                <div className="text-center mb-16">
-                    <div className="flex items-center justify-center gap-6 mb-6">
-                        <span className="text-8xl animate-bounce">✨</span>
-                        <h1 className="text-8xl font-black mb-0" style={{ 
-                            background: 'linear-gradient(135deg, #FF6B9D 0%, #9B59B6 50%, #4ECDC4 100%)',
-                            WebkitBackgroundClip: 'text',
-                            WebkitTextFillColor: 'transparent',
-                            backgroundClip: 'text'
-                        }}>
+            <div className="flex-1 flex flex-col justify-center max-w-7xl mx-auto px-12 py-8">
+                <div className="text-center mb-12">
+                    <div className="flex items-center justify-center gap-6 mb-4">
+                        <span className="text-7xl animate-bounce">✨</span>
+                        <h1 className="text-7xl font-black text-pink-500 drop-shadow-lg">
                             한글 타자 연습
                         </h1>
-                        <span className="text-8xl animate-bounce" style={{ animationDelay: '0.2s' }}>✨</span>
+                        <span className="text-7xl animate-bounce" style={{ animationDelay: '0.2s' }}>✨</span>
                     </div>
-                    <p className="text-4xl font-black text-gray-800 mt-6">
+                    <p className="text-3xl font-black text-gray-700 mt-4">
                         🎮 {PRACTICE_MODES.length}개의 재미있는 연습 모드 🎮
                     </p>
                 </div>
 
-                {/* 앱 카드 그리드 - 3개 위, 1개 아래 */}
-                <div className="grid grid-cols-3 gap-8 mb-8">
-                    {PRACTICE_MODES.slice(0, 3).map((mode, index) => {
-                        const gradients = [
-                            'linear-gradient(135deg, #FFE5F0 0%, #FFF0F5 100%)',
-                            'linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%)',
-                            'linear-gradient(135deg, #FFF9E6 0%, #FFF4E0 100%)',
-                        ];
-                        return (
-                            <div
-                                key={mode.id}
-                                onClick={() => router.push(`/practice/${mode.id}`)}
-                                className="p-10 shadow-2xl hover:shadow-2xl transition-all duration-300 cursor-pointer transform hover:scale-105 hover:-translate-y-2"
-                                style={{
-                                    background: gradients[index],
-                                    borderRadius: '32px',
-                                    border: '4px solid',
-                                    borderColor: index === 0 ? '#FF6B9D' : index === 1 ? '#4ECDC4' : '#FFB347',
-                                }}
-                            >
-                                <div className="flex flex-col items-center text-center">
-                                    {/* 아이콘 배경 */}
-                                    <div className="mb-6 p-4 rounded-full bg-white shadow-lg">
-                                        <div className="text-9xl animate-pulse">{mode.emoji}</div>
-                                    </div>
-                                    {/* 제목 */}
-                                    <h3 className="text-4xl font-black mb-5" style={{ color: index === 0 ? '#FF6B9D' : index === 1 ? '#4ECDC4' : '#FFB347' }}>
-                                        {mode.title}
-                                    </h3>
-                                    {/* 설명 */}
-                                    <p className="text-2xl font-bold text-gray-700 mb-6 leading-relaxed">{mode.description}</p>
-                                    {/* 하단 시작 버튼 */}
-                                    <div className="mt-auto w-full">
-                                        <div
-                                            className="px-8 py-4 font-black text-2xl text-white text-center rounded-full shadow-lg hover:shadow-xl transition-all transform hover:scale-110"
-                                            style={{
-                                                background: index === 0 ? 'linear-gradient(135deg, #FF6B9D 0%, #FF8FB9 100%)' : 
-                                                           index === 1 ? 'linear-gradient(135deg, #4ECDC4 0%, #71DBDB 100%)' : 
-                                                           'linear-gradient(135deg, #FFB347 0%, #FFCC70 100%)',
-                                            }}
-                                        >
-                                            🚀 시작하기 🚀
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        );
-                    })}
-                </div>
-
-                {/* 아래 1개 카드 */}
-                <div className="grid grid-cols-1 gap-8 max-w-2xl mx-auto">
-                    {PRACTICE_MODES.slice(3, 4).map((mode) => (
+                {/* 앱 카드 그리드 - 2x2 균형잡힌 배치 */}
+                <div className="grid grid-cols-2 gap-10 max-w-6xl mx-auto">
+                    {PRACTICE_MODES.map((mode, index) => (
                         <div
                             key={mode.id}
                             onClick={() => router.push(`/practice/${mode.id}`)}
-                            className="p-10 shadow-2xl hover:shadow-2xl transition-all duration-300 cursor-pointer transform hover:scale-105 hover:-translate-y-2"
+                            className="p-12 shadow-2xl hover:shadow-2xl transition-all duration-300 cursor-pointer transform hover:scale-105 hover:-translate-y-3"
                             style={{
-                                background: 'linear-gradient(135deg, #E8EAF6 0%, #F3E5F5 100%)',
-                                borderRadius: '32px',
-                                border: '4px solid #9B59B6',
+                                background: mode.bgGradient,
+                                borderRadius: '40px',
+                                border: '6px solid',
+                                borderColor: mode.color,
+                                minHeight: '380px',
                             }}
                         >
-                            <div className="flex flex-col items-center text-center">
-                                {/* 아이콘 배경 */}
-                                <div className="mb-6 p-4 rounded-full bg-white shadow-lg">
-                                    <div className="text-9xl animate-pulse">{mode.emoji}</div>
+                            <div className="flex flex-col items-center text-center h-full">
+                                {/* 아이콘 배경 - 더 크고 귀엽게 */}
+                                <div className="mb-8 p-8 rounded-full bg-white shadow-2xl">
+                                    <div className="text-9xl">{mode.emoji}</div>
                                 </div>
-                                {/* 제목 */}
-                                <h3 className="text-4xl font-black mb-5 text-purple-600">{mode.title}</h3>
-                                {/* 설명 */}
-                                <p className="text-2xl font-bold text-gray-700 mb-6 leading-relaxed">{mode.description}</p>
-                                {/* 하단 시작 버튼 */}
+                                {/* 제목 - 더 크게 */}
+                                <h3 className="text-5xl font-black mb-6 drop-shadow-md" style={{ color: mode.color }}>
+                                    {mode.title}
+                                </h3>
+                                {/* 설명 - 단순하고 크게 */}
+                                <p className="text-3xl font-black text-gray-800 mb-8 leading-relaxed">
+                                    {mode.description}
+                                </p>
+                                {/* 하단 시작 버튼 - 더 단순하게 */}
                                 <div className="mt-auto w-full">
                                     <div
-                                        className="px-8 py-4 font-black text-2xl text-white text-center rounded-full shadow-lg hover:shadow-xl transition-all transform hover:scale-110"
+                                        className="px-10 py-5 font-black text-3xl text-white text-center rounded-full shadow-xl hover:shadow-2xl transition-all transform hover:scale-110"
                                         style={{
-                                            background: 'linear-gradient(135deg, #9B59B6 0%, #BA68C8 100%)',
+                                            background: `linear-gradient(135deg, ${mode.color} 0%, ${mode.color}DD 100%)`,
                                         }}
                                     >
-                                        🚀 시작하기 🚀
+                                        시작! ✨
                                     </div>
                                 </div>
                             </div>
