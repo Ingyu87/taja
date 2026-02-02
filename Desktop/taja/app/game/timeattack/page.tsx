@@ -181,7 +181,8 @@ export default function TimeAttackGamePage() {
         if (user) {
             setLoadingRankings(true);
             try {
-                await saveGameResultToFirestore({
+                console.log('게임 결과 저장 시작:', { userId: user.id, score, level, accuracy });
+                const saveResult = await saveGameResultToFirestore({
                     userId: user.id,
                     username: user.username,
                     avatar: user.avatar,
@@ -190,10 +191,14 @@ export default function TimeAttackGamePage() {
                     level,
                     accuracy,
                 });
+                console.log('게임 결과 저장 완료:', saveResult);
 
                 // 랭킹 가져오기 (교사 제외)
+                console.log('랭킹 데이터 가져오기 시작...');
                 const rankingData = await getGameRankingsFromFirestore('timeattack');
+                console.log('전체 랭킹 데이터:', rankingData);
                 const studentRankings = rankingData.filter(r => r.userId !== 'teacher' && !r.userId?.startsWith('teacher'));
+                console.log('학생 랭킹 데이터:', studentRankings);
                 setRankings(studentRankings.slice(0, 10)); // 상위 10명만
             } catch (error) {
                 console.error('랭킹 로드 실패:', error);
