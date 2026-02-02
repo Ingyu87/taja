@@ -519,68 +519,6 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
                     </div>
                 </div>
 
-                {/* 인사이트 대시보드 */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-                    {/* 주의 필요 학생 */}
-                    {studentsNeedHelp.length > 0 && (
-                        <div className="bg-white shadow-lg overflow-hidden" style={{ borderRadius: '20px' }}>
-                            <div className="border-b border-gray-100" style={{ padding: '1.5rem', background: 'linear-gradient(135deg, #EF4444 0%, #F97316 100%)' }}>
-                                <h2 className="font-black text-white" style={{ fontSize: '2.5rem' }}>🚨 주의 필요</h2>
-                                <p className="text-white mt-1" style={{ fontSize: '1.25rem' }}>도움이 필요한 학생</p>
-                            </div>
-                            <div className="p-6">
-                                {studentsNeedHelp.slice(0, 5).map((student, i) => {
-                                    const recentLogs = results.filter(r => r.userId === student.id).slice(0, 5);
-                                    const avgAccuracy = recentLogs.length > 0 
-                                        ? Math.round(recentLogs.reduce((acc, curr) => acc + curr.accuracy, 0) / recentLogs.length)
-                                        : 0;
-                                    
-                                    return (
-                                        <div key={i} className="flex items-center justify-between p-4 mb-3 bg-red-50 rounded-2xl border-2 border-red-200">
-                                            <div className="flex items-center gap-3">
-                                                <span style={{ fontSize: '2rem' }}>{student.avatar}</span>
-                                                <div>
-                                                    <p className="font-black text-gray-800" style={{ fontSize: '1.6rem' }}>{student.id}</p>
-                                                    <p className="text-gray-600" style={{ fontSize: '1.2rem' }}>
-                                                        {student.avgCpm < 100 && `CPM ${student.avgCpm} (낮음)`}
-                                                        {student.avgCpm >= 100 && avgAccuracy < 80 && `정확도 ${avgAccuracy}% (낮음)`}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        </div>
-                    )}
-
-                    {/* 우수 학생 */}
-                    {topStudents.length > 0 && (
-                        <div className="bg-white shadow-lg overflow-hidden" style={{ borderRadius: '20px' }}>
-                            <div className="border-b border-gray-100" style={{ padding: '1.5rem', background: 'linear-gradient(135deg, #10B981 0%, #3B82F6 100%)' }}>
-                                <h2 className="font-black text-white" style={{ fontSize: '2.5rem' }}>⭐ 우수 학생</h2>
-                                <p className="text-white mt-1" style={{ fontSize: '1.25rem' }}>칭찬해주세요!</p>
-                            </div>
-                            <div className="p-6">
-                                {topStudents.map((student, i) => (
-                                    <div key={i} className="flex items-center justify-between p-4 mb-3 bg-green-50 rounded-2xl border-2 border-green-200">
-                                        <div className="flex items-center gap-3">
-                                            <span style={{ fontSize: '2rem' }}>{student.avatar}</span>
-                                            <div>
-                                                <p className="font-black text-gray-800" style={{ fontSize: '1.6rem' }}>{student.id}</p>
-                                                <p className="text-gray-600" style={{ fontSize: '1.2rem' }}>
-                                                    {student.playCount}회 연습, 평균 {student.avgCpm} CPM
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div className="text-3xl">🏆</div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    )}
-                </div>
-
                 {/* 탭별 상세 정보 */}
                 {activeTab === 'practice' && (
                     <div className="bg-white shadow-lg overflow-hidden mt-8" style={{ borderRadius: '20px' }}>

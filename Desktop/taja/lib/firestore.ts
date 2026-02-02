@@ -128,30 +128,63 @@ export const getAllResultsFromFirestore = async (limitCount = 1000) => {
         return [];
     }
     try {
-        const q = query(
+        // 연습 결과 가져오기
+        const practiceQuery = query(
             collection(db, RESULTS_COLLECTION),
             orderBy('createdAt', 'desc'),
             limit(limitCount)
         );
 
-        const querySnapshot = await getDocs(q);
-        const results: PracticeResult[] = [];
+        const practiceSnapshot = await getDocs(practiceQuery);
+        const practiceResults: any[] = [];
 
-        querySnapshot.forEach((doc) => {
+        practiceSnapshot.forEach((doc) => {
             const data = doc.data();
-            results.push({
+            practiceResults.push({
                 userId: data.userId,
                 username: data.username,
                 avatar: data.avatar,
                 mode: data.mode,
-                cpm: data.cpm,
+                cpm: data.cpm || 0,
                 accuracy: data.accuracy,
                 time: data.time,
                 createdAt: data.createdAt.toDate(),
             });
         });
 
-        return results;
+        // 게임 결과 가져오기
+        const gameQuery = query(
+            collection(db, GAME_RESULTS_COLLECTION),
+            orderBy('createdAt', 'desc'),
+            limit(limitCount)
+        );
+
+        const gameSnapshot = await getDocs(gameQuery);
+        const gameResults: any[] = [];
+
+        gameSnapshot.forEach((doc) => {
+            const data = doc.data();
+            gameResults.push({
+                userId: data.userId,
+                username: data.username,
+                avatar: data.avatar,
+                mode: data.gameType, // gameType을 mode로 변환
+                gameType: data.gameType,
+                score: data.score,
+                level: data.level,
+                cpm: data.score || 0, // 게임은 점수를 cpm처럼 사용
+                accuracy: data.accuracy,
+                time: 0, // 게임은 시간 데이터 없음
+                createdAt: data.createdAt.toDate(),
+            });
+        });
+
+        // 두 결과를 합치고 날짜순 정렬
+        const allResults = [...practiceResults, ...gameResults].sort((a, b) => 
+            b.createdAt.getTime() - a.createdAt.getTime()
+        );
+
+        return allResults;
     } catch (e) {
         console.error("Error getting all documents: ", e);
         return [];
