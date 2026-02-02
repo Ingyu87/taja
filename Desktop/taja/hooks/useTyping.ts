@@ -62,10 +62,8 @@ export const useTyping = ({ targetText, onFinish }: UseTypingProps) => {
                     });
                 }
                 
-                // onFinish 이후 입력 필드 비우기 (약간 지연)
-                setTimeout(() => {
-                    setInputText('');
-                }, 50);
+                // 완료 후에는 입력값을 유지하여 결과 화면이 제대로 보이도록 함
+                // setInputText('')를 제거
             }
         }
     }, [status, startTime, targetText, onFinish]);

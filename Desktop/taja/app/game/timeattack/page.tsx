@@ -322,6 +322,12 @@ export default function TimeAttackGamePage() {
                                     );
                                 })}
                             </div>
+                            {/* 안내 메시지 */}
+                            <div className="text-center mt-4">
+                                <p className="font-bold text-white bg-black bg-opacity-30 inline-block px-6 py-2 rounded-full" style={{ fontSize: '1.8rem' }}>
+                                    💡 단어를 모두 입력하면 자동으로 다음 단어로 넘어가요!
+                                </p>
+                            </div>
                         </div>
 
                         {/* 진행률 표시 */}

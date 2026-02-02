@@ -35,10 +35,12 @@ export default function FallingGamePage() {
     const [totalTyped, setTotalTyped] = useState(0);
     const [correctTyped, setCorrectTyped] = useState(0);
     const [rankings, setRankings] = useState<any[]>([]);
+    const [isComposing, setIsComposing] = useState(false);
     
     const gameLoopRef = useRef<NodeJS.Timeout | null>(null);
     const spawnTimerRef = useRef<NodeJS.Timeout | null>(null);
     const nextIdRef = useRef(0);
+    const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         const currentUser = getCurrentUser();
@@ -143,10 +145,27 @@ export default function FallingGamePage() {
         };
     }, [gameState, level, difficulty]);
 
+    const handleCompositionStart = () => {
+        setIsComposing(true);
+    };
+
+    const handleCompositionEnd = (e: React.CompositionEvent<HTMLInputElement>) => {
+        setIsComposing(false);
+        const value = e.currentTarget.value;
+        checkInput(value);
+    };
+
     const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setInputValue(value);
 
+        // 한글 조합 중이 아닐 때만 체크
+        if (!isComposing && value.length > 0) {
+            checkInput(value);
+        }
+    };
+
+    const checkInput = (value: string) => {
         if (value.length > 0) {
             setTotalTyped(t => t + 1);
             
@@ -165,7 +184,11 @@ export default function FallingGamePage() {
                 }
             }
             
+            // 입력 초기화
             setInputValue('');
+            if (inputRef.current) {
+                inputRef.current.value = '';
+            }
         }
     };
 
@@ -236,12 +259,12 @@ export default function FallingGamePage() {
                 <button
                     onClick={() => router.push('/dashboard')}
                     className="px-8 py-4 font-black bg-white text-gray-600 hover:bg-gray-50 transition-all rounded-3xl shadow-md"
-                    style={{ border: '3px solid #4ECDC4', fontSize: '3rem' }}
+                    style={{ border: '3px solid #4ECDC4', fontSize: '2.4rem' }}
                 >
                     ← 뒤로가기
                 </button>
                 
-                <div className="flex gap-6 font-black" style={{ fontSize: '4rem' }}>
+                <div className="flex gap-6 font-black" style={{ fontSize: '3.2rem' }}>
                     <div className="bg-white px-6 py-3 rounded-3xl shadow-md">
                         점수: <span className="text-blue-600">{score}</span>
                     </div>
@@ -392,9 +415,12 @@ export default function FallingGamePage() {
             {gameState === 'playing' && (
                 <div className="mt-6 text-center">
                     <input
+                        ref={inputRef}
                         type="text"
                         value={inputValue}
                         onChange={handleInput}
+                        onCompositionStart={handleCompositionStart}
+                        onCompositionEnd={handleCompositionEnd}
                         className="px-10 text-center border-4 focus:outline-none focus:ring-4 focus:ring-blue-200 font-black rounded-full"
                         style={{ borderColor: '#4ECDC4', width: '225px', fontSize: '5rem', color: '#000000', paddingTop: '2rem', paddingBottom: '2rem' }}
                         placeholder=""
