@@ -3,12 +3,12 @@ import { NextResponse } from 'next/server';
 const STUDENT_PASSWORD = (process.env.STUDENT_PASSWORD || '1234').trim();
 const TEACHER_PASSWORD = (process.env.TEACHER_PASSWORD || '2026').trim();
 
-// 학생 계정 유효성 검사 (a1 ~ a30)
+// 학생 계정 유효성 검사 (a1 ~ a130)
 const isValidStudentId = (username: string) => {
     const match = username.match(/^a(\d+)$/);
     if (!match) return false;
     const num = parseInt(match[1], 10);
-    return num >= 1 && num <= 30;
+    return num >= 1 && num <= 130;
 };
 
 export async function POST(request: Request) {
@@ -51,7 +51,7 @@ export async function POST(request: Request) {
                         },
                     });
                 } else {
-                    return NextResponse.json({ success: false, error: '학생 계정은 a1부터 a30까지만 사용 가능합니다.' }, { status: 400 });
+                    return NextResponse.json({ success: false, error: '학생 계정은 a1부터 a130까지만 사용 가능합니다.' }, { status: 400 });
                 }
             }
 
@@ -65,7 +65,7 @@ export async function POST(request: Request) {
             }
 
             if (!isValidStudentId(username)) {
-                return NextResponse.json({ success: false, error: '학생 계정은 a1부터 a30까지만 사용 가능합니다.' }, { status: 400 });
+                return NextResponse.json({ success: false, error: '학생 계정은 a1부터 a130까지만 사용 가능합니다.' }, { status: 400 });
             }
 
             return NextResponse.json({ success: true });

@@ -139,7 +139,7 @@ function LoginContent() {
                                 <>
                                     <div className="w-full">
                                         <label className="block font-black mb-5 text-left" style={{ color: '#333', fontSize: '3.5rem' }}>
-                                            아이디 <span className="font-normal text-gray-500 ml-3" style={{ fontSize: '2rem' }}>(a1 ~ a30)</span>
+                                            아이디 <span className="font-normal text-gray-500 ml-3" style={{ fontSize: '2rem' }}>(a1 ~ a130)</span>
                                         </label>
                                         <input
                                             type="text"
