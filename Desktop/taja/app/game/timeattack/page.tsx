@@ -369,15 +369,15 @@ export default function TimeAttackGamePage() {
 
                 {gameState === 'gameover' && (
                     <div className="flex flex-col items-center justify-center p-8 overflow-y-auto max-h-full">
-                        <h2 className="font-black text-green-600 mb-6" style={{ fontSize: '6rem', lineHeight: '1' }}>시간 종료! ⏰</h2>
+                        <h2 className="font-black text-green-600 mb-10" style={{ fontSize: '6rem', lineHeight: '1' }}>시간 종료! ⏰</h2>
                         
                         {/* 결과 카드 */}
                         <div className="bg-white p-10 rounded-[40px] shadow-2xl mb-8">
-                            <p className="text-5xl font-black text-gray-800 mb-5">최종 점수: <span className="text-green-600">{score}</span></p>
-                            <p className="text-4xl font-bold text-gray-700 mb-3">선택 시간: <span className="text-blue-600">{selectedTime ? `${selectedTime / 60}분` : '-'}</span></p>
-                            <p className="text-4xl font-bold text-gray-700 mb-3">최고 콤보: {maxCombo}연속</p>
-                            <p className="text-4xl font-bold text-gray-700 mb-3">도달 레벨: {level}</p>
-                            <p className="text-4xl font-bold text-gray-700">정확도: {totalTyped > 0 ? Math.round((correctTyped / totalTyped) * 100) : 100}%</p>
+                            <p className="text-6xl font-black text-gray-800 mb-6">최종 점수: <span className="text-green-600">{score}</span></p>
+                            <p className="text-5xl font-bold text-gray-700 mb-6">선택 시간: <span className="text-blue-600">{selectedTime ? `${selectedTime / 60}분` : '-'}</span></p>
+                            <p className="text-5xl font-bold text-gray-700 mb-6">최고 콤보: {maxCombo}연속</p>
+                            <p className="text-5xl font-bold text-gray-700 mb-6">도달 레벨: {level}</p>
+                            <p className="text-5xl font-bold text-gray-700">정확도: {totalTyped > 0 ? Math.round((correctTyped / totalTyped) * 100) : 100}%</p>
                         </div>
 
                         {/* 실시간 랭킹 */}
@@ -429,7 +429,7 @@ export default function TimeAttackGamePage() {
                             )}
                         </div>
 
-                        <div className="flex gap-6">
+                        <div className="flex gap-8">
                             <button
                                 onClick={() => setGameState('ready')}
                                 className="px-14 py-5 font-black text-white rounded-full shadow-xl hover:scale-110 transition-transform"

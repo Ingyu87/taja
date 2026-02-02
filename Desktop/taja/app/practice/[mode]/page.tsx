@@ -3,7 +3,8 @@
 import { useTyping } from '@/hooks/useTyping';
 import { PracticeDisplay } from '@/components/practice/PracticeDisplay';
 import { VirtualKeyboard } from '@/components/practice/VirtualKeyboard';
-import { useState, useEffect } from 'react';
+import { HandAnimation } from '@/components/practice/HandAnimation';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/Button';
 import { useParams, useRouter } from 'next/navigation';
 import { getCurrentUser, User } from '@/lib/auth';
@@ -103,6 +104,10 @@ export default function PracticePage() {
     const [showResult, setShowResult] = useState(false);
     const [finalStats, setFinalStats] = useState({ cpm: 0, accuracy: 0, time: 0 });
     const [inputKey, setInputKey] = useState(0); // 입력 필드 강제 리마운트용
+    const [lastInputTime, setLastInputTime] = useState<number>(Date.now());
+    const [showHandAnimation, setShowHandAnimation] = useState(false);
+    
+    const keyboardRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const currentUser = getCurrentUser();
@@ -186,7 +191,35 @@ export default function PracticePage() {
     useEffect(() => {
         reset();
         setInputKey(prev => prev + 1);
+        setLastInputTime(Date.now());
+        setShowHandAnimation(false);
     }, [currentIndex, reset]);
+
+    // 손 애니메이션을 위한 타이머 (3초 동안 입력 없으면 표시)
+    useEffect(() => {
+        // 모음이나 자음 모드가 아니면 애니메이션 표시 안 함
+        if (mode !== 'vowel' && mode !== 'consonant') {
+            return;
+        }
+
+        const timer = setInterval(() => {
+            const timeSinceLastInput = Date.now() - lastInputTime;
+            if (timeSinceLastInput > 3000) {
+                setShowHandAnimation(true);
+            } else {
+                setShowHandAnimation(false);
+            }
+        }, 500);
+
+        return () => clearInterval(timer);
+    }, [lastInputTime, mode]);
+
+    // 입력 발생 시 타이머 리셋
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setLastInputTime(Date.now());
+        setShowHandAnimation(false);
+        inputProps.onChange(e);
+    };
 
     const handleRestart = () => {
         setCurrentIndex(0);
@@ -298,6 +331,7 @@ export default function PracticePage() {
                     <input
                         key={`${currentIndex}-${inputKey}`}
                         {...inputProps}
+                        onChange={handleInputChange}
                         disabled={status === 'finished'}
                         className="w-full max-w-full px-12 py-8 text-center border-4 focus:outline-none focus:ring-4 focus:ring-pink-200 font-bold disabled:opacity-50 disabled:cursor-not-allowed placeholder-gray-800"
                         style={{ 
@@ -314,8 +348,19 @@ export default function PracticePage() {
             </div>
 
             {/* 하단 가상 키보드 */}
-            <div className="pb-4">
-                <VirtualKeyboard currentKey={currentText[inputText.length]} />
+            <div className="pb-4 relative">
+                <VirtualKeyboard 
+                    ref={keyboardRef}
+                    currentKey={currentText[inputText.length]} 
+                />
+                {/* 손 애니메이션 (모음/자음 모드에서만) */}
+                {(mode === 'vowel' || mode === 'consonant') && (
+                    <HandAnimation
+                        targetKey={currentText[inputText.length]}
+                        keyboardRef={keyboardRef}
+                        show={showHandAnimation}
+                    />
+                )}
             </div>
         </div>
     );

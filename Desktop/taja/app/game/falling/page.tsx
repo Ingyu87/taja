@@ -349,14 +349,14 @@ export default function FallingGamePage() {
 
                 {gameState === 'gameover' && (
                     <div className="flex flex-col items-center justify-center p-8 overflow-y-auto max-h-full">
-                        <h2 className="font-black text-red-600 mb-6" style={{ fontSize: '6rem', lineHeight: '1' }}>게임 오버! 😢</h2>
+                        <h2 className="font-black text-red-600 mb-10" style={{ fontSize: '6rem', lineHeight: '1' }}>게임 오버! 😢</h2>
                         
                         {/* 결과 카드 */}
                         <div className="bg-white p-10 rounded-[40px] shadow-2xl mb-8">
-                            <p className="text-5xl font-black text-gray-800 mb-5">최종 점수: <span className="text-blue-600">{score}</span></p>
-                            <p className="text-4xl font-bold text-gray-700 mb-3">도달 레벨: {level}</p>
-                            <p className="text-4xl font-bold text-gray-700 mb-3">난이도: <span className="text-purple-600">{difficulty}</span></p>
-                            <p className="text-4xl font-bold text-gray-700">정확도: {totalTyped > 0 ? Math.round((correctTyped / totalTyped) * 100) : 0}%</p>
+                            <p className="text-6xl font-black text-gray-800 mb-6">최종 점수: <span className="text-blue-600">{score}</span></p>
+                            <p className="text-5xl font-bold text-gray-700 mb-6">도달 레벨: {level}</p>
+                            <p className="text-5xl font-bold text-gray-700 mb-6">난이도: <span className="text-purple-600">{difficulty}</span></p>
+                            <p className="text-5xl font-bold text-gray-700">정확도: {totalTyped > 0 ? Math.round((correctTyped / totalTyped) * 100) : 0}%</p>
                         </div>
 
                         {/* 실시간 랭킹 */}
@@ -408,7 +408,7 @@ export default function FallingGamePage() {
                             )}
                         </div>
 
-                        <div className="flex gap-6">
+                        <div className="flex gap-8">
                             <button
                                 onClick={() => setGameState('ready')}
                                 className="px-14 py-5 font-black text-white rounded-full shadow-xl hover:scale-110 transition-transform"
