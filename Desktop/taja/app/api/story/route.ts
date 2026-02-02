@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { validateText } from '@/lib/profanityFilter';
 
 // API Key 확인
 const API_KEY = process.env.GEMINI_API_KEY;
@@ -19,6 +20,16 @@ export async function POST(request: Request) {
         if (!keywords || !Array.isArray(keywords) || keywords.length === 0) {
             return NextResponse.json(
                 { success: false, error: '단어 목록이 제공되지 않았습니다.' },
+                { status: 400 }
+            );
+        }
+
+        // 입력된 키워드 검증
+        const keywordsText = keywords.join(' ');
+        const validation = validateText(keywordsText);
+        if (!validation.isValid) {
+            return NextResponse.json(
+                { success: false, error: validation.message || '부적절한 내용이 포함되어 있습니다.' },
                 { status: 400 }
             );
         }
@@ -53,6 +64,16 @@ export async function POST(request: Request) {
         const result = await model.generateContent(prompt);
         const response = await result.response;
         const text = response.text();
+
+        // 🔥 생성된 스토리 검증 (AI가 부적절한 내용을 생성할 수 있음)
+        const storyValidation = validateText(text);
+        if (!storyValidation.isValid) {
+            console.error('AI가 부적절한 스토리 생성:', text);
+            return NextResponse.json(
+                { success: false, error: '적절하지 않은 이야기가 생성되었습니다. 다른 키워드로 다시 시도해주세요.' },
+                { status: 400 }
+            );
+        }
 
         return NextResponse.json({ success: true, story: text });
 
