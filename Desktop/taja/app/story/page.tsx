@@ -241,6 +241,7 @@ export default function StoryPage() {
                             <div className="mt-6">
                                 <input
                                     {...inputProps}
+                                    maxLength={story.length}
                                     className="w-full px-8 py-6 text-center border-4 rounded-3xl focus:outline-none focus:ring-4 focus:ring-purple-300 font-black text-black placeholder-gray-700"
                                     style={{ 
                                         borderColor: '#9B59B6',

@@ -43,28 +43,25 @@ export const useTyping = ({ targetText, onFinish }: UseTypingProps) => {
             setCpm(currentCpm);
         }
 
-        // 완료 체크 (정확히 일치하는지 확인)
-        if (value === targetText && value.length === targetText.length && value.length > 0) {
-            // 완료 상태로 변경 (한 번만 실행)
-            if (status !== 'finished') {
-                const endTime = Date.now();
-                const actualStartTime = startTime || Date.now();
-                
-                // 즉시 상태 변경
-                setStatus('finished');
-                
-                if (onFinish) {
-                    // 완료 콜백 호출 (startTime이 없어도 최소 시간으로 처리)
-                    onFinish({
-                        cpm: startTime ? measureSpeed(actualStartTime, value) : 0,
-                        accuracy: currentAcc,
-                        time: (endTime - actualStartTime) / 1000
-                    });
-                }
-                
-                // 완료 후에는 입력값을 유지하여 결과 화면이 제대로 보이도록 함
-                // setInputText('')를 제거
+        // 완료 체크 (목표 길이 이상을 입력하면 자동 완료)
+        if (value.length >= targetText.length && value.length > 0 && status !== 'finished') {
+            const endTime = Date.now();
+            const actualStartTime = startTime || Date.now();
+            
+            // 즉시 상태 변경
+            setStatus('finished');
+            
+            if (onFinish) {
+                // 완료 콜백 호출 (startTime이 없어도 최소 시간으로 처리)
+                onFinish({
+                    cpm: startTime ? measureSpeed(actualStartTime, value) : 0,
+                    accuracy: currentAcc,
+                    time: (endTime - actualStartTime) / 1000
+                });
             }
+            
+            // 완료 후에는 입력값을 유지하여 결과 화면이 제대로 보이도록 함
+            // setInputText('')를 제거
         }
     }, [status, startTime, targetText, onFinish]);
 
