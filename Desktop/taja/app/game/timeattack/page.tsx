@@ -35,8 +35,10 @@ export default function TimeAttackGamePage() {
     const [gameWords, setGameWords] = useState<string[]>(FALLBACK_WORDS);
     const [loadingWords, setLoadingWords] = useState(false);
     const [rankings, setRankings] = useState<any[]>([]);
+    const [isComposing, setIsComposing] = useState(false);
     
     const timerRef = useRef<NodeJS.Timeout | null>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         const currentUser = getCurrentUser();
@@ -99,10 +101,27 @@ export default function TimeAttackGamePage() {
         setCurrentWord(newWord);
     };
 
+    const handleCompositionStart = () => {
+        setIsComposing(true);
+    };
+
+    const handleCompositionEnd = (e: React.CompositionEvent<HTMLInputElement>) => {
+        setIsComposing(false);
+        const value = e.currentTarget.value;
+        checkWord(value);
+    };
+
     const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setInputValue(value);
 
+        // 한글 조합 중이 아닐 때만 체크
+        if (!isComposing) {
+            checkWord(value);
+        }
+    };
+
+    const checkWord = (value: string) => {
         // 완성된 글자 수 체크
         if (value === currentWord) {
             setTotalTyped(t => t + currentWord.length);
@@ -128,6 +147,9 @@ export default function TimeAttackGamePage() {
             
             // 입력 초기화 및 새 단어
             setInputValue('');
+            if (inputRef.current) {
+                inputRef.current.value = '';
+            }
             generateNewWord();
         }
     };
@@ -312,9 +334,12 @@ export default function TimeAttackGamePage() {
 
                         {/* 입력 필드 */}
                         <input
+                            ref={inputRef}
                             type="text"
                             value={inputValue}
                             onChange={handleInput}
+                            onCompositionStart={handleCompositionStart}
+                            onCompositionEnd={handleCompositionEnd}
                             className="w-full max-w-3xl px-12 py-8 text-center border-4 focus:outline-none focus:ring-4 focus:ring-green-200 font-black rounded-full"
                             style={{ 
                                 borderColor: isWrong ? '#EF4444' : '#4ECDC4',
