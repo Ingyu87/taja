@@ -519,64 +519,6 @@ function TeacherDashboard({ user, onLogout }: { user: User, onLogout: () => void
                     </div>
                 </div>
 
-                {/* 학생 현황 테이블 */}
-                <div className="bg-white shadow-lg overflow-hidden" style={{ borderRadius: '20px' }}>
-                    <div className="border-b border-gray-100" style={{ padding: '1.5rem' }}>
-                        <h2 className="font-bold text-gray-800" style={{ fontSize: '2.5rem' }}>학생 랭킹 TOP 15</h2>
-                        <p className="text-gray-500 mt-1" style={{ fontSize: '1.25rem' }}>평균 타자 속도 기준 상위 15명</p>
-                    </div>
-                    <table className="w-full text-left">
-                        <thead>
-                            <tr style={{
-                                background: 'linear-gradient(135deg, #9B59B6 0%, #FF6B9D 100%)'
-                            }}>
-                                <th className="text-white font-bold text-center" style={{ padding: '1.5rem', fontSize: '2rem' }}>순위</th>
-                                <th className="text-white font-bold" style={{ padding: '1.5rem', fontSize: '2rem' }}>학생</th>
-                                <th className="text-white font-bold text-center" style={{ padding: '1.5rem', fontSize: '2rem' }}>평균 CPM</th>
-                                <th className="text-white font-bold text-center" style={{ padding: '1.5rem', fontSize: '2rem' }}>연습 횟수</th>
-                                <th className="text-white font-bold text-center" style={{ padding: '1.5rem', fontSize: '2rem' }}>최근 접속</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-gray-50">
-                            {studentStats.slice(0, 15).map((student, index) => {
-                                let rankBg = '';
-                                let rankText = '';
-                                if (index === 0 && student.avgCpm > 0) {
-                                    rankBg = 'bg-yellow-100';
-                                    rankText = '🥇';
-                                } else if (index === 1 && student.avgCpm > 0) {
-                                    rankBg = 'bg-gray-100';
-                                    rankText = '🥈';
-                                } else if (index === 2 && student.avgCpm > 0) {
-                                    rankBg = 'bg-orange-100';
-                                    rankText = '🥉';
-                                }
-                                
-                                return (
-                                    <tr key={student.id} className={`hover:bg-purple-50 transition-colors ${rankBg}`}>
-                                        <td className="font-black text-center" style={{ padding: '1.5rem', fontSize: '2.5rem' }}>
-                                            {rankText || (index + 1)}
-                                        </td>
-                                        <td className="font-bold text-gray-700 flex items-center gap-3" style={{ padding: '1.5rem', fontSize: '1.8rem' }}>
-                                            <span style={{ fontSize: '2.5rem' }}>{student.avatar}</span>
-                                            <span>{student.id}</span>
-                                        </td>
-                                        <td className="font-black text-center" style={{ padding: '1.5rem', fontSize: '2.2rem', color: student.avgCpm > 0 ? '#9B59B6' : '#999' }}>
-                                            {student.avgCpm}
-                                        </td>
-                                        <td className="font-bold text-center" style={{ padding: '1.5rem', fontSize: '1.8rem', color: '#4B5563' }}>
-                                            {student.playCount}회
-                                        </td>
-                                        <td className="text-center font-bold text-gray-600" style={{ padding: '1.5rem', fontSize: '1.4rem' }}>
-                                            {student.lastActiveText}
-                                        </td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
-                </div>
-
                 {/* 인사이트 대시보드 */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
                     {/* 주의 필요 학생 */}
