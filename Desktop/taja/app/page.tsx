@@ -20,7 +20,7 @@ export default function Home() {
             <span style={{ fontSize: '5rem' }}>👑</span>
           </div>
           <p className="font-semibold" style={{ color: '#000000', fontSize: '2rem' }}>
-            동화, 시, 게임으로 즐겁게 배우는 타자 연습! 친구들과 경쟁하고 멋진 배지도 모아보세요 ✨
+            AI와 게임으로 즐겁게 배우는 타자연습
           </p>
         </div>
 
