@@ -36,6 +36,7 @@ export default function TimeAttackGamePage() {
     const [loadingWords, setLoadingWords] = useState(false);
     const [rankings, setRankings] = useState<any[]>([]);
     const [isComposing, setIsComposing] = useState(false);
+    const [loadingRankings, setLoadingRankings] = useState(false);
     
     const timerRef = useRef<NodeJS.Timeout | null>(null);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -178,20 +179,27 @@ export default function TimeAttackGamePage() {
         const accuracy = totalTyped > 0 ? Math.round((correctTyped / totalTyped) * 100) : 100;
 
         if (user) {
-            await saveGameResultToFirestore({
-                userId: user.id,
-                username: user.username,
-                avatar: user.avatar,
-                gameType: 'timeattack',
-                score,
-                level,
-                accuracy,
-            });
+            setLoadingRankings(true);
+            try {
+                await saveGameResultToFirestore({
+                    userId: user.id,
+                    username: user.username,
+                    avatar: user.avatar,
+                    gameType: 'timeattack',
+                    score,
+                    level,
+                    accuracy,
+                });
 
-            // 랭킹 가져오기 (교사 제외)
-            const rankingData = await getGameRankingsFromFirestore('timeattack');
-            const studentRankings = rankingData.filter(r => r.userId !== 'teacher' && !r.userId?.startsWith('teacher'));
-            setRankings(studentRankings.slice(0, 10)); // 상위 10명만
+                // 랭킹 가져오기 (교사 제외)
+                const rankingData = await getGameRankingsFromFirestore('timeattack');
+                const studentRankings = rankingData.filter(r => r.userId !== 'teacher' && !r.userId?.startsWith('teacher'));
+                setRankings(studentRankings.slice(0, 10)); // 상위 10명만
+            } catch (error) {
+                console.error('랭킹 로드 실패:', error);
+            } finally {
+                setLoadingRankings(false);
+            }
         }
 
         if (score >= 300) {
@@ -373,11 +381,15 @@ export default function TimeAttackGamePage() {
                         </div>
 
                         {/* 실시간 랭킹 */}
-                        {rankings.length > 0 && (
-                            <div className="bg-gradient-to-br from-green-50 to-cyan-50 p-8 rounded-[40px] shadow-2xl mb-8 w-full max-w-3xl">
-                                <h3 className="text-center font-black text-green-600 mb-6" style={{ fontSize: '3rem' }}>
-                                    🏆 실시간 랭킹 TOP 10
-                                </h3>
+                        <div className="bg-gradient-to-br from-green-50 to-cyan-50 p-8 rounded-[40px] shadow-2xl mb-8 w-full max-w-3xl">
+                            <h3 className="text-center font-black text-green-600 mb-6" style={{ fontSize: '3rem' }}>
+                                🏆 실시간 랭킹 TOP 10
+                            </h3>
+                            {loadingRankings ? (
+                                <div className="bg-white rounded-3xl p-10 text-center">
+                                    <p className="text-2xl text-gray-600 font-bold">랭킹을 불러오는 중...</p>
+                                </div>
+                            ) : rankings.length > 0 ? (
                                 <div className="bg-white rounded-3xl overflow-hidden">
                                     {rankings.map((rank, index) => {
                                         const isCurrentUser = rank.userId === user?.id;
@@ -409,8 +421,13 @@ export default function TimeAttackGamePage() {
                                         );
                                     })}
                                 </div>
-                            </div>
-                        )}
+                            ) : (
+                                <div className="bg-white rounded-3xl p-10 text-center">
+                                    <p className="text-2xl text-gray-600 font-bold">아직 랭킹 데이터가 없습니다</p>
+                                    <p className="text-xl text-gray-500 mt-3">게임을 더 플레이하면 랭킹이 표시됩니다!</p>
+                                </div>
+                            )}
+                        </div>
 
                         <div className="flex gap-6">
                             <button
